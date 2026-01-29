@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling >= 1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pytest_circleci_coverage"
+version = "0.1.0"
+description = " Pytest plugin that works with pytest-cov to generate coverage data for CircleCI's Smarter Testing"
+readme = "README.md"
+requires-python = ">=3"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
+    "Topic :: Software Development :: Testing"
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+dependencies = [
+    "coverage>=7.10",
+]
+
+[project.urls]
+Homepage = "https://github.com/circleci/pytest-circleci-coverage"
+Issues = "https://github.com/circleci/pytest-circleci-coverage/issues"
+
+[project.entry-points.pytest11]
+pytest_circleci_coverage = "pytest_circleci_coverage"
