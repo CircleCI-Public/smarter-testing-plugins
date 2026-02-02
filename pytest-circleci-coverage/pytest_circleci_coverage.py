@@ -11,16 +11,12 @@ def pytest_addoption(parser):
 
 def pytest_sessionfinish(session):
     try:
-        print("Generating CircleCI coverage JSON...")
-
         output_path = session.config.getoption("circleci-coverage")
         if not output_path:
-            print(
-                "No flag named 'circleci-coverage'. "
-                + "Ensure --circleci-coverage flag is set.",
-                file=sys.stderr,
-            )
+            # If the flag is not set, noop skip coverage reporting.
             return
+
+        print("Generating CircleCI coverage JSON...")
 
         data = CoverageData()
         data.read()
