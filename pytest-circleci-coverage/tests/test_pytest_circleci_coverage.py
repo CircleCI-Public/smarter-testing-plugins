@@ -50,14 +50,12 @@ def test_pytest_sessionfinish_success(test_files, testdir, pytester):
     assert coverage == expected
 
 
-def test_pytest_sessionfinish_no_flag(testdir, pytester):
+def test_pytest_sessionfinish_no_flag(test_files, testdir, pytester):
     pytester.plugins.append("pytest_circleci_coverage")
 
-    result = testdir.runpytest_subprocess("--cov", "--cov-context=test")
-    expected = (
-        "No flag named 'circleci-coverage'. Ensure --circleci-coverage flag is set."
-    )
-    assert result.stderr.str().find(expected) != -1
+    result = testdir.runpytest_subprocess()
+    result.assert_outcomes(passed=1)
+    assert result.stderr.str() == ""
 
 
 def test_pytest_sessionfinish_no_coverage(test_files, testdir, pytester):
