@@ -1,0 +1,65 @@
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { dirname } from 'node:path';
+import { TestCase, TestModule, TestRunEndReason, Reporter } from 'vitest/node';
+import { SerializedError, TaskMeta } from 'vitest';
+import { ENV_VAR } from './constants';
+
+declare module 'vitest' {
+  interface TaskMeta {
+    coveredFiles?: string[];
+    testKey?: string;
+  }
+}
+
+export interface VitestCircleCICoverageOutput {
+  [sourceFile: string]: {
+    [testKey: string]: number[];
+  };
+}
+
+export default class VitestCircleCICoverageReporter implements Reporter {
+  private output: VitestCircleCICoverageOutput = {};
+  private readonly outputFile: string | undefined;
+
+  constructor() {
+    this.outputFile = process.env[ENV_VAR];
+  }
+
+  private get enabled(): boolean {
+    return this.outputFile !== undefined;
+  }
+
+  onTestCaseResult(testCase: TestCase): void {
+    if (!this.enabled) return;
+
+    const meta: TaskMeta = testCase.meta();
+    if (!meta.coveredFiles || !meta.testKey) return;
+
+    for (const path of meta.coveredFiles) {
+      if (!this.output[path]) {
+        this.output[path] = {};
+      }
+
+      if (!this.output[path][meta.testKey]) {
+        // executed lines isn't supported, but the testsuite coverage
+        // parser requires some lines executed to be accounted for.
+        this.output[path][meta.testKey] = [1];
+      }
+    }
+  }
+
+  onTestRunEnd(
+    _testModules: ReadonlyArray<TestModule>,
+    _unhandledErrors: ReadonlyArray<SerializedError>,
+    _reason: TestRunEndReason,
+  ): void {
+    if (!this.enabled || !this.outputFile) return;
+
+    const dir = dirname(this.outputFile);
+    if (dir && dir !== '.') {
+      mkdirSync(dir, { recursive: true });
+    }
+
+    writeFileSync(this.outputFile, JSON.stringify(this.output));
+  }
+}
