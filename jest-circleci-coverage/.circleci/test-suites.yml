@@ -1,0 +1,24 @@
+name: integration test
+discover: jest --listTests --config="jest.integration.config.cjs"
+run:
+  command: |
+    JEST_JUNIT_OUTPUT_FILE=<< outputs.junit >> jest \
+      --config="jest.integration.config.cjs" \
+      --reporters=jest-junit \
+      --bail \
+      << test.atoms >>
+  environment:
+    NODE_OPTIONS: '--experimental-vm-modules'
+analysis:
+  command: |
+    CIRCLECI_COVERAGE=<< outputs.circleci-coverage >> jest \
+      --config="jest.integration.config.cjs" \
+      --bail 0 \
+      << test.atoms >>
+  environment:
+    NODE_OPTIONS: '--experimental-vm-modules'
+outputs:
+  junit: junit/report.xml
+  circleci-coverage: coverage.json
+options:
+  test-impact-analysis: true
