@@ -34,3 +34,9 @@ Run tests.
 ```shell
 pytest
 ```
+
+To generate the coverage.json, used in the CI integration test.
+
+```shell
+circleci run testsuite "integration test" --local --test-analysis="all" && cat coverage.json | jq --sort-keys > coveragetmp.json && mv coveragetmp.json coverage.json
+```

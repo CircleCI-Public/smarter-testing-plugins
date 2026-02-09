@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  jq: circleci/jq@3
+
 executors:
   python:
     docker:
@@ -9,10 +12,28 @@ jobs:
   test:
     executor: python
     steps:
+      - jq/install
       - checkout
       - run: python -m pip install -r dev-requirements.txt
       - run: python -m pip install --editable .
       - run: pytest
+      - run:
+          name: integrate with testsuite
+          command: |
+            circleci run testsuite "integration test" --test-analysis="all"
+            cat coverage.json | jq --sort-keys > coveragetmp.json
+            mv coveragetmp.json coverage.json
+
+            if git diff --exit-code; then
+              echo "Coverage JSON up to date"
+            else
+              echo "Regenerate coverage JSON locally and check in the changes (see README.md for instructions)"
+              exit 1
+            fi
+      - store_artifacts:
+          path: test-reports/
+      - store_test_results:
+          path: test-reports/
 
 workflows:
   main-workflow:

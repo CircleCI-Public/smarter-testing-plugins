@@ -1,0 +1,65 @@
+{
+  "tests/test_pytest_circleci_coverage.py": {
+    "tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_context|run": [
+      71,
+      73,
+      74,
+      75,
+      78,
+      79
+    ],
+    "tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_context|setup": [
+      8,
+      9,
+      15,
+      16
+    ],
+    "tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_coverage|run": [
+      62,
+      64,
+      65,
+      66,
+      67
+    ],
+    "tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_coverage|setup": [
+      8,
+      9,
+      15,
+      16
+    ],
+    "tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_flag|run": [
+      54,
+      56,
+      57,
+      58
+    ],
+    "tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_flag|setup": [
+      8,
+      9,
+      15,
+      16
+    ],
+    "tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_success|run": [
+      31,
+      33,
+      34,
+      35,
+      37,
+      38,
+      40,
+      41,
+      42,
+      45,
+      46,
+      47,
+      48,
+      50
+    ],
+    "tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_success|setup": [
+      8,
+      9,
+      15,
+      16
+    ]
+  }
+}

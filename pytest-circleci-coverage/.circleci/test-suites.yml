@@ -1,0 +1,14 @@
+name: integration test
+discover: find ./tests -type f -name 'test*.py'
+run: pytest --disable-pytest-warnings --junit-xml="<< outputs.junit >>" << test.atoms >>
+analysis: |
+  pytest --disable-pytest-warnings \
+         --cov \
+         --cov-context=test \
+         --circleci-coverage=<< outputs.circleci-coverage >> \
+         << test.atoms >>
+outputs:
+  junit: test-reports/tests.xml
+  circleci-coverage: coverage.json
+options:
+  test-impact-analysis: true
