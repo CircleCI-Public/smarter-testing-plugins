@@ -1,0 +1,11 @@
+name: ci tests
+runner: vitest
+analysis: |
+  CIRCLECI_COVERAGE=<< outputs.circleci-coverage >> vitest run \
+    --config="vitest.integration.config.ts" \
+    --bail 0 \
+    << test.atoms >>
+outputs:
+  circleci-coverage: coverage.json
+options:
+  test-impact-analysis: true
