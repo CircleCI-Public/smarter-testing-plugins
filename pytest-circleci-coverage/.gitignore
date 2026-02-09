@@ -6,9 +6,10 @@ __pycache__/
 # Pytest cache
 .pytest_cache/
 
-# Coverage reports
+# Reports
 .coverage
 htmlcov/
+test-reports
 
 # Distribution / packaging
 build/
@@ -21,3 +22,6 @@ venv/
 
 # IDE
 .idea/
+
+# Integration test output
+.circleci/impact.json
