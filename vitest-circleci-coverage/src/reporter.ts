@@ -1,8 +1,13 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
-import { TestCase, TestModule, TestRunEndReason, Reporter } from 'vitest/node';
-import { SerializedError, TaskMeta } from 'vitest';
-import { ENV_VAR } from './constants';
+import type {
+  TestCase,
+  TestModule,
+  TestRunEndReason,
+  Reporter,
+} from 'vitest/node';
+import type { SerializedError, TaskMeta } from 'vitest';
+import { ENV_VAR } from './constants.ts';
 
 declare module 'vitest' {
   interface TaskMeta {

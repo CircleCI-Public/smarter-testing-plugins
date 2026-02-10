@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { add, subtract, multiply, divide } from './math';
+import { add, subtract, multiply, divide } from './math.ts';
 
 describe('math', () => {
   it('should add two numbers', () => {

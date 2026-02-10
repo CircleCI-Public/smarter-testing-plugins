@@ -10,7 +10,7 @@ import inspector from 'node:inspector';
 import { promisify } from 'node:util';
 import { relative } from 'node:path';
 import { fileURLToPath } from 'url';
-import { ENV_VAR } from './constants';
+import { ENV_VAR } from './constants.ts';
 
 interface V8ScriptCoverage {
   scriptId: string;

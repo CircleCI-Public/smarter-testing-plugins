@@ -10,7 +10,7 @@ import {
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execSync } from 'node:child_process';
-import type { VitestCircleCICoverageOutput } from '../src';
+import type { VitestCircleCICoverageOutput } from '../src/index.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const fixturesDir = resolve(__dirname, 'fixtures');
