@@ -1,0 +1,4 @@
+name: ci tests
+runner: vitest
+outputs:
+  junit: junit/report.xml
