@@ -23,7 +23,8 @@ describe('circleci-coverage integration', () => {
     // that code in the v8 collector is therefore covered when it was invoked. Likewise, we execute some code
     // to assign to variables in between the calls, resulting in this test also being covered.
     expect(result).toStrictEqual({
-      'foo.ts::foo|run': ['test/integration.test.ts', 'src/index.ts'],
+      testKey: 'foo.ts::foo|run',
+      coveredFiles: ['test/integration.test.ts', 'src/index.ts'],
     });
   });
 
@@ -33,7 +34,8 @@ describe('circleci-coverage integration', () => {
     add(1, 2);
     const result = await coll.collectCoverage(wd, 'foo.ts', 'foo');
     expect(result).toStrictEqual({
-      'foo.ts::foo|run': [
+      testKey: 'foo.ts::foo|run',
+      coveredFiles: [
         'test/integration.test.ts',
         'src/index.ts',
         'test/fixtures/math.ts',

@@ -10,7 +10,8 @@ interface V8ScriptCoverage {
 }
 
 export interface TestCoverage {
-  [testKey: string]: string[];
+  testKey: string;
+  coveredFiles: string[];
 }
 
 export class V8CoverageCollector {
@@ -49,7 +50,8 @@ export class V8CoverageCollector {
     return this.takePreciseCoverage().then((result) => {
       const testKey = this.testKey(wd, testFile, testName);
       return {
-        [testKey]: this.coveredFiles(wd, result),
+        testKey: testKey,
+        coveredFiles: this.coveredFiles(wd, result),
       };
     });
   }
