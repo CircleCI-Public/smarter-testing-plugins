@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@circleci/v8-coverage-collector':
+        specifier: jsr:^0.1.1
+        version: '@jsr/circleci__v8-coverage-collector@0.1.1'
       '@vitest/coverage-v8':
         specifier: '>=4.0.17'
         version: 4.0.18(vitest@4.0.18(@types/node@22.19.9))
@@ -228,6 +231,9 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@jsr/circleci__v8-coverage-collector@0.1.1':
+    resolution: {integrity: sha512-qYSoj7K9OvpNhdBp7KwYoifjgjeL1HBwb1JqnZZ4+QqMfCGYpAKLZ2BlkpQHQQK71A9V0ppwwDrhfk/wgUoLpQ==, tarball: https://npm.jsr.io/~/11/@jsr/circleci__v8-coverage-collector/0.1.1.tgz}
 
   '@napi-rs/wasm-runtime@1.1.1':
     resolution: {integrity: sha512-p64ah1M1ld8xjWv3qbvFwHiFVWrq1yFvV4f7w+mzaqiR4IlSgkqhcRdHwsGgomwzBH51sRY4NEowLxnaBjcW/A==}
@@ -936,6 +942,8 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
+
+  '@jsr/circleci__v8-coverage-collector@0.1.1': {}
 
   '@napi-rs/wasm-runtime@1.1.1':
     dependencies:
