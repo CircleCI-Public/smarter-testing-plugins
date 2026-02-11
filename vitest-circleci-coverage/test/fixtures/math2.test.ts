@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { add, multiply } from './math';
+import { add, multiply } from './math.ts';
 
 describe('math2', () => {
   it('should add and multiply two numbers', () => {
