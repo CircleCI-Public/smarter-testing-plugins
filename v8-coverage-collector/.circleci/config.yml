@@ -81,6 +81,9 @@ jobs:
       - run:
           name: Tag repo
           command: |
+            git config --global user.email "circleci-bot@circleci.com"
+            git config --global user.name "CircleCI Bot"
+
             git tag --annotate --message="Release version ${COVERAGE_COLLECTOR_TAG}" "${COVERAGE_COLLECTOR_TAG}"
             git push origin "refs/tags/${COVERAGE_COLLECTOR_TAG}"
 
