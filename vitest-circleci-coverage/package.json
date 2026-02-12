@@ -1,10 +1,10 @@
 {
   "name": "vitest-circleci-coverage",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A Vitest plugin that generates coverage data for CircleCI's Smarter Testing.",
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.ts",
+  "types": "src/index.d.ts",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
@@ -31,6 +31,6 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
-    "@circleci/v8-coverage-collector": "jsr:^0.1.1"
+    "@circleci/v8-coverage-collector": "npm:@jsr/circleci__v8-coverage-collector@0.1.2"
   }
 }
