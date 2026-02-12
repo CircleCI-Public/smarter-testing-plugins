@@ -3,11 +3,21 @@ import type {
   RunnerTestCase,
   SerializedConfig,
   RunnerTestFile,
+  TaskMeta,
 } from 'vitest';
 import type { VitestRunner } from 'vitest/suite';
 import { VitestTestRunner } from 'vitest/runners';
 import { ENV_VAR } from './constants.ts';
 import { V8CoverageCollector } from '@circleci/v8-coverage-collector';
+
+interface CircleTaskMeta extends TaskMeta {
+  coveredFiles?: string[];
+  testKey?: string;
+}
+
+interface CircleRunnerTestCase extends RunnerTestCase {
+  meta: CircleTaskMeta;
+}
 
 export default class VitestCircleCICoverageRunner
   extends VitestTestRunner
@@ -41,7 +51,7 @@ export default class VitestCircleCICoverageRunner
     await this.inspector.resetCoverage();
   }
 
-  async onAfterTryTask(test: RunnerTestCase): Promise<void> {
+  async onAfterTryTask(test: CircleRunnerTestCase): Promise<void> {
     super.onAfterTryTask(test);
     if (!this.enabled) return;
 

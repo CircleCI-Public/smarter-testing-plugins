@@ -9,11 +9,9 @@ import type {
 import type { SerializedError, TaskMeta } from 'vitest';
 import { ENV_VAR } from './constants.ts';
 
-declare module 'vitest' {
-  interface TaskMeta {
-    coveredFiles?: string[];
-    testKey?: string;
-  }
+interface CircleTaskMeta extends TaskMeta {
+  coveredFiles?: string[];
+  testKey?: string;
 }
 
 export interface VitestCircleCICoverageOutput {
@@ -37,7 +35,7 @@ export default class VitestCircleCICoverageReporter implements Reporter {
   onTestCaseResult(testCase: TestCase): void {
     if (!this.enabled) return;
 
-    const meta: TaskMeta = testCase.meta();
+    const meta: CircleTaskMeta = testCase.meta();
     if (!meta.coveredFiles || !meta.testKey) return;
 
     for (const path of meta.coveredFiles) {
