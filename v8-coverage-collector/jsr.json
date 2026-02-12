@@ -1,6 +1,6 @@
 {
   "name": "@circleci/v8-coverage-collector",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "exports": "./src/index.ts",
   "publish": {
