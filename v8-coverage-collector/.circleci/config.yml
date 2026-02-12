@@ -5,6 +5,35 @@ executors:
     docker:
       - image: cimg/node:22.20.0
 
+commands:
+  check_version:
+    steps:
+      - run:
+          name: "Check version"
+          command: |
+            ## Get the latest version from the changelog.
+            VERSION="$(grep --only-matching '^## \[[0-9].*]' CHANGELOG.md --max-count=1 | sed -e 's/^## \[//' -e 's/\]$//')"
+
+            ## Tag the version/Check if the tag already exists.
+            if git tag --list | grep --fixed-strings "${VERSION}"; then
+              echo "No new CHANGELOG.md entry, version unchanged"
+              circleci step halt
+            fi
+
+            # Unfortunately there are several places where versions are
+            # specified, and they all need to agree.
+            # Assert that all three versions match.
+            PACKAGE_JSON_VERSION="$(jq --raw-output '.version' package.json)"
+            JSR_JSON_VERSION="$(jq --raw-output '.version' jsr.json)"
+
+            if [[ "$PACKAGE_JSON_VERSION" != "$VERSION" || "$JSR_JSON_VERSION" != "$VERSION" ]]; then
+              echo "package.json and jsr.json version must match most recent CHANGELOG.md entry"
+              exit 1
+            fi
+
+            echo "Found new version ${VERSION}"
+            echo "COVERAGE_COLLECTOR_TAG=${VERSION}" >> "${BASH_ENV}"
+
 jobs:
   lint:
     executor: node
@@ -26,8 +55,48 @@ jobs:
       - store_test_results:
           path: junit/
 
+  dry-run:
+    executor: node
+    steps:
+      - checkout
+      - check_version
+      - run:
+          name: build
+          command: |
+            pnpm install
+            pnpm build
+      - run: pnpm dlx jsr publish --dry-run
+
+  publish:
+    executor: node
+    steps:
+      - checkout
+      - check_version
+      - run:
+          name: build
+          command: |
+            pnpm install
+            pnpm build
+      - run: pnpm dlx jsr publish --token "${JSR_TOKEN}"
+      - run:
+          name: Tag repo
+          command: |
+            git tag --annotate --message="Release version ${COVERAGE_COLLECTOR_TAG}" "${COVERAGE_COLLECTOR_TAG}"
+            git push origin "refs/tags/${COVERAGE_COLLECTOR_TAG}"
+
 workflows:
   main-workflow:
     jobs:
       - test
       - lint
+      - dry-run:
+          requires:
+            - test
+            - lint
+          filters: pipeline.git.branch != "main"
+      - publish:
+          requires:
+            - test
+            - lint
+          context: v8-coverage-collector-jsr-publish
+          filters: pipeline.git.branch == "main"
