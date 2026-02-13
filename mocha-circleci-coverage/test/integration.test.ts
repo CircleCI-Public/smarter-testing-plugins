@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const fixturesDir = resolve(__dirname, 'fixtures');
 const outputDir = resolve(__dirname, 'output');
-const pluginPath = resolve(__dirname, '..', 'src', 'index.ts');
+const pluginPath = resolve(dirname(__dirname), 'src', 'index.ts');
 
 function runMocha(env: Record<string, string | undefined> = {}): void {
   const configFile = resolve(outputDir, '.mocharc.cjs');
