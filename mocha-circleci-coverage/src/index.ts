@@ -22,7 +22,6 @@ export const mochaHooks = async (): Promise<Mocha.RootHookObject> => {
 
   const collector = new V8CoverageCollector();
   const testCoverageMap: TestCoverage = {};
-  const coverageMap: CircleCICoverageOutput = {};
 
   return {
     async beforeAll(): Promise<void> {
@@ -46,6 +45,8 @@ export const mochaHooks = async (): Promise<Mocha.RootHookObject> => {
 
     async afterAll(): Promise<void> {
       await collector.disconnect();
+
+      const coverageMap: CircleCICoverageOutput = {};
 
       for (const [test, files] of Object.entries(testCoverageMap)) {
         for (const file of files) {
