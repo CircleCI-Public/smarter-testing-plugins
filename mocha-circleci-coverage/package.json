@@ -1,6 +1,6 @@
 {
   "name": "mocha-circleci-coverage",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Mocha plugin for CircleCI per-test coverage collection",
   "type": "module",
   "main": "src/index.ts",

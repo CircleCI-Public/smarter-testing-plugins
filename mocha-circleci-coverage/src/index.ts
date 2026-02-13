@@ -14,6 +14,10 @@ interface CircleCICoverageOutput {
   };
 }
 
+/**
+ * mochaHooks is a MochaJS Root Hook Plugin that collects coverage
+ * data per test, outputting CircleCI coverage JSON.
+ */
 export const mochaHooks = async (): Promise<Mocha.RootHookObject> => {
   const outputFile = process.env[ENV_VAR];
   if (!outputFile) {

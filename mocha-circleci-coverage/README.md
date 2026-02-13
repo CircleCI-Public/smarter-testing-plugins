@@ -16,14 +16,14 @@ Add the custom hook to the `.mocharc.js` file:
 
 ```js
 module.exports = {
-  require: ['mocha-circleci-coverage'],
+  require: ['@circleci/mocha-circleci-coverage'],
 };
 ```
 
 Run tests with the `CIRCLECI_COVERAGE` env to collect coverage.
 
 ```shell
-CIRCLECI_COVERAGE=coverage.json mocha '**/*.test.ts'
+CIRCLECI_COVERAGE=coverage.json mocha
 ```
 
 ## Development
