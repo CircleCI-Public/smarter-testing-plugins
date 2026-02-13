@@ -15,7 +15,6 @@
   },
   "peerDependencies": {
     "jest": ">=30.0.0",
-    "jest-environment-node": ">=30.0.0",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
@@ -32,6 +31,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "jest-environment-node": "^30.0.0",
     "@circleci/v8-coverage-collector": "npm:@jsr/circleci__v8-coverage-collector@0.1.2"
   },
   "engines": {
