@@ -1,0 +1,71 @@
+import path from 'node:path';
+import fs from 'node:fs';
+import { V8CoverageCollector } from '@circleci/v8-coverage-collector';
+
+const ENV_VAR = 'CIRCLECI_COVERAGE';
+
+interface TestCoverage {
+  [testKey: string]: string[];
+}
+
+interface CircleCICoverageOutput {
+  [sourceFile: string]: {
+    [testKey: string]: number[];
+  };
+}
+
+export const mochaHooks = async (): Promise<Mocha.RootHookObject> => {
+  const outputFile = process.env[ENV_VAR];
+  if (!outputFile) {
+    return {};
+  }
+
+  const collector = new V8CoverageCollector();
+  const testCoverageMap: TestCoverage = {};
+  const coverageMap: CircleCICoverageOutput = {};
+
+  return {
+    async beforeAll(): Promise<void> {
+      await collector.connect();
+    },
+
+    async beforeEach(): Promise<void> {
+      await collector.resetCoverage();
+    },
+
+    async afterEach(): Promise<void> {
+      const test = (this as Mocha.Context).currentTest;
+      if (!test || !test.file) return;
+
+      await collector
+        .collectCoverage(process.cwd(), test.file, test.title)
+        .then((result) => {
+          testCoverageMap[result.testKey] = result.coveredFiles;
+        });
+    },
+
+    async afterAll(): Promise<void> {
+      await collector.disconnect();
+
+      for (const [test, files] of Object.entries(testCoverageMap)) {
+        for (const file of files) {
+          if (!coverageMap[file]) {
+            coverageMap[file] = {};
+          }
+
+          if (!coverageMap[file][test]) {
+            coverageMap[file][test] = [1];
+          }
+        }
+      }
+
+      const dir = path.dirname(outputFile);
+      if (dir && dir !== '.') {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      fs.writeFileSync(outputFile, JSON.stringify(coverageMap));
+    },
+  };
+};
+
+export default mochaHooks;

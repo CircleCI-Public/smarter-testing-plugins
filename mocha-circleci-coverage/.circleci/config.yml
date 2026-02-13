@@ -1,0 +1,44 @@
+version: 2.1
+
+executors:
+  node:
+    docker:
+      - image: cimg/node:22.20.0
+
+jobs:
+  lint:
+    executor: node
+    steps:
+      - checkout
+      - run: pnpm install
+      - run: pnpm lint
+      - run: pnpm format
+
+  test:
+    executor: node
+    steps:
+      - checkout
+      - run: pnpm install
+      - run: pnpm build
+      - run: pnpm test
+      - run:
+          name: integrate with testsuite
+          command: |
+            pnpm generate:ci
+
+            if git diff --exit-code; then
+              echo "Coverage JSON up to date"
+            else
+              echo "Regenerate coverage JSON locally with 'pnpm generate' and check in the changes"
+              exit 1
+            fi
+      - store_artifacts:
+          path: junit/
+      - store_test_results:
+          path: junit/
+
+workflows:
+  main-workflow:
+    jobs:
+      - test
+      - lint

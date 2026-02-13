@@ -1,0 +1,9 @@
+name: integration test
+## Only run the integration test.
+discover: echo 'test/integration.test.ts'
+run: mocha --config .mocharc.integration.cjs << test.atoms >>
+analysis: CIRCLECI_COVERAGE=<< outputs.circleci-coverage >> mocha --config .mocharc.integration.cjs << test.atoms >>
+outputs:
+  circleci-coverage: coverage.json
+options:
+  test-impact-analysis: true
