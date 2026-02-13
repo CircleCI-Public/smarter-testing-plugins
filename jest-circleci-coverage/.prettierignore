@@ -1,0 +1,10 @@
+.pnpm-store
+dist
+build
+coverage
+pnpm-lock.yaml
+pnpm-workspace.yaml
+
+*.md
+*.json
+*.yml
