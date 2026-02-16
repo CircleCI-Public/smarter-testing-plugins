@@ -53,6 +53,8 @@ export default class VitestCircleCICoverageReporter implements Reporter {
   }
 
   onTestRunStart(_specifications: readonly TestSpecification[]): void {
+    if (!this.enabled || !this.outputFile) return;
+
     process.stdout.write(
       'vitest-circleci-coverage: generating CircleCI coverage JSON...\n',
     );
