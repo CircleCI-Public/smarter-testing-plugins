@@ -1,6 +1,6 @@
 {
   "name": "vitest-circleci-coverage",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Vitest plugin that generates coverage data for CircleCI's Smarter Testing.",
   "type": "module",
   "main": "src/index.ts",
