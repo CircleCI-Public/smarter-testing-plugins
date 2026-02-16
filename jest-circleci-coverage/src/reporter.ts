@@ -18,6 +18,16 @@ export default class JestCircleCICoverageReporter implements Reporter {
     this.outputFile = process.env[ENV_VAR];
   }
 
+  async onRunStart(): Promise<void> {
+    if (!this.outputFile) return;
+
+    if (!existsSync(TMP_COVERAGE_DIR)) return;
+
+    process.stdout.write(
+      'jest-circleci-coverage: generating CircleCI coverage JSON...\n',
+    );
+  }
+
   async onRunComplete(): Promise<void> {
     if (!this.outputFile) return;
 
@@ -50,5 +60,13 @@ export default class JestCircleCICoverageReporter implements Reporter {
     rmSync(TMP_COVERAGE_DIR, { recursive: true });
     mkdirSync(dirname(this.outputFile), { recursive: true });
     writeFileSync(this.outputFile, JSON.stringify(merged));
+
+    if (Object.entries(merged).length === 0) {
+      process.stdout.write(
+        `jest-circleci-coverage: warning: no coverage data collected\n`,
+      );
+    }
+
+    process.stdout.write(`jest-circleci-coverage: wrote ${this.outputFile}\n`);
   }
 }
