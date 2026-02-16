@@ -24,6 +24,10 @@ export const mochaHooks = async (): Promise<Mocha.RootHookObject> => {
     return {};
   }
 
+  process.stdout.write(
+    'mocha-circleci-coverage: generating CircleCI coverage JSON...\n',
+  );
+
   const collector = new V8CoverageCollector();
   const testCoverageMap: TestCoverage = {};
 
@@ -69,6 +73,14 @@ export const mochaHooks = async (): Promise<Mocha.RootHookObject> => {
         fs.mkdirSync(dir, { recursive: true });
       }
       fs.writeFileSync(outputFile, JSON.stringify(coverageMap));
+
+      if (Object.entries(coverageMap).length === 0) {
+        process.stdout.write(
+          `mocha-circleci-coverage: warning: no coverage data collected\n`,
+        );
+      }
+
+      process.stdout.write(`mocha-circleci-coverage: wrote ${outputFile}\n`);
     },
   };
 };
