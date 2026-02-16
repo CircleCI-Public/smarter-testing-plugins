@@ -4,6 +4,7 @@ import type {
   TestCase,
   TestModule,
   TestRunEndReason,
+  TestSpecification,
   Reporter,
 } from 'vitest/node';
 import type { SerializedError, TaskMeta } from 'vitest';
@@ -51,6 +52,12 @@ export default class VitestCircleCICoverageReporter implements Reporter {
     }
   }
 
+  onTestRunStart(_specifications: readonly TestSpecification[]): void {
+    process.stdout.write(
+      'vitest-circleci-coverage: generating CircleCI coverage JSON...\n',
+    );
+  }
+
   onTestRunEnd(
     _testModules: ReadonlyArray<TestModule>,
     _unhandledErrors: ReadonlyArray<SerializedError>,
@@ -63,6 +70,16 @@ export default class VitestCircleCICoverageReporter implements Reporter {
       mkdirSync(dir, { recursive: true });
     }
 
+    if (Object.entries(this.output).length === 0) {
+      process.stdout.write(
+        `vitest-circleci-coverage: warning: no coverage data collected\n`,
+      );
+    }
+
     writeFileSync(this.outputFile, JSON.stringify(this.output));
+
+    process.stdout.write(
+      `vitest-circleci-coverage: wrote ${this.outputFile}\n`,
+    );
   }
 }
