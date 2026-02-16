@@ -7,4 +7,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.1] - 2026-02-12
 
-Initial release of `v8-coverage-collector`
+Initial release of `mocha-circleci-coverage`
