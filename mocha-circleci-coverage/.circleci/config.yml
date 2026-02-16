@@ -32,7 +32,7 @@ commands:
             fi
 
             echo "Found new version ${VERSION}"
-            echo "COVERAGE_COLLECTOR_TAG=${VERSION}" >> "${BASH_ENV}"
+            echo "PACKAGE_GIT_TAG=${VERSION}" >> "${BASH_ENV}"
 
 jobs:
   lint:
@@ -94,8 +94,8 @@ jobs:
             git config --global user.email "circleci-bot@circleci.com"
             git config --global user.name "CircleCI Bot"
 
-            git tag --annotate --message="Release version ${COVERAGE_COLLECTOR_TAG}" "${COVERAGE_COLLECTOR_TAG}"
-            git push origin "refs/tags/${COVERAGE_COLLECTOR_TAG}"
+            git tag --annotate --message="Release version ${PACKAGE_GIT_TAG}" "${PACKAGE_GIT_TAG}"
+            git push origin "refs/tags/${PACKAGE_GIT_TAG}"
 
 workflows:
   main-workflow:
