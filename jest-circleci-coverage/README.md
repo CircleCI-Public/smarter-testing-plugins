@@ -22,8 +22,8 @@ import type {Config} from 'jest';
 const tsJestTransformCfg = createDefaultPreset().transform;
 
 const config: Config = {
-  testEnvironment: 'jest-circleci-coverage/environment',
-  reporters: ['default', 'jest-circleci-coverage/reporter'],
+  testEnvironment: '@circleci/jest-circleci-coverage/environment',
+  reporters: ['default', '@circleci/jest-circleci-coverage/reporter'],
   transform: {
     ...tsJestTransformCfg,
   },

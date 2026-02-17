@@ -11,6 +11,11 @@ import type { JestCircleCICoverageOutput } from './types.ts';
 import { ENV_VAR, TMP_COVERAGE_DIR } from './constants.ts';
 import type { Reporter } from '@jest/reporters';
 
+/**
+ * A Jest {@link Reporter} that merges per-test-file coverage data produced by
+ * {@link JestCircleCICoverageEnvironment} and writes the combined result to
+ * the path specified by the `CIRCLECI_COVERAGE` environment variable.
+ */
 export default class JestCircleCICoverageReporter implements Reporter {
   private readonly outputFile: string | undefined;
 
@@ -18,6 +23,11 @@ export default class JestCircleCICoverageReporter implements Reporter {
     this.outputFile = process.env[ENV_VAR];
   }
 
+  /**
+   * Outputs an initializing log message when the reporter is enabled.
+   *
+   * @returns {Promise<void>}
+   */
   async onRunStart(): Promise<void> {
     if (!this.outputFile) return;
 
@@ -28,6 +38,13 @@ export default class JestCircleCICoverageReporter implements Reporter {
     );
   }
 
+  /**
+   * Merges all per-test-file coverage JSON files from the temporary directory
+   * into a single {@link JestCircleCICoverageOutput} file, then cleans up the
+   * temporary directory.
+   *
+   * @returns {Promise<void>}
+   */
   async onRunComplete(): Promise<void> {
     if (!this.outputFile) return;
 
