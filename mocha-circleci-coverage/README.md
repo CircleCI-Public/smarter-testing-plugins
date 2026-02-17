@@ -1,5 +1,7 @@
 # mocha-circleci-coverage
 
+[![JSR](https://jsr.io/badges/@circleci/mocha-circleci-coverage)](https://jsr.io/@circleci/mocha-circleci-coverage)
+
 A Mocha plugin that generates coverage data for CircleCI's Smarter Testing.
 
 ## Usage
