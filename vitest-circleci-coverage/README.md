@@ -1,5 +1,7 @@
 # vitest-circleci-coverage
 
+[![JSR](https://jsr.io/badges/@circleci/vitest-circleci-coverage)](https://jsr.io/@circleci/vitest-circleci-coverage)
+
 A Vitest plugin that generates coverage data for
 CircleCI's [Smarter Testing](https://circleci.com/docs/guides/test/smarter-testing/).
 
