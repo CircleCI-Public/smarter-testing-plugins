@@ -15,6 +15,14 @@ interface TestCoverage {
   [testKey: string]: string[];
 }
 
+/**
+ * A custom Jest {@link TestEnvironment} that collects V8 coverage data per test.
+ *
+ * When the `CIRCLECI_COVERAGE` environment variable is set, this environment
+ * uses the V8 profiler to track which source files each test covers. On
+ * teardown, it writes a per-test-file JSON to a temporary directory, which
+ * {@link JestCircleCICoverageReporter} later merges into a single output file.
+ */
 export default class JestCircleCICoverageEnvironment extends TestEnvironment {
   private collector: V8CoverageCollector;
   private initialized = false;
@@ -31,6 +39,11 @@ export default class JestCircleCICoverageEnvironment extends TestEnvironment {
     this.cwd = process.cwd();
   }
 
+  /**
+   * Connects to the V8 coverage profiler if coverage is enabled.
+   *
+   * @returns {Promise<void>}
+   */
   async setup(): Promise<void> {
     await super.setup();
     if (!this.enabled) return;
@@ -40,6 +53,12 @@ export default class JestCircleCICoverageEnvironment extends TestEnvironment {
     });
   }
 
+  /**
+   * Disconnects from the profiler and writes the collected coverage data to a
+   * temporary JSON file if enabled.
+   *
+   * @returns {Promise<void>}
+   */
   async teardown(): Promise<void> {
     if (this.initialized) {
       await this.collector.disconnect().then(() => {
@@ -74,10 +93,24 @@ export default class JestCircleCICoverageEnvironment extends TestEnvironment {
     await super.teardown();
   }
 
+  /**
+   * Returns the VM context for the test environment.
+   *
+   * @returns {Context | null}
+   */
   getVmContext(): Context | null {
     return super.getVmContext();
   }
 
+  /**
+   * Handles test events to collect coverage per individual test.
+   *
+   * Resets coverage counters before each test function runs and collects the
+   * resulting coverage after the test completes (whether it passes or fails).
+   *
+   * @param {Circus.Event} event
+   * @returns {Promise<void>}
+   */
   async handleTestEvent(event: Circus.Event): Promise<void> {
     if (!this.initialized) return;
 
