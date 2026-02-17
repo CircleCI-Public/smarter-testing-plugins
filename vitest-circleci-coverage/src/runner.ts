@@ -1,3 +1,10 @@
+/**
+ * Vitest test runner that collects V8 code coverage per test
+ * for CircleCI's Smarter Testing.
+ *
+ * @module
+ */
+
 import type {
   RunnerTask,
   RunnerTestCase,

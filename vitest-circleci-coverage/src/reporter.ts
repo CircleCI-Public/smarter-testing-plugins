@@ -1,3 +1,10 @@
+/**
+ * Vitest reporter that writes per-test coverage data as JSON for
+ * CircleCI's Smarter Testing.
+ *
+ * @module
+ */
+
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import type {

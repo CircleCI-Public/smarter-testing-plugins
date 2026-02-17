@@ -17,7 +17,7 @@
  *
  * @example
  * ```shell
- * CIRCLECI_COVERAGE=coverage.json jest
+ * CIRCLECI_COVERAGE=coverage.json vitest run
  * ```
  *
  * @module
