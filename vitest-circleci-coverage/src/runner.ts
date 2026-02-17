@@ -19,6 +19,15 @@ interface CircleRunnerTestCase extends RunnerTestCase {
   meta: CircleTaskMeta;
 }
 
+/**
+ * A custom Vitest test runner that uses the V8 profiler to collect per-test
+ * code coverage data for CircleCI's Smarter Testing.
+ *
+ * Enabled when the `CIRCLECI_COVERAGE` environment variable is set. When
+ * active, it connects to the V8 inspector before tests run and collects
+ * coverage after each test, attaching the covered file paths to the test's
+ * metadata for the {@linkcode VitestCircleCICoverageReporter} to consume.
+ */
 export default class VitestCircleCICoverageRunner
   extends VitestTestRunner
   implements VitestRunner
@@ -36,6 +45,11 @@ export default class VitestCircleCICoverageRunner
     this.enabled = process.env[ENV_VAR] !== undefined;
   }
 
+  /**
+   * Connects to the V8 inspector before test files are run.
+   *
+   * @param _files
+   */
   async onBeforeRunFiles(_files: RunnerTestFile[]): Promise<void> {
     if (!this.enabled || this.initialized) return;
 
@@ -44,6 +58,11 @@ export default class VitestCircleCICoverageRunner
     });
   }
 
+  /**
+   * Resets V8 coverage counters before each test so coverage is isolated per test.
+   *
+   * @param test
+   */
   async onBeforeTryTask(test: RunnerTask): Promise<void> {
     super.onBeforeTryTask(test);
     if (!this.enabled) return;
@@ -51,6 +70,12 @@ export default class VitestCircleCICoverageRunner
     await this.inspector.resetCoverage();
   }
 
+  /**
+   * Collects V8 coverage after each test and attaches the covered file paths
+   * and test key to the test's metadata.
+   *
+   * @param test
+   */
   async onAfterTryTask(test: CircleRunnerTestCase): Promise<void> {
     super.onAfterTryTask(test);
     if (!this.enabled) return;
@@ -63,6 +88,9 @@ export default class VitestCircleCICoverageRunner
       });
   }
 
+  /**
+   * Disconnects from the V8 inspector after all test files have been run.
+   */
   async onAfterRunFiles(): Promise<void> {
     super.onAfterRunFiles();
     if (!this.initialized) return;

@@ -15,12 +15,26 @@ interface CircleTaskMeta extends TaskMeta {
   testKey?: string;
 }
 
+/**
+ * The coverage output format mapping files to their test coverage data.
+ *
+ * Keys are file paths, and values are objects mapping test keys to
+ * arrays of executed line numbers.
+ */
 export interface VitestCircleCICoverageOutput {
   [sourceFile: string]: {
     [testKey: string]: number[];
   };
 }
 
+/**
+ * A Vitest {@linkcode Reporter} that collects per-test file coverage metadata
+ * from the {@linkcode VitestCircleCICoverageRunner} and writes it as JSON
+ * for CircleCI's Smarter Testing.
+ *
+ * Enabled when the `CIRCLECI_COVERAGE` environment variable is set to an
+ * output file path.
+ */
 export default class VitestCircleCICoverageReporter implements Reporter {
   private output: VitestCircleCICoverageOutput = {};
   private readonly outputFile: string | undefined;
@@ -33,6 +47,12 @@ export default class VitestCircleCICoverageReporter implements Reporter {
     return this.outputFile !== undefined;
   }
 
+  /**
+   * Called after each test case completes. Records which source files were
+   * covered by the test using metadata set by the {@linkcode VitestCircleCICoverageRunner}.
+   *
+   * @param testCase
+   */
   onTestCaseResult(testCase: TestCase): void {
     if (!this.enabled) return;
 
@@ -52,6 +72,11 @@ export default class VitestCircleCICoverageReporter implements Reporter {
     }
   }
 
+  /**
+   * Called when the test run starts. Logs a message indicating coverage collection is active.
+   *
+   * @param _specifications
+   */
   onTestRunStart(_specifications: readonly TestSpecification[]): void {
     if (!this.enabled || !this.outputFile) return;
 
@@ -60,6 +85,14 @@ export default class VitestCircleCICoverageReporter implements Reporter {
     );
   }
 
+  /**
+   * Called when the test run ends. Writes the collected coverage data as JSON
+   * to the file specified by `CIRCLECI_COVERAGE` when enabled.
+   *
+   * @param _testModules
+   * @param _unhandledErrors
+   * @param _reason
+   */
   onTestRunEnd(
     _testModules: ReadonlyArray<TestModule>,
     _unhandledErrors: ReadonlyArray<SerializedError>,
