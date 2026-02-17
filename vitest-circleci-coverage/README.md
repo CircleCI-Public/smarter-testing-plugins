@@ -10,7 +10,7 @@ This plugin uses the v8 JS engine Profiler APIs to collect coverage.
 Install the plugin.
 
 ```shell
-pnpm add -D vitest-circleci-coverage
+pnpm add -D jsr:@circleci/vitest-circleci-coverage
 ```
 
 Add the custom runner and reporter to your `vitest.config.ts`:
@@ -20,16 +20,16 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    runner: 'vitest-circleci-coverage/runner',
-    reporters: ['vitest-circleci-coverage/reporter'],
+    runner: '@circleci/vitest-circleci-coverage/runner',
+    reporters: ['@circleci/vitest-circleci-coverage/reporter'],
   },
 });
 ```
 
-Set the `CIRCLECI_COVERAGE` environment variable and v8 coverage provider when running tests to enable test coverage.
+Set the `CIRCLECI_COVERAGE` environment variable when running tests to enable test coverage.
 
 ```shell
-CIRCLECI_COVERAGE=coverage.json vitest run --coverage.provider=v8
+CIRCLECI_COVERAGE=coverage.json vitest run
 ```
 
 ## Development
