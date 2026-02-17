@@ -1,5 +1,7 @@
 # jest-circleci-coverage
 
+[![JSR](https://jsr.io/badges/@circleci/jest-circleci-coverage)](https://jsr.io/@circleci/jest-circleci-coverage)
+
 A Jest plugin that generates coverage data for
 CircleCI's [Smarter Testing](https://circleci.com/docs/guides/test/smarter-testing/).
 
