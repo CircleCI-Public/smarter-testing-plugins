@@ -12,7 +12,8 @@ This plugin uses the v8 JS engine Profiler APIs to collect coverage.
 Install the plugin.
 
 ```shell
-pnpm add -D jest-circleci-coverage
+pnpm add -D jsr:@circleci/jest-circleci-coverage
+
 ```
 
 Add the custom runner and reporter to your `jest.config.ts`:
