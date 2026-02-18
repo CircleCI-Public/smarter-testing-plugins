@@ -1,0 +1,116 @@
+version: 2.1
+
+executors:
+  node:
+    docker:
+      - image: cimg/node:22.20.0-browsers
+
+commands:
+  check_version:
+    steps:
+      - run:
+          name: "Check version"
+          command: |
+            ## Get the latest version from the changelog.
+            VERSION="$(grep --only-matching '^## \[[0-9].*]' CHANGELOG.md --max-count=1 | sed -e 's/^## \[//' -e 's/\]$//')"
+
+            ## Tag the version/Check if the tag already exists.
+            if git tag --list | grep --fixed-strings "${VERSION}"; then
+              echo "No new CHANGELOG.md entry, version unchanged"
+              circleci step halt
+            fi
+
+            # Unfortunately there are several places where versions are
+            # specified, and they all need to agree.
+            # Assert that all three versions match.
+            PACKAGE_JSON_VERSION="$(jq --raw-output '.version' package.json)"
+            JSR_JSON_VERSION="$(jq --raw-output '.version' jsr.json)"
+
+            if [[ "$PACKAGE_JSON_VERSION" != "$VERSION" || "$JSR_JSON_VERSION" != "$VERSION" ]]; then
+              echo "package.json and jsr.json version must match most recent CHANGELOG.md entry"
+              exit 1
+            fi
+
+            echo "Found new version ${VERSION}"
+            echo "PACKAGE_GIT_TAG=${VERSION}" >> "${BASH_ENV}"
+
+
+jobs:
+  lint:
+    executor: node
+    steps:
+      - checkout
+      - run: pnpm install
+      - run: pnpm lint
+      - run: pnpm format
+
+  test:
+    executor: node
+    steps:
+      - checkout
+      - run: pnpm install
+      - run: pnpm cypress install
+      - run: pnpm build
+      - run: pnpm test:ci
+      - run:
+          name: integrate with testsuite
+          command: |
+            pnpm generate:ci
+
+            if git diff --exit-code; then
+              echo "Coverage JSON up to date"
+            else
+              echo "Regenerate coverage JSON locally with 'pnpm generate' and check in the changes"
+              exit 1
+            fi
+      - store_artifacts:
+          path: junit/
+      - store_test_results:
+          path: junit/
+
+  dry-run:
+    executor: node
+    steps:
+      - checkout
+      - check_version
+      - run:
+          name: build
+          command: |
+            pnpm install
+            pnpm build
+      - run: pnpm dlx jsr publish --dry-run
+
+  publish:
+    executor: node
+    steps:
+      - checkout
+      - check_version
+      - run:
+          name: build
+          command: |
+            pnpm install
+            pnpm build
+      - run:
+          name: Tag repo
+          command: |
+            git config --global user.email "circleci-bot@circleci.com"
+            git config --global user.name "CircleCI Bot"
+
+            git tag --annotate --message="Release version ${PACKAGE_GIT_TAG}" "${PACKAGE_GIT_TAG}"
+            git push origin "refs/tags/${PACKAGE_GIT_TAG}"
+
+workflows:
+  main-workflow:
+    jobs:
+      - test
+      - lint
+      - dry-run:
+          requires:
+            - test
+            - lint
+          filters: pipeline.git.branch != "main"
+      - publish:
+          requires:
+            - test
+            - lint
+          filters: pipeline.git.branch == "main"

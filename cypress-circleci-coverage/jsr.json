@@ -1,0 +1,19 @@
+{
+  "name": "@circleci/cypress-circleci-coverage",
+  "version": "0.1.0",
+  "license": "MIT",
+  "exports": {
+    "./plugin": "./src/plugin.ts",
+    "./support": "./src/support.ts"
+  },
+  "publish": {
+    "include": [
+      "LICENSE",
+      "README.md",
+      "src",
+      "cypress/tsconfig.json",
+      "tsconfig.json",
+      "package.json"
+    ]
+  }
+}

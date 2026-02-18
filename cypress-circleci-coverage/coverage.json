@@ -1,0 +1,64 @@
+{
+  "cypress/e2e/fixtures/math.cy.ts": {
+    "cypress/e2e/fixtures/math.cy.ts::should add two numbers|run": [
+      1
+    ],
+    "cypress/e2e/fixtures/math.cy.ts::should divide two numbers|run": [
+      1
+    ],
+    "cypress/e2e/fixtures/math.cy.ts::should multiply two numbers|run": [
+      1
+    ],
+    "cypress/e2e/fixtures/math.cy.ts::should subtract two numbers|run": [
+      1
+    ],
+    "cypress/e2e/fixtures/math.cy.ts::should throw on division by zero|run": [
+      1
+    ]
+  },
+  "cypress/e2e/fixtures/math.ts": {
+    "cypress/e2e/fixtures/math.cy.ts::should add two numbers|run": [
+      1
+    ],
+    "cypress/e2e/fixtures/math.cy.ts::should divide two numbers|run": [
+      1
+    ],
+    "cypress/e2e/fixtures/math.cy.ts::should multiply two numbers|run": [
+      1
+    ],
+    "cypress/e2e/fixtures/math.cy.ts::should subtract two numbers|run": [
+      1
+    ],
+    "cypress/e2e/fixtures/math.cy.ts::should throw on division by zero|run": [
+      1
+    ],
+    "cypress/e2e/fixtures/math2.cy.ts::should add and multiply two numbers|run": [
+      1
+    ]
+  },
+  "cypress/e2e/fixtures/math2.cy.ts": {
+    "cypress/e2e/fixtures/math2.cy.ts::should add and multiply two numbers|run": [
+      1
+    ]
+  },
+  "src/support.ts": {
+    "cypress/e2e/fixtures/math.cy.ts::should add two numbers|run": [
+      1
+    ],
+    "cypress/e2e/fixtures/math.cy.ts::should divide two numbers|run": [
+      1
+    ],
+    "cypress/e2e/fixtures/math.cy.ts::should multiply two numbers|run": [
+      1
+    ],
+    "cypress/e2e/fixtures/math.cy.ts::should subtract two numbers|run": [
+      1
+    ],
+    "cypress/e2e/fixtures/math.cy.ts::should throw on division by zero|run": [
+      1
+    ],
+    "cypress/e2e/fixtures/math2.cy.ts::should add and multiply two numbers|run": [
+      1
+    ]
+  }
+}
