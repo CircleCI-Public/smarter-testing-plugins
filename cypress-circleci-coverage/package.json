@@ -1,0 +1,40 @@
+{
+  "name": "cypress-circleci-coverage",
+  "version": "0.1.0",
+  "description": "Generate coverage data for CircleCI's Smarter Testing",
+  "type": "module",
+  "exports": {
+    "./plugin": "./src/plugin.ts",
+    "./support": "./src/support.ts"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "test": "cypress run --config-file cypress.integration.config.ts",
+    "test:ci": "cypress run --config-file cypress.integration.config.ts --reporter=default --reporter=junit --reporter-options \"mochaFile=junit/results.xml,toConsole=true\"",
+    "lint": "oxlint --quiet",
+    "format": "prettier . --check",
+    "generate": "circleci run testsuite 'integration test' --local --test-analysis=all && cat coverage.json | jq --sort-keys > coveragetmp.json && mv coveragetmp.json coverage.json",
+    "generate:ci": "circleci run testsuite 'integration test' --test-analysis=all && cat coverage.json | jq --sort-keys > coveragetmp.json && mv coveragetmp.json coverage.json"
+  },
+  "peerDependencies": {
+    "cypress": ">=15.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-typescript": "^7.28.5",
+    "@cypress/webpack-preprocessor": "^7.0.2",
+    "@prettier/plugin-oxc": "^0.1.3",
+    "@types/node": "^25.3.0",
+    "babel-loader": "^10.0.0",
+    "babel-plugin-istanbul": "^7.0.1",
+    "cypress": "^15.10.0",
+    "oxlint": "^1.48.0",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3",
+    "webpack": "^5.105.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
