@@ -1,0 +1,9 @@
+name: integration test
+discover: find spec/integration -type f -name '*_spec.rb'
+run: bundle exec rspec  --format RspecJunitFormatter --out << outputs.junit >> << test.atoms >>
+analysis: CIRCLECI_COVERAGE=<< outputs.circleci-coverage >> bundle exec rspec << test.atoms >>
+outputs:
+  junit: junit/results.xml
+  circleci-coverage: coverage.json
+options:
+  test-impact-analysis: true

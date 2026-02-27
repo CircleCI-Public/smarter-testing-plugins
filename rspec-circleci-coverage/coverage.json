@@ -1,0 +1,12 @@
+{
+  "lib/rspec/circleci/coverage.rb": {
+    "spec/integration/coverage_integration_spec.rb::RSpec CircleCI Coverage Integration generates CIRCLECI_COVERAGE file with correct schema|run": [
+      50,
+      66
+    ],
+    "spec/integration/coverage_integration_spec.rb::RSpec CircleCI Coverage Integration should not produce output or capture coverage when disabled|run": [
+      50,
+      66
+    ]
+  }
+}

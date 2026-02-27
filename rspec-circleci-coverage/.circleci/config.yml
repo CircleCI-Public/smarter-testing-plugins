@@ -1,0 +1,36 @@
+version: 2.1
+
+executors:
+  ruby:
+    docker:
+      - image: cimg/ruby:4.0.1
+
+jobs:
+  test:
+    executor: ruby
+    steps:
+      - checkout
+      - run: bundle install
+      - run: bundle exec rspec
+      - run:
+          name: integrate with testsuite
+          command: |
+            circleci run testsuite 'integration test' --test-analysis=all
+            cat coverage.json | jq --sort-keys > coveragetmp.json
+            mv coveragetmp.json coverage.json
+
+            if git diff --exit-code; then
+              echo "Coverage JSON up to date"
+            else
+              echo "Regenerate coverage JSON and check in the changes (See README.md)"
+              exit 1
+            fi
+      - store_artifacts:
+          path: junit/
+      - store_test_results:
+          path: junit/
+
+workflows:
+  main-workflow:
+    jobs:
+      - test
