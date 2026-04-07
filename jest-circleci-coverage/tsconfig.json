@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     /* Base Options: */
+    "rootDir": "src",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "target": "ES2020",
