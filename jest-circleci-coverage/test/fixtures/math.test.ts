@@ -1,4 +1,4 @@
-import { add, subtract, multiply, divide } from './math.ts';
+import { add, subtract, multiply, divide } from './math';
 
 describe('math', () => {
   it('should add two numbers', () => {
