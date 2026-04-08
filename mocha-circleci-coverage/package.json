@@ -21,7 +21,7 @@
     "oxlint": "^1.43.0",
     "prettier": "^3.8.1",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.0"
   },
   "dependencies": {
     "@circleci/v8-coverage-collector": "npm:@jsr/circleci__v8-coverage-collector@0.1.2"
