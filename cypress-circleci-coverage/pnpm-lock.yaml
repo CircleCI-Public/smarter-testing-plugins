@@ -42,7 +42,7 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
       webpack:
-        specifier: ^5.105.2
+        specifier: ^5.106.0
         version: 5.106.0
 
 packages:
