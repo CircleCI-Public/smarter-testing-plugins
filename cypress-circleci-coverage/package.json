@@ -29,7 +29,7 @@
     "babel-loader": "^10.1.1",
     "babel-plugin-istanbul": "^7.0.1",
     "cypress": "^15.13.1",
-    "oxlint": "^1.48.0",
+    "oxlint": "^1.59.0",
     "prettier": "^3.8.1",
     "typescript": "^5.9.3",
     "webpack": "^5.106.0"
