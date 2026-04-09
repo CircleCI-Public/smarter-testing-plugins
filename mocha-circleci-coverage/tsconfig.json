@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     /* Base Options: */
+    "rootDir": "src",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "target": "ES2020",
@@ -11,6 +12,7 @@
     "rewriteRelativeImportExtensions": true,
     "lib": ["ES2020"],
     "verbatimModuleSyntax": true,
+    "types": ["node", "mocha"],
 
     /* Transpilation */
     "module": "node18",
