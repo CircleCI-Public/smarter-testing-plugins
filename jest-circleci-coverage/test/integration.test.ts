@@ -14,7 +14,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = resolve(__dirname, '..');
 const fixturesDir = resolve(__dirname, 'fixtures');
 const outputDir = resolve(__dirname, 'output');
-const environmentPath = resolve(projectRoot, 'dist/environment.js');
+const environmentPath = resolve(projectRoot, 'dist/environment-node.js');
 const reporterPath = resolve(projectRoot, 'dist/reporter.js');
 
 function runJest(env: Record<string, string | undefined> = {}): void {
@@ -122,59 +122,56 @@ describe('circleci-coverage integration', () => {
   });
 });
 
-describe('circleci-coverage integration (jsdom)', () => {
-  const browserFixturesDir = resolve(__dirname, 'fixtures-browser');
-  const jsdomEnvironmentPath = resolve(
-    projectRoot,
-    'dist/environment-jsdom.js',
-  );
+const browserFixturesDir = resolve(__dirname, 'fixtures-browser');
+const jsdomEnvironmentPath = resolve(projectRoot, 'dist/environment-jsdom.js');
 
-  function runJestJSDOM(env: Record<string, string | undefined> = {}): void {
-    const configFile = resolve(outputDir, 'jest.config.jsdom.cjs');
-    const configContent = `
+function runJestJSDOM(env: Record<string, string | undefined> = {}): void {
+  const configFile = resolve(outputDir, 'jest.config.jsdom.cjs');
+  const configContent = `
 const { createDefaultEsmPreset } = require('ts-jest');
 const { transform, extensionsToTreatAsEsm } = createDefaultEsmPreset();
 
 /** @type {import('jest').Config} */
 const config = {
-  verbose: true,
-  rootDir: '${browserFixturesDir}',
-  testEnvironment: '${jsdomEnvironmentPath}',
-  reporters: ['default', '${reporterPath}'],
-  setupFilesAfterEnv: ['@testing-library/jest-dom'],
-  extensionsToTreatAsEsm,
-  transform,
+verbose: true,
+rootDir: '${browserFixturesDir}',
+testEnvironment: '${jsdomEnvironmentPath}',
+reporters: ['default', '${reporterPath}'],
+setupFilesAfterEnv: ['@testing-library/jest-dom'],
+extensionsToTreatAsEsm,
+transform,
 };
 
 module.exports = config;
 `;
-    writeFileSync(configFile, configContent);
+  writeFileSync(configFile, configContent);
 
-    const childEnv: Record<string, string> = { ...process.env } as Record<
-      string,
-      string
-    >;
-    for (const [key, value] of Object.entries(env)) {
-      if (value === undefined) {
-        delete childEnv[key];
-      } else {
-        childEnv[key] = value;
-      }
+  const childEnv: Record<string, string> = { ...process.env } as Record<
+    string,
+    string
+  >;
+  for (const [key, value] of Object.entries(env)) {
+    if (value === undefined) {
+      delete childEnv[key];
+    } else {
+      childEnv[key] = value;
     }
-
-    execSync(
-      `pnpm jest --config="${configFile}" --no-cache --silent=false --useStderr`,
-      {
-        cwd: projectRoot,
-        stdio: 'pipe',
-        env: {
-          ...childEnv,
-          NODE_OPTIONS: '--experimental-vm-modules',
-        },
-      },
-    );
   }
 
+  execSync(
+    `pnpm jest --config="${configFile}" --no-cache --silent=false --useStderr`,
+    {
+      cwd: projectRoot,
+      stdio: 'pipe',
+      env: {
+        ...childEnv,
+        NODE_OPTIONS: '--experimental-vm-modules',
+      },
+    },
+  );
+}
+
+describe('circleci-coverage integration (jsdom)', () => {
   beforeEach(() => {
     if (existsSync(outputDir)) {
       rmSync(outputDir, { recursive: true });
