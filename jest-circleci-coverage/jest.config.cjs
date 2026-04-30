@@ -8,7 +8,11 @@ const config = {
   testEnvironment: 'node',
   transform,
   extensionsToTreatAsEsm,
-  testPathIgnorePatterns: ['/node_modules/', 'test/fixtures/'],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    'test/fixtures/',
+    'test/fixtures-browser/',
+  ],
 };
 
 module.exports = config;

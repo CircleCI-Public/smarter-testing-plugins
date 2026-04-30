@@ -5,6 +5,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./environment": "./src/environment.ts",
+    "./environment-jsdom": "./src/environment-jsdom.ts",
     "./reporter": "./src/reporter.ts"
   },
   "publish": {
