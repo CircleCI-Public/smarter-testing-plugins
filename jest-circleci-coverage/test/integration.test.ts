@@ -81,7 +81,7 @@ describe('circleci-coverage integration', () => {
       // the tests, and has to call the functions to capture coverage.
       // This doesn't happen with the installed plugin because files
       // in `node_modules` are omitted from results.
-      'dist/environment.js': {
+      'dist/coverage-environment.js': {
         'test/fixtures/math.test.ts::should add two numbers|run': [1],
         'test/fixtures/math.test.ts::should divide two numbers|run': [1],
         'test/fixtures/math.test.ts::should multiply two numbers|run': [1],
@@ -200,7 +200,7 @@ module.exports = config;
     const output = JSON.parse(readFileSync(outputFile, 'utf-8'));
 
     expect(output).toEqual({
-      'dist/environment-jsdom.js': {
+      'dist/coverage-environment.js': {
         'test/fixtures-browser/counter.test.ts::increments when clicked|run': [
           1,
         ],

@@ -1,5 +1,5 @@
 {
-  "dist/environment.js": {
+  "dist/coverage-environment.js": {
     "test/integration.test.ts::should not produce output or capture coverage when disabled|run": [
       1
     ],
