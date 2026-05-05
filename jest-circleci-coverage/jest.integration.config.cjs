@@ -1,7 +1,7 @@
 const { resolve } = require('node:path');
 const { createDefaultEsmPreset } = require('ts-jest');
 
-const environmentPath = resolve(__dirname, './dist/environment.js');
+const environmentPath = resolve(__dirname, './dist/environment-node.js');
 const reporterPath = resolve(__dirname, './dist/reporter.js');
 const { transform, extensionsToTreatAsEsm } = createDefaultEsmPreset();
 

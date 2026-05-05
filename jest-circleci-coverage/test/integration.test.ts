@@ -14,7 +14,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = resolve(__dirname, '..');
 const fixturesDir = resolve(__dirname, 'fixtures');
 const outputDir = resolve(__dirname, 'output');
-const environmentPath = resolve(projectRoot, 'dist/environment.js');
+const environmentPath = resolve(projectRoot, 'dist/environment-node.js');
 const reporterPath = resolve(projectRoot, 'dist/reporter.js');
 
 function runJest(env: Record<string, string | undefined> = {}): void {
@@ -81,7 +81,7 @@ describe('circleci-coverage integration', () => {
       // the tests, and has to call the functions to capture coverage.
       // This doesn't happen with the installed plugin because files
       // in `node_modules` are omitted from results.
-      'dist/environment.js': {
+      'dist/coverage-environment.js': {
         'test/fixtures/math.test.ts::should add two numbers|run': [1],
         'test/fixtures/math.test.ts::should divide two numbers|run': [1],
         'test/fixtures/math.test.ts::should multiply two numbers|run': [1],
@@ -115,6 +115,116 @@ describe('circleci-coverage integration', () => {
 
   it('should not produce output or capture coverage when disabled', () => {
     runJest({ CIRCLECI_COVERAGE: undefined });
+
+    const files = existsSync(outputDir) ? readdirSync(outputDir) : [];
+    const jsonFiles = files.filter((f) => f.endsWith('.json'));
+    expect(jsonFiles).toEqual([]);
+  });
+});
+
+const browserFixturesDir = resolve(__dirname, 'fixtures-browser');
+const jsdomEnvironmentPath = resolve(projectRoot, 'dist/environment-jsdom.js');
+
+function runJestJSDOM(env: Record<string, string | undefined> = {}): void {
+  const configFile = resolve(outputDir, 'jest.config.jsdom.cjs');
+  const configContent = `
+const { createDefaultEsmPreset } = require('ts-jest');
+const { transform, extensionsToTreatAsEsm } = createDefaultEsmPreset();
+
+/** @type {import('jest').Config} */
+const config = {
+verbose: true,
+rootDir: '${browserFixturesDir}',
+testEnvironment: '${jsdomEnvironmentPath}',
+reporters: ['default', '${reporterPath}'],
+setupFilesAfterEnv: ['@testing-library/jest-dom'],
+extensionsToTreatAsEsm,
+transform,
+};
+
+module.exports = config;
+`;
+  writeFileSync(configFile, configContent);
+
+  const childEnv: Record<string, string> = { ...process.env } as Record<
+    string,
+    string
+  >;
+  for (const [key, value] of Object.entries(env)) {
+    if (value === undefined) {
+      delete childEnv[key];
+    } else {
+      childEnv[key] = value;
+    }
+  }
+
+  execSync(
+    `pnpm jest --config="${configFile}" --no-cache --silent=false --useStderr`,
+    {
+      cwd: projectRoot,
+      stdio: 'pipe',
+      env: {
+        ...childEnv,
+        NODE_OPTIONS: '--experimental-vm-modules',
+      },
+    },
+  );
+}
+
+describe('circleci-coverage integration (jsdom)', () => {
+  beforeEach(() => {
+    if (existsSync(outputDir)) {
+      rmSync(outputDir, { recursive: true });
+    }
+    mkdirSync(outputDir, { recursive: true });
+  });
+
+  afterAll(() => {
+    if (existsSync(outputDir)) {
+      rmSync(outputDir, { recursive: true });
+    }
+  });
+
+  it('should produce coverage output when enabled', () => {
+    const outputFile = resolve(outputDir, 'coverage-jsdom.json');
+    const tmpCoverageDir = join(outputDir, 'coverage-jsdom');
+    runJestJSDOM({
+      CIRCLECI_COVERAGE: outputFile,
+      TMP_COVERAGE_DIR: tmpCoverageDir,
+    });
+
+    expect(existsSync(outputFile)).toBe(true);
+    const output = JSON.parse(readFileSync(outputFile, 'utf-8'));
+
+    expect(output).toEqual({
+      'dist/coverage-environment.js': {
+        'test/fixtures-browser/counter.test.ts::increments when clicked|run': [
+          1,
+        ],
+        'test/fixtures-browser/counter2.test.ts::increments twice when clicked twice|run':
+          [1],
+      },
+      'test/fixtures-browser/counter.test.ts': {
+        'test/fixtures-browser/counter.test.ts::increments when clicked|run': [
+          1,
+        ],
+      },
+      'test/fixtures-browser/counter2.test.ts': {
+        'test/fixtures-browser/counter2.test.ts::increments twice when clicked twice|run':
+          [1],
+      },
+      'test/fixtures-browser/counter.ts': {
+        'test/fixtures-browser/counter.test.ts::increments when clicked|run': [
+          1,
+        ],
+        'test/fixtures-browser/counter2.test.ts::increments twice when clicked twice|run':
+          [1],
+      },
+    });
+  });
+
+  it('should not produce output or capture coverage when disabled', () => {
+    runJestJSDOM({ CIRCLECI_COVERAGE: undefined });
 
     const files = existsSync(outputDir) ? readdirSync(outputDir) : [];
     const jsonFiles = files.filter((f) => f.endsWith('.json'));

@@ -25,7 +25,26 @@ import type {Config} from 'jest';
 const tsJestTransformCfg = createDefaultPreset().transform;
 
 const config: Config = {
-  testEnvironment: '@circleci/jest-circleci-coverage/environment',
+  testEnvironment: '@circleci/jest-circleci-coverage/environment-node',
+  reporters: ['default', '@circleci/jest-circleci-coverage/reporter'],
+  transform: {
+    ...tsJestTransformCfg,
+  },
+};
+
+export default config;
+```
+
+For browser-like tests (e.g. React Testing Library), use the JSDOM-based environment:
+
+```ts
+import {createDefaultPreset} from 'ts-jest';
+import type {Config} from 'jest';
+
+const tsJestTransformCfg = createDefaultPreset().transform;
+
+const config: Config = {
+  testEnvironment: '@circleci/jest-circleci-coverage/environment-jsdom',
   reporters: ['default', '@circleci/jest-circleci-coverage/reporter'],
   transform: {
     ...tsJestTransformCfg,

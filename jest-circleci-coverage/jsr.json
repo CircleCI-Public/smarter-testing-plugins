@@ -4,7 +4,9 @@
   "license": "MIT",
   "exports": {
     ".": "./src/index.ts",
-    "./environment": "./src/environment.ts",
+    "./environment": "./src/environment-node.ts",
+    "./enrironment-node": "./src/environment-node.ts",
+    "./environment-jsdom": "./src/environment-jsdom.ts",
     "./reporter": "./src/reporter.ts"
   },
   "publish": {
