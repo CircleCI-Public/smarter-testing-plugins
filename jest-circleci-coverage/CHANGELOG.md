@@ -5,6 +5,19 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-05-07
+
+### Added
+
+- `environment-jsdom` package subpath for JSDOM / browser-style tests (for example React Testing Library).
+- Documentation for new environment `@circleci/jest-circleci-coverage/environment-jsdom`
+
+### Changed
+
+- Split Node and JSDOM test environment implementations; `@circleci/jest-circleci-coverage/environment` still resolves to the Node environment.
+
+### Fixed
+
 ## [0.1.3] - 2026-02-17
 
 ### Added
