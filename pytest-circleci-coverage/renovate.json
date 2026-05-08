@@ -1,4 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["local>circleci/renovate-config", "local>circleci/renovate-config:automerge-non-major"]
+  "extends": ["local>circleci/renovate-config", "github>circleci/renovate-config:automerge-non-major"]
 }
