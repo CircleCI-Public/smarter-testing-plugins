@@ -1,4 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["local>circleci/renovate-config", "github>circleci/renovate-config:automerge-non-major"]
+  "extends": ["config:recommended"],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchCurrentVersion": "!/^0/",
+      "automerge": true,
+      "automergeSchedule": [
+        "* 8-14 * * 1-5"
+      ]
+    }
+  ]
 }
