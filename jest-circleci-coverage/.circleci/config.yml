@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  cloudsmith: https://raw.githubusercontent.com/circleci/backplane-cicd/main/orbs/cloudsmith.yml
+
 executors:
   node:
     docker:
@@ -41,6 +44,8 @@ jobs:
     executor: node
     steps:
       - checkout
+      - cloudsmith/configure:
+          npm: true
       - run: pnpm install
       - run: pnpm lint
       - run: pnpm format
@@ -49,6 +54,8 @@ jobs:
     executor: node
     steps:
       - checkout
+      - cloudsmith/configure:
+          npm: true
       - run: pnpm install
       - run: pnpm build
       - run: pnpm test
@@ -72,6 +79,8 @@ jobs:
     executor: node
     steps:
       - checkout
+      - cloudsmith/configure:
+          npm: true
       - check_version
       - run:
           name: build
@@ -84,6 +93,8 @@ jobs:
     executor: node
     steps:
       - checkout
+      - cloudsmith/configure:
+          npm: true
       - check_version
       - run:
           name: build
