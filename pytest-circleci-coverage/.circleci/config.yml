@@ -7,6 +7,7 @@ executors:
   python:
     docker:
       - image: python:3.12
+    resource_class: medium.gen2
 
 jobs:
   test:
