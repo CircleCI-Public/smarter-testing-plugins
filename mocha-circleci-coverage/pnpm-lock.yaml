@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  minimatch: 9.0.7
-
 importers:
 
   .:
@@ -32,7 +29,7 @@ importers:
         version: 1.59.0
       prettier:
         specifier: ^3.8.1
-        version: 3.8.1
+        version: 3.8.3
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
@@ -680,8 +677,8 @@ packages:
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
-  prettier@3.8.1:
-    resolution: {integrity: sha512-UOnG6LftzbdaHZcKoPFtOcCKztrQ57WkHDeRD9t/PTQtmT0NHSeWWepj6pS0z/N7+08BHFDQVUrfmfMRcZwbMg==}
+  prettier@3.8.3:
+    resolution: {integrity: sha512-7igPTM53cGHMW8xWuVTydi2KO233VFiTNyF5hLJqpilHfmn8C8gPf+PS7dUT64YcXFbiMGZxS9pCSxL/Dxm/Jw==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -1293,7 +1290,7 @@ snapshots:
 
   picocolors@1.1.1: {}
 
-  prettier@3.8.1: {}
+  prettier@3.8.3: {}
 
   randombytes@2.1.0:
     dependencies:
