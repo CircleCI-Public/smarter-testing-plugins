@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  jq: circleci/jq@3
+  jq: circleci/jq@3.1.0
   cloudsmith: https://raw.githubusercontent.com/circleci/backplane-cicd/main/orbs/cloudsmith.yml
 
 executors:
