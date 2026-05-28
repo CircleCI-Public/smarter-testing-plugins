@@ -13,7 +13,28 @@ Install the plugin.
 
 ```shell
 pnpm add -D jsr:@circleci/jest-circleci-coverage
+```
 
+The Jest test environment is a peer dependency — you need to install it yourself,
+matching whichever environment you plan to use. The plugin supports Jest 28, 29, and 30.
+
+For Node-based tests:
+
+```shell
+pnpm add -D jest jest-environment-node
+```
+
+For browser-like tests (e.g. React Testing Library) install the JSDOM environment instead:
+
+```shell
+pnpm add -D jest jest-environment-jsdom
+```
+
+To pin a specific major (for example to stay on Jest 29 while a newer version exists),
+pass an explicit version range:
+
+```shell
+pnpm add -D jest@^29 jest-environment-node@^29
 ```
 
 Add the custom runner and reporter to your `jest.config.ts`:
