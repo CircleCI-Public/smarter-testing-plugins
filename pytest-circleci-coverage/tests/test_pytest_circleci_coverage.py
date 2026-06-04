@@ -26,6 +26,45 @@ def test_files(testdir):
         """
     )
 
+    testdir.makepyfile(
+        src_a="""
+            def helper():
+                return 1
+        """
+    )
+
+    testdir.makepyfile(
+        src_b="""
+            def helper():
+                return 2
+        """
+    )
+
+    testdir.makepyfile(
+        test_one="""
+            import src_a
+            import src_b
+
+            def test_a1():
+                assert src_a.helper() == 1
+                assert src_b.helper() == 2
+
+            def test_a2():
+                assert src_a.helper() == 1
+        """
+    )
+
+    testdir.makepyfile(
+        test_two="""
+            import src_a
+            import src_b
+
+            def test_b1():
+                assert src_a.helper() == 1
+                assert src_b.helper() == 2
+        """
+    )
+
 
 def test_pytest_sessionfinish_success(test_files, testdir, pytester):
     pytester.plugins.append("pytest_circleci_coverage")
@@ -34,12 +73,28 @@ def test_pytest_sessionfinish_success(test_files, testdir, pytester):
     result = testdir.runpytest_subprocess(
         "--cov", "--cov-context=test", f"--circleci-coverage={coverage_file}"
     )
-    result.assert_outcomes(passed=1)
+    result.assert_outcomes(passed=4)
     assert result.stderr.str() == ""
 
     expected = {
         "src_file.py": {"test_file.py::test_print_hello_world|run": [2]},
         "test_file.py": {"test_file.py::test_print_hello_world|run": [6, 7, 8, 9]},
+        "src_a.py": {
+            "test_one.py::test_a1|run": [2],
+            "test_one.py::test_a2|run": [2],
+            "test_two.py::test_b1|run": [2],
+        },
+        "src_b.py": {
+            "test_one.py::test_a1|run": [2],
+            "test_two.py::test_b1|run": [2],
+        },
+        "test_one.py": {
+            "test_one.py::test_a1|run": [5, 6],
+            "test_one.py::test_a2|run": [9],
+        },
+        "test_two.py": {
+            "test_two.py::test_b1|run": [5, 6],
+        },
     }
 
     coverage = json.loads(coverage_file.read_text(encoding="utf-8"))
@@ -54,7 +109,7 @@ def test_pytest_sessionfinish_no_flag(test_files, testdir, pytester):
     pytester.plugins.append("pytest_circleci_coverage")
 
     result = testdir.runpytest_subprocess()
-    result.assert_outcomes(passed=1)
+    result.assert_outcomes(passed=4)
     assert result.stderr.str() == ""
 
 

@@ -9,6 +9,22 @@ def pytest_addoption(parser):
     parser.addoption("--circleci-coverage", dest="circleci-coverage")
 
 
+def _restart_monitoring_events(config):
+    # coverage.py's sys.monitoring core (default on Python 3.14+) returns
+    # DISABLE from its LINE callback, which silences each (code, lineno) after
+    # the first hit. Re-enable events at each test setup so that all context
+    # are recorded.
+    if not config.getoption("circleci-coverage", default=None):
+        return
+    monitoring = getattr(sys, "monitoring", None)
+    if monitoring is not None:
+        monitoring.restart_events()
+
+
+def pytest_runtest_setup(item):
+    _restart_monitoring_events(item.config)
+
+
 def pytest_sessionfinish(session):
     try:
         output_path = session.config.getoption("circleci-coverage")
@@ -38,7 +54,7 @@ def pytest_sessionfinish(session):
             rev = {}
             for lineno, contexts in contexts.items():
                 for context in contexts:
-                    if context:
+                    if context and context.endswith("|run"):
                         rev.setdefault(context, []).append(lineno)
                         has_contexts = True
 
