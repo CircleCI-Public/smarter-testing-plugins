@@ -1,9 +1,16 @@
 name: integration test
-## Only run the integration test.
-discover: echo 'test/integration.test.ts'
+# Only run the integration tests.
+discover: find ./test -type f -name '*.test.ts' | grep integration
 run: mocha --config .mocharc.integration.cjs << test.atoms >>
 analysis: CIRCLECI_COVERAGE=<< outputs.circleci-coverage >> mocha --config .mocharc.integration.cjs << test.atoms >>
 outputs:
+  # Note that `outputs.circleci-coverage` does not need to be defined in most
+  # cases. The testsuite command will auto-generate a value which is sufficient
+  # for performing analysis.
+  #
+  # Since this package is tooling to produce the coverage output for the
+  # testsuite command, we need to be able to make assertions against the
+  # coverage content after the testsuite has run and produced the output.
   circleci-coverage: coverage.json
 options:
   test-impact-analysis: true
