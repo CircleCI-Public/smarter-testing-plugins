@@ -10,16 +10,21 @@ executors:
       - image: python:3.14
     resource_class: medium.gen2
 
-jobs:
-  test:
-    executor: python
+commands:
+  setup:
     steps:
-      - jq/install
       - checkout
+      - jq/install
       - cloudsmith/configure:
           pip: true
       - run: python -m pip install -r dev-requirements.txt
       - run: python -m pip install --editable .
+
+jobs:
+  test:
+    executor: python
+    steps:
+      - setup
       - run: pytest
       - run:
           name: integrate with testsuite
@@ -39,7 +44,18 @@ jobs:
       - store_test_results:
           path: test-reports/
 
+  test-classnames:
+    executor: python
+    steps:
+      - setup
+      - run: circleci run testsuite "test classnames" --verbose
+      - store_artifacts:
+          path: test-reports/
+      - store_test_results:
+          path: test-reports/
+
 workflows:
   main-workflow:
     jobs:
       - test
+      - test-classnames
