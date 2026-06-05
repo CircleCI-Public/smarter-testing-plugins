@@ -1,6 +1,6 @@
 name: ci tests
 discover: vitest list --filesOnly
-run: vitest run --reporter=junit --outputFile="<< outputs.junit >>" --silent --bail 0 << test.atoms >>
+run: vitest run --reporter=junit --outputFile="<< outputs.junit >>" --bail 0 << test.atoms >>
 analysis: |
   CIRCLECI_COVERAGE=<< outputs.circleci-coverage >> vitest run \
     --config="vitest.integration.config.ts" \
