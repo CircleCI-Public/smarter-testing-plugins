@@ -7,6 +7,13 @@ analysis: |
   SPECS="$(echo << test.atoms >> | tr ' ' ',')"
   CIRCLECI_COVERAGE=<<outputs.circleci-coverage>> cypress run  --config-file cypress.integration.config.ts --spec "$SPECS"
 outputs:
+  # Note that `outputs.circleci-coverage` does not need to be defined in most
+  # cases. The testsuite command will auto-generate a value which is sufficient
+  # for performing analysis.
+  #
+  # Since this package is tooling to produce the coverage output for the
+  # testsuite command, we need to be able to make assertions against the
+  # coverage content after the testsuite has run and produced the output.
   circleci-coverage: coverage.json
 options:
   test-impact-analysis: true
