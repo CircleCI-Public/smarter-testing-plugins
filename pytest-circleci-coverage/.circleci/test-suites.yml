@@ -12,3 +12,19 @@ outputs:
   circleci-coverage: coverage.json
 options:
   test-impact-analysis: true
+---
+name: test classnames
+discover: pytest --collect-only -q ./tests | grep '::'
+run: pytest --disable-pytest-warnings --junit-xml="<< outputs.junit >>" << test.atoms >>
+file-mapper: printf '%s\n' << test.atoms >> | sed -E 's/::.*$//'
+analysis: |
+  pytest --disable-pytest-warnings \
+         --cov \
+         --cov-context=test \
+         --circleci-coverage=<< outputs.circleci-coverage >> \
+         << test.atoms >>
+outputs:
+  ## See tests/conftest.py for generated classnames in JUnit.
+  junit: test-reports/tests.xml
+options:
+  test-impact-analysis: true
