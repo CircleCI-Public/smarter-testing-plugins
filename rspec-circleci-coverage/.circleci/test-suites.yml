@@ -4,6 +4,13 @@ run: bundle exec rspec  --format RspecJunitFormatter --out << outputs.junit >> <
 analysis: CIRCLECI_COVERAGE=<< outputs.circleci-coverage >> bundle exec rspec << test.atoms >>
 outputs:
   junit: junit/results.xml
+  # Note that `outputs.circleci-coverage` does not need to be defined in most
+  # cases. The testsuite command will auto-generate a value which is sufficient
+  # for performing analysis.
+  #
+  # Since this package is tooling to produce the coverage output for the
+  # testsuite command, we need to be able to make assertions against the
+  # coverage content after the testsuite has run and produced the output.
   circleci-coverage: coverage.json
 options:
   test-impact-analysis: true
