@@ -1,13 +1,20 @@
 {
   "name": "@circleci/jest-circleci-coverage",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "license": "MIT",
   "exports": {
     ".": "./src/index.ts",
     "./environment": "./src/environment-node.ts",
-    "./enrironment-node": "./src/environment-node.ts",
+    "./environment-node": "./src/environment-node.ts",
     "./environment-jsdom": "./src/environment-jsdom.ts",
     "./reporter": "./src/reporter.ts"
+  },
+  "imports": {
+    "jest-environment-node": "npm:jest-environment-node@^30.0.0",
+    "jest-environment-jsdom": "npm:jest-environment-jsdom@^30.0.0",
+    "@jest/environment": "npm:@jest/environment@^30.0.0",
+    "@jest/types": "npm:@jest/types@^30.0.0",
+    "@jest/reporters": "npm:@jest/reporters@^30.0.0"
   },
   "publish": {
     "include": [

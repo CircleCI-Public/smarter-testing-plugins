@@ -1,6 +1,6 @@
 {
   "name": "jest-circleci-coverage",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A Jest plugin that generates coverage data for CircleCI's Smarter Testing.",
   "type": "module",
   "main": "src/index.ts",
