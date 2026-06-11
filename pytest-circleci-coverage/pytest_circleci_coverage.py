@@ -7,10 +7,11 @@ from coverage import CoverageData
 
 def _format_context(context):
     # context: "nodeid|phase" e.g. "src/foo.py::TestClass::test_fn[p]|run"
-    # output:  "testfile!!nodeid|phase"
+    # output:  "src/foo.py!!src/foo.py::TestClass!!src/foo.py::TestClass::test_fn[p]|run"
     nodeid, phase = context.rsplit("|", 1)
-    testfile = nodeid.split("::")[0]
-    return f"{testfile}!!{nodeid}|{phase}"
+    parts = nodeid.split("::")
+    key = "!!".join("::".join(parts[: i + 1]) for i in range(len(parts)))
+    return f"{key}|{phase}"
 
 
 def pytest_addoption(parser):
