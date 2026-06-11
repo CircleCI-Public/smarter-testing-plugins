@@ -5,6 +5,14 @@ import sys
 from coverage import CoverageData
 
 
+def _format_context(context):
+    # context: "nodeid|phase" e.g. "src/foo.py::TestClass::test_fn[p]|run"
+    # output:  "testfile!!nodeid|phase"
+    nodeid, phase = context.rsplit("|", 1)
+    testfile = nodeid.split("::")[0]
+    return f"{testfile}!!{nodeid}|{phase}"
+
+
 def pytest_addoption(parser):
     parser.addoption("--circleci-coverage", dest="circleci-coverage")
 
@@ -55,7 +63,8 @@ def pytest_sessionfinish(session):
             for lineno, contexts in contexts.items():
                 for context in contexts:
                     if context and context.endswith("|run"):
-                        rev.setdefault(context, []).append(lineno)
+                        key = _format_context(context)
+                        rev.setdefault(key, []).append(lineno)
                         has_contexts = True
 
             if rev:

@@ -77,23 +77,23 @@ def test_pytest_sessionfinish_success(test_files, testdir, pytester):
     assert result.stderr.str() == ""
 
     expected = {
-        "src_file.py": {"test_file.py::test_print_hello_world|run": [2]},
-        "test_file.py": {"test_file.py::test_print_hello_world|run": [6, 7, 8, 9]},
+        "src_file.py": {"test_file.py!!test_file.py::test_print_hello_world|run": [2]},
+        "test_file.py": {"test_file.py!!test_file.py::test_print_hello_world|run": [6, 7, 8, 9]},
         "src_a.py": {
-            "test_one.py::test_a1|run": [2],
-            "test_one.py::test_a2|run": [2],
-            "test_two.py::test_b1|run": [2],
+            "test_one.py!!test_one.py::test_a1|run": [2],
+            "test_one.py!!test_one.py::test_a2|run": [2],
+            "test_two.py!!test_two.py::test_b1|run": [2],
         },
         "src_b.py": {
-            "test_one.py::test_a1|run": [2],
-            "test_two.py::test_b1|run": [2],
+            "test_one.py!!test_one.py::test_a1|run": [2],
+            "test_two.py!!test_two.py::test_b1|run": [2],
         },
         "test_one.py": {
-            "test_one.py::test_a1|run": [5, 6],
-            "test_one.py::test_a2|run": [9],
+            "test_one.py!!test_one.py::test_a1|run": [5, 6],
+            "test_one.py!!test_one.py::test_a2|run": [9],
         },
         "test_two.py": {
-            "test_two.py::test_b1|run": [5, 6],
+            "test_two.py!!test_two.py::test_b1|run": [5, 6],
         },
     }
 
