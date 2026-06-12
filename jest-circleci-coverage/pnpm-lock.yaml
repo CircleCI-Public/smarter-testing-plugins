@@ -12,8 +12,8 @@ importers:
   .:
     dependencies:
       '@circleci/v8-coverage-collector':
-        specifier: npm:@jsr/circleci__v8-coverage-collector@0.1.2
-        version: '@jsr/circleci__v8-coverage-collector@0.1.2'
+        specifier: npm:@jsr/circleci__v8-coverage-collector@0.2.0
+        version: '@jsr/circleci__v8-coverage-collector@0.2.0'
       jest:
         specifier: '>=28.0.0 <31.0.0'
         version: 28.1.3(@types/node@25.9.3)(ts-node@10.9.2(@types/node@25.9.3)(typescript@6.0.3))
@@ -655,8 +655,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
-  '@jsr/circleci__v8-coverage-collector@0.1.2':
-    resolution: {integrity: sha512-G8mWJYsEP1QG2+fmbsu7CA6uiHzo7OH2Zx/VIMZD6SKD372VuYOfvEBfzY4Am9+cVudZMAfxjudN/69f+YaMDw==, tarball: https://npm.jsr.io/~/11/@jsr/circleci__v8-coverage-collector/0.1.2.tgz}
+  '@jsr/circleci__v8-coverage-collector@0.2.0':
+    resolution: {integrity: sha512-HCA6i5KCrjbffAmpOt2DUJJaf4k7h62u1NZQuf/tx9k+d9mBfNd7RNkiP9lDt5OCmuyrbM/6ZFkp6rCCIr642g==, tarball: https://npm.jsr.io/~/11/@jsr/circleci__v8-coverage-collector/0.2.0.tgz}
 
   '@napi-rs/wasm-runtime@0.2.12':
     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
@@ -3982,7 +3982,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@jsr/circleci__v8-coverage-collector@0.1.2': {}
+  '@jsr/circleci__v8-coverage-collector@0.2.0': {}
 
   '@napi-rs/wasm-runtime@0.2.12':
     dependencies:
