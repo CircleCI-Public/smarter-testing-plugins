@@ -1,4 +1,6 @@
 allowBuilds:
   esbuild: false
+minimumReleaseAgeExclude:
+  - '@jsr/circleci__v8-coverage-collector@0.2.0'
 overrides:
   minimatch: "10.2.5"
