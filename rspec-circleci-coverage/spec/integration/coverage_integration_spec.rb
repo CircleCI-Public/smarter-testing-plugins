@@ -128,11 +128,11 @@ RSpec.describe 'RSpec CircleCI Coverage Integration' do
       # Only method bodies are tracked (not class/method definitions)
       expected_coverage = {
         "lib/math.rb" => {
-          "spec/math_spec.rb::Math adds two numbers|run" => [4],
-          "spec/math_spec.rb::Math subtracts two numbers|run" => [8],
-          "spec/math_spec.rb::Math multiplies two numbers|run" => [12],
-          "spec/math_spec.rb::Math divides two numbers|run" => [16, 17],
-          "spec/math2_spec.rb::Math2 adds and multiplies two numbers|run" => [4, 12],
+          "spec/math_spec.rb!!Math adds two numbers|run" => [4],
+          "spec/math_spec.rb!!Math subtracts two numbers|run" => [8],
+          "spec/math_spec.rb!!Math multiplies two numbers|run" => [12],
+          "spec/math_spec.rb!!Math divides two numbers|run" => [16, 17],
+          "spec/math2_spec.rb!!Math2 adds and multiplies two numbers|run" => [4, 12],
         },
       }
 

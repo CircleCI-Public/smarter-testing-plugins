@@ -119,7 +119,7 @@ module RSpec
         # Clean path to remove ./ and other redundant components
         file_path = Pathname.new(file_path).cleanpath.to_s if file_path
         description = example.full_description
-        "#{file_path}::#{description}|run"
+        "#{file_path}!!#{description}|run"
       end
 
       def relative_path(file)
