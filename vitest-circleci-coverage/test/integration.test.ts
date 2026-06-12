@@ -76,30 +76,30 @@ describe('circleci-coverage integration', () => {
       // This doesn't happen with the installed plugin because files
       // in `node_modules` are omitted from results.
       '../../src/runner.ts': {
-        'math.test.ts::should add two numbers|run': [1],
-        'math.test.ts::should divide two numbers|run': [1],
-        'math.test.ts::should multiply two numbers|run': [1],
-        'math.test.ts::should subtract two numbers|run': [1],
-        'math.test.ts::should throw on division by zero|run': [1],
-        'math2.test.ts::should add and multiply two numbers|run': [1],
+        'math.test.ts!!should add two numbers|run': [1],
+        'math.test.ts!!should divide two numbers|run': [1],
+        'math.test.ts!!should multiply two numbers|run': [1],
+        'math.test.ts!!should subtract two numbers|run': [1],
+        'math.test.ts!!should throw on division by zero|run': [1],
+        'math2.test.ts!!should add and multiply two numbers|run': [1],
       },
       'math.ts': {
-        'math.test.ts::should add two numbers|run': [1],
-        'math.test.ts::should subtract two numbers|run': [1],
-        'math.test.ts::should multiply two numbers|run': [1],
-        'math.test.ts::should divide two numbers|run': [1],
-        'math.test.ts::should throw on division by zero|run': [1],
-        'math2.test.ts::should add and multiply two numbers|run': [1],
+        'math.test.ts!!should add two numbers|run': [1],
+        'math.test.ts!!should subtract two numbers|run': [1],
+        'math.test.ts!!should multiply two numbers|run': [1],
+        'math.test.ts!!should divide two numbers|run': [1],
+        'math.test.ts!!should throw on division by zero|run': [1],
+        'math2.test.ts!!should add and multiply two numbers|run': [1],
       },
       'math.test.ts': {
-        'math.test.ts::should add two numbers|run': [1],
-        'math.test.ts::should subtract two numbers|run': [1],
-        'math.test.ts::should multiply two numbers|run': [1],
-        'math.test.ts::should divide two numbers|run': [1],
-        'math.test.ts::should throw on division by zero|run': [1],
+        'math.test.ts!!should add two numbers|run': [1],
+        'math.test.ts!!should subtract two numbers|run': [1],
+        'math.test.ts!!should multiply two numbers|run': [1],
+        'math.test.ts!!should divide two numbers|run': [1],
+        'math.test.ts!!should throw on division by zero|run': [1],
       },
       'math2.test.ts': {
-        'math2.test.ts::should add and multiply two numbers|run': [1],
+        'math2.test.ts!!should add and multiply two numbers|run': [1],
       },
     });
   });
