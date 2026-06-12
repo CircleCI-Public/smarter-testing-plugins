@@ -115,7 +115,7 @@ export default function cypressCircleCICoverage(
     const output: CypressCircleCICoverageOutput = {};
 
     for (const { coveredFiles, title, specPath } of allCoverage) {
-      const testKey = `${specPath}::${title}|run`;
+      const testKey = `${specPath}!!${title}|run`;
 
       for (const absolutePath of coveredFiles) {
         const filePath = relative(cwd, absolutePath);
