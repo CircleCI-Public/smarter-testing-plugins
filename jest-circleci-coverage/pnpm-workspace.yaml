@@ -1,2 +1,4 @@
+minimumReleaseAgeExclude:
+  - '@jsr/circleci__v8-coverage-collector@0.2.0'
 overrides:
   picomatch: '>=4.0.4'

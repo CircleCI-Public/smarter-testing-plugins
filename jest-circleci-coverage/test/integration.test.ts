@@ -112,38 +112,38 @@ describe.each(jestMatrix)(
         // This doesn't happen with the installed plugin because files
         // in `node_modules` are omitted from results.
         'dist/coverage-environment.js': {
-          'test/fixtures/math.test.ts::should add two numbers|run': [1],
-          'test/fixtures/math.test.ts::should divide two numbers|run': [1],
-          'test/fixtures/math.test.ts::should multiply two numbers|run': [1],
-          'test/fixtures/math.test.ts::should subtract two numbers|run': [1],
-          'test/fixtures/math.test.ts::should throw on division by zero|run': [
+          'test/fixtures/math.test.ts!!should add two numbers|run': [1],
+          'test/fixtures/math.test.ts!!should divide two numbers|run': [1],
+          'test/fixtures/math.test.ts!!should multiply two numbers|run': [1],
+          'test/fixtures/math.test.ts!!should subtract two numbers|run': [1],
+          'test/fixtures/math.test.ts!!should throw on division by zero|run': [
             1,
           ],
-          'test/fixtures/math2.test.ts::should add and multiply two numbers|run':
+          'test/fixtures/math2.test.ts!!should add and multiply two numbers|run':
             [1],
         },
         'test/fixtures/math.ts': {
-          'test/fixtures/math.test.ts::should add two numbers|run': [1],
-          'test/fixtures/math.test.ts::should subtract two numbers|run': [1],
-          'test/fixtures/math.test.ts::should multiply two numbers|run': [1],
-          'test/fixtures/math.test.ts::should divide two numbers|run': [1],
-          'test/fixtures/math.test.ts::should throw on division by zero|run': [
+          'test/fixtures/math.test.ts!!should add two numbers|run': [1],
+          'test/fixtures/math.test.ts!!should subtract two numbers|run': [1],
+          'test/fixtures/math.test.ts!!should multiply two numbers|run': [1],
+          'test/fixtures/math.test.ts!!should divide two numbers|run': [1],
+          'test/fixtures/math.test.ts!!should throw on division by zero|run': [
             1,
           ],
-          'test/fixtures/math2.test.ts::should add and multiply two numbers|run':
+          'test/fixtures/math2.test.ts!!should add and multiply two numbers|run':
             [1],
         },
         'test/fixtures/math.test.ts': {
-          'test/fixtures/math.test.ts::should add two numbers|run': [1],
-          'test/fixtures/math.test.ts::should subtract two numbers|run': [1],
-          'test/fixtures/math.test.ts::should multiply two numbers|run': [1],
-          'test/fixtures/math.test.ts::should divide two numbers|run': [1],
-          'test/fixtures/math.test.ts::should throw on division by zero|run': [
+          'test/fixtures/math.test.ts!!should add two numbers|run': [1],
+          'test/fixtures/math.test.ts!!should subtract two numbers|run': [1],
+          'test/fixtures/math.test.ts!!should multiply two numbers|run': [1],
+          'test/fixtures/math.test.ts!!should divide two numbers|run': [1],
+          'test/fixtures/math.test.ts!!should throw on division by zero|run': [
             1,
           ],
         },
         'test/fixtures/math2.test.ts': {
-          'test/fixtures/math2.test.ts::should add and multiply two numbers|run':
+          'test/fixtures/math2.test.ts!!should add and multiply two numbers|run':
             [1],
         },
       });
@@ -237,23 +237,23 @@ describe.each(jestMatrix)(
 
       expect(output).toEqual({
         'dist/coverage-environment.js': {
-          'test/fixtures-browser/counter.test.ts::increments when clicked|run':
+          'test/fixtures-browser/counter.test.ts!!increments when clicked|run':
             [1],
-          'test/fixtures-browser/counter2.test.ts::increments twice when clicked twice|run':
+          'test/fixtures-browser/counter2.test.ts!!increments twice when clicked twice|run':
             [1],
         },
         'test/fixtures-browser/counter.test.ts': {
-          'test/fixtures-browser/counter.test.ts::increments when clicked|run':
+          'test/fixtures-browser/counter.test.ts!!increments when clicked|run':
             [1],
         },
         'test/fixtures-browser/counter2.test.ts': {
-          'test/fixtures-browser/counter2.test.ts::increments twice when clicked twice|run':
+          'test/fixtures-browser/counter2.test.ts!!increments twice when clicked twice|run':
             [1],
         },
         'test/fixtures-browser/counter.ts': {
-          'test/fixtures-browser/counter.test.ts::increments when clicked|run':
+          'test/fixtures-browser/counter.test.ts!!increments when clicked|run':
             [1],
-          'test/fixtures-browser/counter2.test.ts::increments twice when clicked twice|run':
+          'test/fixtures-browser/counter2.test.ts!!increments twice when clicked twice|run':
             [1],
         },
       });

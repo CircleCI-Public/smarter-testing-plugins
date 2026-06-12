@@ -1,6 +1,6 @@
 {
   "name": "jest-circleci-coverage",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "A Jest plugin that generates coverage data for CircleCI's Smarter Testing.",
   "type": "module",
   "main": "src/index.ts",
@@ -59,7 +59,7 @@
     "typescript": "^6.0.0"
   },
   "dependencies": {
-    "@circleci/v8-coverage-collector": "npm:@jsr/circleci__v8-coverage-collector@0.1.2"
+    "@circleci/v8-coverage-collector": "npm:@jsr/circleci__v8-coverage-collector@0.2.0"
   },
   "engines": {
     "node": ">=20.0.0"
