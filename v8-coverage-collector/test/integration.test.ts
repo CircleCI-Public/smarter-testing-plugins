@@ -17,13 +17,18 @@ describe('circleci-coverage integration', () => {
 
   it('should produce the expected coverage map when enabled', async () => {
     await coll.resetCoverage();
-    const result = await coll.collectCoverage(wd, 'foo.ts', 'foo');
+    const result = await coll.collectCoverage(
+      wd,
+      'foo.ts',
+      'Foo',
+      'should foo',
+    );
     // Any code executed between resetting coverage and collecting coverage will be covered.
     // In this test, we need to execute code in the v8 collector to read coverage from the v8 Profiler APIs,
     // that code in the v8 collector is therefore covered when it was invoked. Likewise, we execute some code
     // to assign to variables in between the calls, resulting in this test also being covered.
     expect(result).toStrictEqual({
-      testKey: 'foo.ts::foo|run',
+      testKey: 'foo.ts!!Foo!!should foo|run',
       coveredFiles: ['test/integration.test.ts', 'src/index.ts'],
     });
   });
@@ -32,9 +37,14 @@ describe('circleci-coverage integration', () => {
     await coll.resetCoverage();
     // fixtures/math.ts
     add(1, 2);
-    const result = await coll.collectCoverage(wd, 'foo.ts', 'foo');
+    const result = await coll.collectCoverage(
+      wd,
+      'foo.ts',
+      'Foo',
+      'should foo',
+    );
     expect(result).toStrictEqual({
-      testKey: 'foo.ts::foo|run',
+      testKey: 'foo.ts!!Foo!!should foo|run',
       coveredFiles: [
         'test/integration.test.ts',
         'src/index.ts',

@@ -26,7 +26,7 @@
  *
  *   async onAfterTest(test: ExampleTest): Promise<void> {
  *     await this.inspector
- *       .collectCoverage(process.cwd(), test.file, test.name)
+ *       .collectCoverage(process.cwd(), test.file, test.class, test.name)
  *       .then((result) => {
  *         test.meta.testKey = result.testKey;
  *         test.meta.coveredFiles = result.coveredFiles;
@@ -125,16 +125,16 @@ export class V8CoverageCollector {
    *
    * @param {string} wd
    * @param {string} testFile
-   * @param {string} testName
+   * @param {...string} scopes - one or more additional scope segments e.g. testClass, testName
    * @returns {Promise<TestCoverage>}
    */
   async collectCoverage(
     wd: string,
     testFile: string,
-    testName: string,
+    ...scopes: string[]
   ): Promise<TestCoverage> {
     return this.takePreciseCoverage().then((result) => {
-      const testKey = this.testKey(wd, testFile, testName);
+      const testKey = this.testKey(wd, testFile, ...scopes);
       return {
         testKey: testKey,
         coveredFiles: this.coveredFiles(wd, result),
@@ -142,8 +142,9 @@ export class V8CoverageCollector {
     });
   }
 
-  private testKey(wd: string, testFile: string, testName: string): string {
-    return `${relative(wd, testFile)}::${testName}|run`;
+  private testKey(wd: string, testFile: string, ...scopes: string[]): string {
+    const s = [relative(wd, testFile), ...scopes];
+    return `${s.join('!!')}|run`;
   }
 
   private coveredFiles(wd: string, result: V8ScriptCoverage[]): string[] {
