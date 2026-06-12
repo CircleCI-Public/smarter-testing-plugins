@@ -32,7 +32,7 @@ importers:
         version: 1.68.0
       prettier:
         specifier: ^3.8.1
-        version: 3.8.3
+        version: 3.8.4
       tsx:
         specifier: ^4.21.0
         version: 4.22.4
@@ -715,8 +715,8 @@ packages:
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
-  prettier@3.8.3:
-    resolution: {integrity: sha512-7igPTM53cGHMW8xWuVTydi2KO233VFiTNyF5hLJqpilHfmn8C8gPf+PS7dUT64YcXFbiMGZxS9pCSxL/Dxm/Jw==}
+  prettier@3.8.4:
+    resolution: {integrity: sha512-N2MylSdi48+5N/6S5j+maeHbUSIzzZ5uOcX5Hm4QpV8Dkb1HFjfAKTKX6yNPJQD9AhcT3ifHNB66tWTTJDi11Q==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -1343,7 +1343,7 @@ snapshots:
 
   picocolors@1.1.1: {}
 
-  prettier@3.8.3: {}
+  prettier@3.8.4: {}
 
   randombytes@2.1.0:
     dependencies:
