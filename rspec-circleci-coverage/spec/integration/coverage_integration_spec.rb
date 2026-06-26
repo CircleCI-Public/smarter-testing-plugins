@@ -22,6 +22,7 @@ RSpec.describe 'RSpec CircleCI Coverage Integration' do
     FileUtils.mkdir_p(@temp_dir)
     FileUtils.mkdir_p(File.join(@temp_dir, 'lib'))
     FileUtils.mkdir_p(File.join(@temp_dir, 'spec'))
+    FileUtils.mkdir_p(File.join(@temp_dir, 'app', 'views'))
 
     # Create sample Ruby file to be tested
     File.write(File.join(@temp_dir, 'lib', 'math.rb'), <<~RUBY)
@@ -92,6 +93,46 @@ RSpec.describe 'RSpec CircleCI Coverage Integration' do
     File.write(File.join(@temp_dir, 'spec', 'spec_helper.rb'), <<~RUBY)
       require_relative '../../../../lib/rspec-circleci-coverage'
     RUBY
+
+    # Create an ERB template.
+    File.write(File.join(@temp_dir, 'app', 'views', 'compiled.html.erb'), <<~ERB)
+      <% greeting = 'hello' %>
+      <%= greeting %>
+    ERB
+
+    File.write(File.join(@temp_dir, 'spec', 'compiled_template_spec.rb'), <<~RUBY)
+      require 'erb'
+
+      RSpec.describe 'CompiledTemplate' do
+        template_path = File.expand_path('../app/views/compiled.html.erb', __dir__)
+        src = ERB.new(File.read(template_path)).src
+        # Compile once into a method whose source file is the template path.
+        class_eval("def render_compiled\\n\#{src}\\nend", template_path, 1)
+
+        it 'renders a compiled template' do
+          expect(render_compiled).to include('hello')
+        end
+
+        it 'renders a compiled template again' do
+          expect(render_compiled).to include('hello')
+        end
+      end
+    RUBY
+
+    File.write(File.join(@temp_dir, 'spec', 'compiled_template_two_spec.rb'), <<~RUBY)
+      require 'erb'
+
+      RSpec.describe 'CompiledTemplateTwo' do
+        template_path = File.expand_path('../app/views/compiled.html.erb', __dir__)
+        src = ERB.new(File.read(template_path)).src
+        # Compile once into a method whose source file is the template path.
+        class_eval("def render_compiled\\n\#{src}\\nend", template_path, 1)
+
+        it 'renders a compiled template two' do
+          expect(render_compiled).to include('hello')
+        end
+      end
+    RUBY
   end
 
   after(:all) do
@@ -111,7 +152,9 @@ RSpec.describe 'RSpec CircleCI Coverage Integration' do
         'rspec',
         '--require', './spec/spec_helper.rb',
         'spec/math_spec.rb',
-        'spec/math2_spec.rb'
+        'spec/math2_spec.rb',
+        'spec/compiled_template_spec.rb',
+        'spec/compiled_template_two_spec.rb',
       )
 
       # Verify RSpec ran successfully
@@ -134,6 +177,11 @@ RSpec.describe 'RSpec CircleCI Coverage Integration' do
           "spec/math_spec.rb!!Math divides two numbers|run" => [16, 17],
           "spec/math2_spec.rb!!Math2 adds and multiplies two numbers|run" => [4, 12],
         },
+        "app/views/compiled.html.erb" => {
+          "spec/compiled_template_spec.rb!!CompiledTemplate renders a compiled template|run" => [3, 4, 5],
+          "spec/compiled_template_spec.rb!!CompiledTemplate renders a compiled template again|run" => [3, 4, 5],
+          "spec/compiled_template_two_spec.rb!!CompiledTemplateTwo renders a compiled template two|run" => [3, 4, 5]
+        }
       }
 
       # Verify exact structure matches expected

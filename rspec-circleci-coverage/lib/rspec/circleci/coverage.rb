@@ -29,7 +29,7 @@ module RSpec
 
         # Start coverage tracking if not already running
         unless ::Coverage.running?
-          ::Coverage.start
+          ::Coverage.start(lines: true, eval: true)
         end
 
         coverage_instance = self
@@ -68,24 +68,23 @@ module RSpec
         # Calculate which lines were executed during this test
         test_key = format_test_key(example)
 
-        after_coverage.each do |file, lines|
+        after_coverage.each do |file, coverage|
           # Skip files outside project scope, spec files, and rspec gem internals
           next unless in_project_scope?(file)
           next if file.end_with?('_spec.rb')
+
+          lines = extract_lines(coverage)
           next if lines.nil?
 
-          # Extract the actual lines array from the coverage result
-          next if lines.nil?
-
-          before_coverage_lines = @before_coverage[file]
-          next if before_coverage_lines.nil?
+          before_lines = extract_lines(@before_coverage[file])
 
           # Find lines that were executed during this test
           executed_lines = []
           lines.each_with_index do |count, index|
             next if count.nil?
-            before_count = before_coverage_lines[index]
-            next if before_count.nil?
+            # Treat a missing before-count as 0 so the first render of an
+            # eval'd file (e.g. a compiled template) is attributed to this test.
+            before_count = before_lines ? (before_lines[index] || 0) : 0
 
             # Line was executed if count increased
             if count > before_count
@@ -138,6 +137,14 @@ module RSpec
         return false if file.include?('/.bundle/')
         return false if file.include?('/vendor/')
         true
+      end
+
+      def extract_lines(coverage_value)
+        case coverage_value
+        when Array then coverage_value
+        when Hash then coverage_value[:lines]
+        else nil
+        end
       end
     end
   end

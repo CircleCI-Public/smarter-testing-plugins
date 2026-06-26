@@ -7,5 +7,6 @@ Gem::Specification.new do |spec|
   spec.homepage = "https://github.com/circleci/rspec-circleci-coverage"
   spec.files = Dir["lib/**/*.rb", "README.md"]
   spec.require_paths = ["lib"]
+  spec.required_ruby_version = ">= 3.2"
   spec.add_dependency "rspec-core", "~> 3.13"
 end
