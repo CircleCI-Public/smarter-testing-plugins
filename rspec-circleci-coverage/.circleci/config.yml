@@ -3,7 +3,7 @@ version: 2.1
 executors:
   ruby:
     docker:
-      - image: cimg/ruby:4.0.5
+      - image: cimg/ruby:4.0.6
 
 jobs:
   test:
