@@ -78,6 +78,10 @@ def pytest_sessionfinish(session):
                 + "Ensure pytest is run with --cov-context=test to enable context tracking.",
                 file=sys.stderr,
             )
+            with open(output_path, "w") as f:
+                json.dump({}, f)
+
+            print(f"Empty coverage data written to {output_path}")
             return
 
         with open(output_path, "w") as f:

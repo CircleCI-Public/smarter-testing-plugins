@@ -70,6 +70,28 @@ def test_files(testdir):
     )
 
 
+@pytest.fixture
+def test_skipped(testdir):
+    testdir.makepyfile(
+        src_file="""
+                def print_hello_world():
+                    print("Hello World")
+            """
+    )
+
+    testdir.makepyfile(
+        test_skip="""
+                import pytest
+
+                import src_file
+
+                @pytest.mark.skip(reason="always skip")
+                def test_foo():
+                    assert True
+            """
+    )
+
+
 def test_pytest_sessionfinish_success(test_files, testdir, pytester):
     pytester.plugins.append("pytest_circleci_coverage")
 
@@ -111,6 +133,21 @@ def test_pytest_sessionfinish_success(test_files, testdir, pytester):
             file_data[context] = sorted(lines)
 
     assert coverage == expected
+
+
+def test_pytest_sessionfinish_all_tests_skipped(test_skipped, testdir, pytester):
+    pytester.plugins.append("pytest_circleci_coverage")
+
+    coverage_file = testdir.tmpdir / "coverage.json"
+    result = testdir.runpytest_subprocess(
+        "--cov", "--cov-context=test", f"--circleci-coverage={coverage_file}"
+    )
+    result.assert_outcomes(skipped=1)
+    assert "No coverage context data found." in result.stderr.str()
+
+    coverage = json.loads(coverage_file.read_text(encoding="utf-8"))
+
+    assert not coverage
 
 
 def test_pytest_sessionfinish_no_flag(test_files, testdir, pytester):
