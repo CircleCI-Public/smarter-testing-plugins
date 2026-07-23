@@ -8,6 +8,10 @@
       "automergeSchedule": [
         "* 8-14 * * 1-5"
       ]
+    },
+    {
+      "matchPackageNames": ["react", "react-dom"],
+      "groupName": "react"
     }
   ]
 }
