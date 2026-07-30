@@ -17,8 +17,6 @@ set -eu
 REPO_DOMAIN="pypi.org"
 REPO_NAME="PyPI"
 
-REPO_URL="https://${REPO_DOMAIN}/legacy/"
-
 echo "Publishing to $REPO_NAME (${REPO_DOMAIN})..."
 
 # Disable command echoing to avoid leaking credentials
@@ -26,7 +24,6 @@ set +x
 
 # Upload distributions
 python -m twine upload --verbose \
-  --repository-url "$REPO_URL" \
   --username "__token__" \
   --password "$PYPI_API_KEY" \
   dist/*.whl dist/*.tar.gz
