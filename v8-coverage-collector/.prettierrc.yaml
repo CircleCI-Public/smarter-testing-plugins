@@ -1,0 +1,6 @@
+arrowParens: always
+singleQuote: true
+proseWrap: always
+trailingComma: all
+plugins:
+  - '@prettier/plugin-oxc'
