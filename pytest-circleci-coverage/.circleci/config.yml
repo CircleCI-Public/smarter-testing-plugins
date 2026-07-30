@@ -1,0 +1,61 @@
+version: 2.1
+
+orbs:
+  jq: circleci/jq@3.1.0
+  cloudsmith: https://raw.githubusercontent.com/circleci/backplane-cicd/main/orbs/cloudsmith.yml
+
+executors:
+  python:
+    docker:
+      - image: python:3.14
+    resource_class: medium.gen2
+
+commands:
+  setup:
+    steps:
+      - checkout
+      - jq/install
+      - cloudsmith/configure:
+          pip: true
+      - run: python -m pip install -r dev-requirements.txt
+      - run: python -m pip install --editable .
+
+jobs:
+  test:
+    executor: python
+    steps:
+      - setup
+      - run: pytest
+      - run:
+          name: integrate with testsuite
+          command: |
+            circleci testsuite "integration test" --analyze-tests="all"
+            cat coverage.json | jq --sort-keys > coveragetmp.json
+            mv coveragetmp.json coverage.json
+
+            if git diff --exit-code; then
+              echo "Coverage JSON up to date"
+            else
+              echo "Regenerate coverage JSON locally and check in the changes (see README.md for instructions)"
+              exit 1
+            fi
+      - store_artifacts:
+          path: test-reports/
+      - store_test_results:
+          path: test-reports/
+
+  test-classnames:
+    executor: python
+    steps:
+      - setup
+      - run: circleci testsuite "test classnames" --verbose
+      - store_artifacts:
+          path: test-reports/
+      - store_test_results:
+          path: test-reports/
+
+workflows:
+  main-workflow:
+    jobs:
+      - test
+      - test-classnames
