@@ -21,8 +21,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/circleci/pytest-circleci-coverage"
-Issues = "https://github.com/circleci/pytest-circleci-coverage/issues"
+Homepage = "https://github.com/CircleCI-Public/smarter-testing-plugins"
+Issues = "https://github.com/CircleCI-Public/smarter-testing-plugins/issues"
 
 [project.entry-points.pytest11]
 pytest_circleci_coverage = "pytest_circleci_coverage"
