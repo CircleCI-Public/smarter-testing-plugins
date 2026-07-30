@@ -1,0 +1,16 @@
+import React from 'react';
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { Counter } from './counter';
+
+describe('Counter', () => {
+  it('increments when clicked', async () => {
+    const user = userEvent.setup();
+    render(React.createElement(Counter));
+
+    expect(screen.getByLabelText('count')).toHaveTextContent('0');
+    await user.click(screen.getByRole('button', { name: /increment/i }));
+    expect(screen.getByLabelText('count')).toHaveTextContent('1');
+  });
+});
