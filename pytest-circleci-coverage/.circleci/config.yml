@@ -2,23 +2,26 @@ version: 2.1
 
 orbs:
   jq: circleci/jq@3.1.0
-  cloudsmith: https://raw.githubusercontent.com/circleci/backplane-cicd/main/orbs/cloudsmith.yml
 
 executors:
   python:
     docker:
       - image: python:3.14
     resource_class: medium.gen2
+    working_directory: ~/project/pytest-circleci-coverage
 
 commands:
   setup:
     steps:
-      - checkout
+      - checkout:
+          path: ~/project
       - jq/install
-      - cloudsmith/configure:
-          pip: true
       - run: python -m pip install -r dev-requirements.txt
       - run: python -m pip install --editable .
+      # twine 6.1.0+ has built-in trusted publishing support. It relies on the
+      # `id` library to mint the OIDC token; id 1.6.0+ knows how to do this on
+      # CircleCI (via `circleci run oidc get --root-issuer`).
+      - run: python -m pip install --upgrade build twine "id>=1.6.0"
 
 jobs:
   test:
@@ -54,8 +57,26 @@ jobs:
       - store_test_results:
           path: test-reports/
 
+  publish:
+    executor: python
+    steps:
+      - setup
+      - run:
+          name: Build plugin
+          command: python -m build
+      - run:
+          name: Publish plugin
+          command: .circleci/publish.sh
+
 workflows:
   main-workflow:
     jobs:
       - test
       - test-classnames
+      - publish:
+          filters: pipeline.git.branch == "main"
+          context:
+            - smarter-testing-plugin-publish
+          requires:
+            - test
+            - test-classnames

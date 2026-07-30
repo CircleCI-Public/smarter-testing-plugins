@@ -8,7 +8,7 @@ A pytest plugin that works with pytest-cov to generate coverage data for CircleC
 Install the plugin via git.
 
 ```shell
-python -m pip install git+https://github.com/circleci/pytest-circleci-coverage.git
+python -m pip install pytest-circleci-coverage
 ```
 
 Install [pytest-cov](https://pypi.org/project/pytest-cov/).
