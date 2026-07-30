@@ -1,0 +1,19 @@
+{
+  "name": "@circleci/vitest-circleci-coverage",
+  "version": "0.2.0",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts",
+    "./runner": "./src/runner.ts",
+    "./reporter": "./src/reporter.ts"
+  },
+  "publish": {
+    "include": [
+      "LICENSE",
+      "README.md",
+      "src",
+      "tsconfig.json",
+      "package.json"
+    ]
+  }
+}
