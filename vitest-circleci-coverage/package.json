@@ -1,0 +1,40 @@
+{
+  "name": "vitest-circleci-coverage",
+  "version": "0.2.0",
+  "description": "A Vitest plugin that generates coverage data for CircleCI's Smarter Testing.",
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./runner": "./src/runner.ts",
+    "./reporter": "./src/reporter.ts"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:ci": "vitest run --reporter=default --reporter=junit --outputFile=junit.xml",
+    "lint": "oxlint --quiet",
+    "format": "prettier . --check",
+    "generate": "circleci run testsuite 'ci tests' --local --test-analysis=all && cat coverage.json | jq > coveragetmp.json && mv coveragetmp.json coverage.json",
+    "generate:ci": "circleci run testsuite 'ci tests' --test-analysis=all && cat coverage.json | jq > coveragetmp.json && mv coveragetmp.json coverage.json"
+  },
+  "peerDependencies": {
+    "@vitest/coverage-v8": ">=4.1.4",
+    "vitest": ">=4.1.4"
+  },
+  "devDependencies": {
+    "@prettier/plugin-oxc": "^0.2.0",
+    "@types/node": "^24.0.0",
+    "oxlint": "^1.43.0",
+    "prettier": "^3.8.1",
+    "typescript": "^6.0.0",
+    "vitest": "^4.1.4"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@circleci/v8-coverage-collector": "npm:@jsr/circleci__v8-coverage-collector@0.2.0"
+  }
+}
