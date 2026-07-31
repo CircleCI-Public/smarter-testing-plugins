@@ -1,7 +1,5 @@
 # vitest-circleci-coverage
 
-[![JSR](https://jsr.io/badges/@circleci/vitest-circleci-coverage)](https://jsr.io/@circleci/vitest-circleci-coverage)
-
 A Vitest plugin that generates coverage data for
 CircleCI's [Smarter Testing](https://circleci.com/docs/guides/test/smarter-testing/).
 
@@ -12,7 +10,7 @@ This plugin uses the v8 JS engine Profiler APIs to collect coverage.
 Install the plugin.
 
 ```shell
-pnpm add -D jsr:@circleci/vitest-circleci-coverage
+pnpm add -D @circleci/vitest-circleci-coverage
 ```
 
 Add the custom runner and reporter to your `vitest.config.ts`:
