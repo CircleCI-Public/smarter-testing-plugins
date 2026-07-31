@@ -4,13 +4,35 @@ executors:
   ruby:
     docker:
       - image: cimg/ruby:4.0.6
+    working_directory: ~/project/rspec-circleci-coverage
+
+commands:
+  setup:
+    steps:
+      - checkout:
+          path: ~/project
+      - run: bundle install
+
+  set_version:
+    steps:
+      - run:
+          name: Set dynamic version
+          command: |
+            # Publish as MAJOR.MINOR.<pipeline number>. The MAJOR.MINOR base
+            # lives in the gemspec.
+            BASE_VERSION="$(ruby -e 'puts Gem::Specification.load("rspec-circleci-coverage.gemspec").version')"
+            MAJOR="$(echo "$BASE_VERSION" | cut -d. -f1)"
+            MINOR="$(echo "$BASE_VERSION" | cut -d. -f2)"
+            TARGET_VERSION="${MAJOR}.${MINOR}.<< pipeline.number >>"
+            echo "Setting gem version to: ${TARGET_VERSION}"
+            # Portable sed for macOS and Linux.
+            sed -i.bak "s/spec.version = \".*\"/spec.version = \"${TARGET_VERSION}\"/" rspec-circleci-coverage.gemspec && rm -f rspec-circleci-coverage.gemspec.bak
 
 jobs:
   test:
     executor: ruby
     steps:
-      - checkout
-      - run: bundle install
+      - setup
       - run: bundle exec rspec
       - run:
           name: integrate with testsuite
@@ -30,7 +52,46 @@ jobs:
       - store_test_results:
           path: junit/
 
+  dry-run:
+    executor: ruby
+    steps:
+      - setup
+      - set_version
+      - run:
+          name: Build gem
+          command: gem build rspec-circleci-coverage.gemspec
+      - run:
+          name: Check version
+          command: |
+            echo "Gem version:"
+            ls -1 rspec-circleci-coverage-*.gem
+
+  publish:
+    executor: ruby
+    steps:
+      - setup
+      - set_version
+      - run:
+          name: Build gem
+          command: gem build rspec-circleci-coverage.gemspec
+      - run:
+          name: Publish gem to RubyGems
+          command: |
+            # GEM_HOST_API_KEY is provided by the smarter-testing-plugin-publish
+            # context.
+            gem push rspec-circleci-coverage-*.gem
+
 workflows:
   main-workflow:
     jobs:
       - test
+      - dry-run:
+          requires:
+            - test
+          filters: pipeline.git.branch != "main"
+      - publish:
+          requires:
+            - test
+          context:
+            - smarter-testing-plugin-publish
+          filters: pipeline.git.branch == "main"

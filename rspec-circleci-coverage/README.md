@@ -5,16 +5,10 @@ CircleCI's [Smarter Testing](https://circleci.com/docs/guides/test/smarter-testi
 
 ## Usage
 
-Add the plugin to the Gemfile:
-
-```ruby
-gem 'rspec-circleci-coverage', :github => 'circleci/rspec-circleci-coverage'
-```
-
 Install the plugin:
 
 ```bash
-bundle install
+gem install rspec-circleci-coverage
 ```
 
 Add the plugin to your `spec_helper.rb`

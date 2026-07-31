@@ -15,3 +15,7 @@ A monorepo for Smarter Testing plugins.
 ## Python
 
 - [pytest-circleci-coverage](pytest-circleci-coverage) - A pytest plugin to generate CircleCI coverage data.
+
+## Ruby
+
+- [rspec-circleci-coverage](rspec-circleci-coverage) - A RSpec plugin to generate CircleCI coverage data.
