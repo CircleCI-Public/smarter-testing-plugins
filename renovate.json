@@ -1,6 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
+  "additionalBranchPrefix": "{{parentDir}}-",
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch"],
@@ -8,6 +9,11 @@
       "automergeSchedule": [
         "* 8-14 * * 1-5"
       ]
+    },
+    {
+      "matchFileNames": ["jest-circleci-coverage/**"],
+      "matchPackageNames": ["react", "react-dom"],
+      "groupName": "react"
     }
   ]
 }
