@@ -1,7 +1,5 @@
 # mocha-circleci-coverage
 
-[![JSR](https://jsr.io/badges/@circleci/mocha-circleci-coverage)](https://jsr.io/@circleci/mocha-circleci-coverage)
-
 A Mocha plugin that generates coverage data for CircleCI's Smarter Testing.
 
 ## Usage
@@ -11,7 +9,7 @@ This plugin uses the v8 JS engine Profiler APIs to collect coverage.
 Install the plugin.
 
 ```shell
-pnpm add -D jsr:@circleci/mocha-circleci-coverage
+pnpm add -D @circleci/mocha-circleci-coverage
 ```
 
 Add the custom hook to the `.mocharc.js` file:
