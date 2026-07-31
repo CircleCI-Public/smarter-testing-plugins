@@ -25,7 +25,7 @@ jobs:
             mocha-circleci-coverage/.*   mocha-circleci-coverage/.circleci/config.yml
             pytest-circleci-coverage/.*  pytest-circleci-coverage/.circleci/config.yml
             v8-coverage-collector/.*     v8-coverage-collector/.circleci/config.yml
-            vitest-circleci-coverage/.*  vitest-circleci-coverage/.circleci/config.yml.
+            vitest-circleci-coverage/.*  vitest-circleci-coverage/.circleci/config.yml
       - run:
           name: Ensure one plugin changed
           command: |
