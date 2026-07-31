@@ -1,7 +1,5 @@
 # jest-circleci-coverage
 
-[![JSR](https://jsr.io/badges/@circleci/jest-circleci-coverage)](https://jsr.io/@circleci/jest-circleci-coverage)
-
 A Jest plugin that generates coverage data for
 CircleCI's [Smarter Testing](https://circleci.com/docs/guides/test/smarter-testing/).
 
@@ -12,7 +10,7 @@ This plugin uses the v8 JS engine Profiler APIs to collect coverage.
 Install the plugin.
 
 ```shell
-pnpm add -D jsr:@circleci/jest-circleci-coverage
+pnpm add -D @circleci/jest-circleci-coverage
 ```
 
 The Jest test environment is a peer dependency — you need to install it yourself,

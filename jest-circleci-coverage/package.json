@@ -1,15 +1,37 @@
 {
-  "name": "jest-circleci-coverage",
+  "name": "@circleci/jest-circleci-coverage",
   "version": "0.4.0",
   "description": "A Jest plugin that generates coverage data for CircleCI's Smarter Testing.",
   "type": "module",
-  "main": "src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./environment": "./src/environment-node.ts",
-    "./environment-node": "./src/environment-node.ts",
-    "./environment-jsdom": "./src/environment-jsdom.ts",
-    "./reporter": "./src/reporter.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./environment": {
+      "types": "./dist/environment-node.d.ts",
+      "default": "./dist/environment-node.js"
+    },
+    "./environment-node": {
+      "types": "./dist/environment-node.d.ts",
+      "default": "./dist/environment-node.js"
+    },
+    "./environment-jsdom": {
+      "types": "./dist/environment-jsdom.d.ts",
+      "default": "./dist/environment-jsdom.js"
+    },
+    "./reporter": {
+      "types": "./dist/reporter.d.ts",
+      "default": "./dist/reporter.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "license": "MIT",
   "scripts": {
@@ -59,7 +81,7 @@
     "typescript": "^6.0.0"
   },
   "dependencies": {
-    "@circleci/v8-coverage-collector": "npm:@jsr/circleci__v8-coverage-collector@0.2.0"
+    "@circleci/v8-coverage-collector": "0.2.0"
   },
   "engines": {
     "node": ">=20.0.0"
