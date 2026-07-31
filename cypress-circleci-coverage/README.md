@@ -11,7 +11,7 @@ source files to test specs.
 Install the plugin.
 
 ```bash
-pnpm add -D jsr:@circleci/cypress-circleci-coverage
+pnpm add -D @circleci/cypress-circleci-coverage
 ```
 
 Add the plugin to your Cypress configuration:

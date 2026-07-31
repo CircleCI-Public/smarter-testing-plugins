@@ -1,11 +1,23 @@
 {
-  "name": "cypress-circleci-coverage",
+  "name": "@circleci/cypress-circleci-coverage",
   "version": "0.2.0",
   "description": "Generate coverage data for CircleCI's Smarter Testing",
   "type": "module",
   "exports": {
-    "./plugin": "./src/plugin.ts",
-    "./support": "./src/support.ts"
+    "./plugin": {
+      "types": "./dist/src/plugin.d.ts",
+      "default": "./dist/src/plugin.js"
+    },
+    "./support": {
+      "types": "./dist/src/support.d.ts",
+      "default": "./dist/src/support.js"
+    }
+  },
+  "files": [
+    "dist/src"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "license": "MIT",
   "scripts": {
