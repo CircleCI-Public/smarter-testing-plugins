@@ -1,7 +1,5 @@
 # v8-coverage-collector
 
-[![JSR](https://jsr.io/badges/@circleci/v8-coverage-collector)](https://jsr.io/@circleci/v8-coverage-collector)
-
 Wrapper around v8's Profiler APIs used to gather coverage data for CircleCI's Smarter Testing Javascript plugins.
 
 The coverage collector can be used to collect precise coverage during the test run lifecycles.
@@ -11,7 +9,7 @@ The coverage collector can be used to collect precise coverage during the test r
 Add the package as a dependency
 
 ```shell
-pnpm i jsr:@circleci/v8-coverage-collector
+pnpm i @circleci/v8-coverage-collector
 ```
 
 Use the provided APIs to collect and reset coverage during the test lifecycle events.
