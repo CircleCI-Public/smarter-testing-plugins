@@ -1,0 +1,51 @@
+version: 2.1
+
+setup: true
+
+orbs:
+  path-filtering: circleci/path-filtering@3.0.0
+  continuation: circleci/continuation@2.0.1
+
+executors:
+  base:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+
+jobs:
+  continue-plugin:
+    executor: base
+    steps:
+      - checkout
+      - path-filtering/set-parameters:
+          config-path: .circleci/no-op.yml
+          mapping: |
+            cypress-circleci-coverage/.* cypress-circleci-coverage/.circleci/config.yml
+            jest-circleci-coverage/.*    jest-circleci-coverage/.circleci/config.yml
+            mocha-circleci-coverage/.*   mocha-circleci-coverage/.circleci/config.yml
+            pytest-circleci-coverage/.*  pytest-circleci-coverage/.circleci/config.yml
+            v8-coverage-collector/.*     v8-coverage-collector/.circleci/config.yml
+            vitest-circleci-coverage/.*  vitest-circleci-coverage/.circleci/config.yml.
+      - run:
+          name: Ensure one plugin changed
+          command: |
+            echo "Configs selected by path-filtering:"
+            cat /tmp/filtered-config-list
+            COUNT=$(sort -u /tmp/filtered-config-list | grep -c . || true)
+            if [ "$COUNT" -gt 1 ]; then
+              echo
+              echo "ERROR: more than one plugin was changed - split into separate PRs."
+              exit 1
+            fi
+      - path-filtering/generate-config:
+          config-list-path: /tmp/filtered-config-list
+          generated-config-path: /tmp/generated-config.yml
+      - continuation/continue:
+          configuration_path: /tmp/generated-config.yml
+          parameters: /tmp/pipeline-parameters.json
+          files_changed: /tmp/files-changed-list
+
+workflows:
+  setup:
+    jobs:
+      - continue-plugin
