@@ -57,13 +57,31 @@ jobs:
       - store_test_results:
           path: test-reports/
 
+  dry-run:
+    executor: python
+    steps:
+      - setup
+      - run:
+          name: Build plugin
+          command: |
+            export PIPELINE_NUMBER="<< pipeline.number >>"
+            .circleci/build.sh
+      - run:
+          name: Check publish
+          command: |
+            echo "Built distributions that would be published:"
+            ls -1 dist/
+            python -m twine check dist/*
+
   publish:
     executor: python
     steps:
       - setup
       - run:
           name: Build plugin
-          command: python -m build
+          command: |
+            export PIPELINE_NUMBER="<< pipeline.number >>"
+            .circleci/build.sh
       - run:
           name: Publish plugin
           command: .circleci/publish.sh
@@ -73,6 +91,11 @@ workflows:
     jobs:
       - test
       - test-classnames
+      - dry-run:
+          filters: pipeline.git.branch != "main"
+          requires:
+            - test
+            - test-classnames
       - publish:
           filters: pipeline.git.branch == "main"
           context:
