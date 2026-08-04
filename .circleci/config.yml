@@ -24,6 +24,7 @@ jobs:
             jest-circleci-coverage/.*    jest-circleci-coverage/.circleci/config.yml
             mocha-circleci-coverage/.*   mocha-circleci-coverage/.circleci/config.yml
             pytest-circleci-coverage/.*  pytest-circleci-coverage/.circleci/config.yml
+            rspec-circleci-coverage/.*   rspec-circleci-coverage/.circleci/config.yml
             v8-coverage-collector/.*     v8-coverage-collector/.circleci/config.yml
             vitest-circleci-coverage/.*  vitest-circleci-coverage/.circleci/config.yml
       - run:
