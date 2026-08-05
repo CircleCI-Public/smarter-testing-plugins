@@ -17,6 +17,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "license": "MIT",
   "scripts": {
     "build": "tsc",
     "test": "mocha '**/*.test.ts'",
