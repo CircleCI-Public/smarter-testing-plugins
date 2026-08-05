@@ -1,6 +1,5 @@
 /**
- * A Jest plugin that generates coverage data for
- * [CircleCI Smarter Testing](https://circleci.com/docs/guides/test/smarter-testing/).
+ * A Jest plugin that generates coverage data for CircleCI's Smarter Testing.
  *
  * It uses the V8 JS engine Profiler APIs to collect per-test file coverage
  * and outputs a JSON file that CircleCI can consume.
