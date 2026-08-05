@@ -1,7 +1,6 @@
 # pytest-circleci-coverage
 
-A pytest plugin that works with pytest-cov to generate coverage data for CircleCI's
-[Smarter Testing](https://circleci.com/docs/guides/test/smarter-testing/).
+A pytest plugin that works with pytest-cov to generate coverage data for CircleCI's Smarter Testing.
 
 ## Usage
 
