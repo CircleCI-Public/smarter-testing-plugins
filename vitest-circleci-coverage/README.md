@@ -1,7 +1,6 @@
 # vitest-circleci-coverage
 
-A Vitest plugin that generates coverage data for
-CircleCI's [Smarter Testing](https://circleci.com/docs/guides/test/smarter-testing/).
+A Vitest plugin that generates coverage data for CircleCI's Smarter Testing.
 
 ## Usage
 
