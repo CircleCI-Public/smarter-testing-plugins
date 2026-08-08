@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@circleci/v8-coverage-collector':
-        specifier: 0.2.0
-        version: 0.2.0
+        specifier: 0.2.110
+        version: 0.2.110
       '@vitest/coverage-v8':
         specifier: '>=4.1.4'
         version: 4.1.4(vitest@4.1.10)
@@ -57,8 +57,8 @@ packages:
     resolution: {integrity: sha512-6zABk/ECA/QYSCQ1NGiVwwbQerUCZ+TQbp64Q3AgmfNvurHH0j8TtXa1qbShXA6qqkpAj4V5W8pP6mLe1mcMqA==}
     engines: {node: '>=18'}
 
-  '@circleci/v8-coverage-collector@0.2.0':
-    resolution: {integrity: sha512-4z5RZmSbW48I7BK8puu2AsRfGUInJTkdxaPOJxY65pcSUjkAZfkMQDerboAQt8IejDyLComw69kMZooLCAmANQ==}
+  '@circleci/v8-coverage-collector@0.2.110':
+    resolution: {integrity: sha512-NU9WYVZ92yFZB1W8KhN+yecXQc4TlkMnW8uHguPtezF8FgSBwJjP/pO4PrQeVlOPb0+Y8tKpivEEmQzjtuD56w==}
     engines: {node: '>=20.0.0'}
 
   '@emnapi/core@1.11.1':
@@ -778,77 +778,6 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  npm@11.15.0:
-    resolution: {integrity: sha512-+k0tk7lRnpMUPnC7kTuU/yrV/mnFoPhJQ75VfLtZ6fwbzOVXaPsTE/Il9Pn1DHi482byMyqkHv/XsQ76mNjXLw==}
-    engines: {node: ^20.17.0 || >=22.9.0}
-    hasBin: true
-    bundledDependencies:
-      - '@isaacs/string-locale-compare'
-      - '@npmcli/arborist'
-      - '@npmcli/config'
-      - '@npmcli/fs'
-      - '@npmcli/map-workspaces'
-      - '@npmcli/metavuln-calculator'
-      - '@npmcli/package-json'
-      - '@npmcli/promise-spawn'
-      - '@npmcli/redact'
-      - '@npmcli/run-script'
-      - '@sigstore/tuf'
-      - abbrev
-      - archy
-      - cacache
-      - chalk
-      - ci-info
-      - fastest-levenshtein
-      - fs-minipass
-      - glob
-      - graceful-fs
-      - hosted-git-info
-      - ini
-      - init-package-json
-      - is-cidr
-      - json-parse-even-better-errors
-      - libnpmaccess
-      - libnpmdiff
-      - libnpmexec
-      - libnpmfund
-      - libnpmorg
-      - libnpmpack
-      - libnpmpublish
-      - libnpmsearch
-      - libnpmteam
-      - libnpmversion
-      - make-fetch-happen
-      - minimatch
-      - minipass
-      - minipass-pipeline
-      - ms
-      - node-gyp
-      - nopt
-      - npm-audit-report
-      - npm-install-checks
-      - npm-package-arg
-      - npm-pick-manifest
-      - npm-profile
-      - npm-registry-fetch
-      - npm-user-validate
-      - p-map
-      - pacote
-      - parse-conflict-json
-      - proc-log
-      - qrcode-terminal
-      - read
-      - semver
-      - spdx-expression-parse
-      - ssri
-      - supports-color
-      - tar
-      - text-table
-      - tiny-relative-date
-      - treeverse
-      - validate-npm-package-name
-      - which
-
   obug@2.1.1:
     resolution: {integrity: sha512-uTqF9MuPraAQ+IsnPf366RG4cP9RtUi7MLO1N3KEc+wb0a6yKpeL0lmk2IB1jY5KHPAlTc6T/JRdC/YqxHNwkQ==}
 
@@ -1051,9 +980,7 @@ snapshots:
 
   '@bcoe/v8-coverage@1.0.2': {}
 
-  '@circleci/v8-coverage-collector@0.2.0':
-    dependencies:
-      npm: 11.15.0
+  '@circleci/v8-coverage-collector@0.2.110': {}
 
   '@emnapi/core@1.11.1':
     dependencies:
@@ -1542,8 +1469,6 @@ snapshots:
       semver: 7.7.4
 
   nanoid@3.3.15: {}
-
-  npm@11.15.0: {}
 
   obug@2.1.1: {}
 
