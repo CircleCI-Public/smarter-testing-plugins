@@ -24,6 +24,12 @@
       "matchDatasources": ["docker", "node-version"],
       "matchPackageNames": ["/(?:^|/)node$/"],
       "groupName": "node"
+    },
+    {
+      "description": "Disable auto-update for jest alias deps - intentionally pinned to a specific major (jest-28, jest-29, etc.) for cross-version testing",
+      "matchFileNames": ["jest-circleci-coverage/**"],
+      "matchDepNames": ["/^jest(-environment-(jsdom|node))?-\\d+$/"],
+      "enabled": false
     }
   ]
 }
