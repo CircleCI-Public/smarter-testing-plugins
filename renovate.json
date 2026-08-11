@@ -2,8 +2,11 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
   "minimumReleaseAge": "3 days",
-  "commitMessageTopic": "{{parentDir}} dependency {{depName}}",
-  "additionalBranchPrefix": "{{parentDir}}-",
+  "commitMessageTopic": "{{{lookup (split packageFileDir '/') 0}}} dependency {{depName}}",
+  "additionalBranchPrefix": "{{{lookup (split packageFileDir '/') 0}}}-",
+  "group": {
+    "commitMessageTopic": "{{{lookup (split packageFileDir '/') 0}}} {{{groupName}}}"
+  },
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch"],
@@ -16,6 +19,11 @@
       "matchFileNames": ["jest-circleci-coverage/**"],
       "matchPackageNames": ["react", "react-dom"],
       "groupName": "react"
+    },
+    {
+      "matchDatasources": ["docker", "node-version"],
+      "matchPackageNames": ["/(?:^|/)node$/"],
+      "groupName": "node"
     }
   ]
 }
