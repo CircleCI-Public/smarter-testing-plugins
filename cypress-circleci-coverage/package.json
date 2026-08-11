@@ -1,6 +1,6 @@
 {
   "name": "@circleci/cypress-circleci-coverage",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Generate coverage data for CircleCI's Smarter Testing",
   "type": "module",
   "exports": {
