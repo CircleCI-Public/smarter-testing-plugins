@@ -121,6 +121,8 @@ describe.each(jestMatrix)(
           ],
           'test/fixtures/math2.test.ts!!should add and multiply two numbers|run':
             [1],
+          'test/fixtures/nested/math.test.ts!!should compute the rectangle area|run':
+            [1],
         },
         'test/fixtures/math.ts': {
           'test/fixtures/math.test.ts!!should add two numbers|run': [1],
@@ -144,6 +146,16 @@ describe.each(jestMatrix)(
         },
         'test/fixtures/math2.test.ts': {
           'test/fixtures/math2.test.ts!!should add and multiply two numbers|run':
+            [1],
+        },
+        // nested/math.test.ts shares its basename with math.test.ts above;
+        // both suites must keep their coverage within a single run.
+        'test/fixtures/nested/geometry.ts': {
+          'test/fixtures/nested/math.test.ts!!should compute the rectangle area|run':
+            [1],
+        },
+        'test/fixtures/nested/math.test.ts': {
+          'test/fixtures/nested/math.test.ts!!should compute the rectangle area|run':
             [1],
         },
       });
