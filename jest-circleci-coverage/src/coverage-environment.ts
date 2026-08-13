@@ -79,9 +79,6 @@ export function createJestCircleCICoverageEnvironment(
 
         mkdirSync(TMP_COVERAGE_DIR, { recursive: true });
 
-        // Include a hash of the full test path: test files in different
-        // directories can share a basename, and their coverage files must
-        // not overwrite each other.
         const testFileName = basename(this.testPath);
         const testPathHash = createHash('sha256')
           .update(this.testPath)
