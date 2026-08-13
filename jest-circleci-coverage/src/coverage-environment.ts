@@ -3,6 +3,7 @@ import type {
   JestEnvironmentConfig,
 } from '@jest/environment';
 import type { Circus } from '@jest/types';
+import { createHash } from 'node:crypto';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { basename, resolve } from 'node:path';
 import type { Context } from 'vm';
@@ -79,9 +80,13 @@ export function createJestCircleCICoverageEnvironment(
         mkdirSync(TMP_COVERAGE_DIR, { recursive: true });
 
         const testFileName = basename(this.testPath);
+        const testPathHash = createHash('sha256')
+          .update(this.testPath)
+          .digest('hex')
+          .slice(0, 8);
         const testCoverageFile = resolve(
           TMP_COVERAGE_DIR,
-          `${testFileName}.json`,
+          `${testFileName}.${testPathHash}.json`,
         );
         writeFileSync(testCoverageFile, JSON.stringify(output));
       }
