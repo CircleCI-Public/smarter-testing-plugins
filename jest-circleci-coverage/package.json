@@ -72,7 +72,7 @@
     "jest-environment-node-28": "npm:jest-environment-node@^28.0.0",
     "jest-environment-node-29": "npm:jest-environment-node@^29.0.0",
     "jest-environment-node-30": "npm:jest-environment-node@^30.0.0",
-    "jest-junit": "^16.0.0",
+    "jest-junit": "^17.0.0",
     "oxlint": "^1.59.0",
     "prettier": "^3.8.1",
     "react": "^19.2.0",
