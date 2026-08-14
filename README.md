@@ -19,3 +19,9 @@ A monorepo for Smarter Testing plugins.
 ## Ruby
 
 - [rspec-circleci-coverage](rspec-circleci-coverage) - A RSpec plugin to generate CircleCI coverage data.
+
+## Contributing
+
+Bug reports and pull requests are welcome. Please read
+[CONTRIBUTING.md](CONTRIBUTING.md) first — note that a pull request may only change one plugin. All community members
+are expected to adhere to our [code of conduct](CODE_OF_CONDUCT.md).
