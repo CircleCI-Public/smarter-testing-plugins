@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
-  "minimumReleaseAge": "3 days",
+  "minimumReleaseAge": "7 days",
   "commitMessageTopic": "{{{lookup (split packageFileDir '/') 0}}} dependency {{depName}}",
   "additionalBranchPrefix": "{{{lookup (split packageFileDir '/') 0}}}-",
   "group": {
