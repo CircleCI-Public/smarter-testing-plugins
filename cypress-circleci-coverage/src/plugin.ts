@@ -64,12 +64,11 @@ interface CoveragePayload {
 /**
  * The coverage output format mapping files to their test coverage data.
  *
- * Keys are file paths, and values are objects mapping test keys to
- * arrays of executed line numbers.
+ * Keys are file paths, and values are objects mapping test keys to `true`.
  */
 interface CypressCircleCICoverageOutput {
   [sourceFile: string]: {
-    [testKey: string]: number[];
+    [testKey: string]: true;
   };
 }
 
@@ -127,11 +126,7 @@ export default function cypressCircleCICoverage(
           output[filePath] = {};
         }
 
-        if (!output[filePath][testKey]) {
-          // executed lines isn't supported, but the testsuite coverage
-          // parser requires some lines executed to be accounted for.
-          output[filePath][testKey] = [1];
-        }
+        output[filePath][testKey] = true;
       }
     }
 
