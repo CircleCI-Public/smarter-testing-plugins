@@ -69,11 +69,7 @@ export function createJestCircleCICoverageEnvironment(
               output[path] = {};
             }
 
-            if (!output[path][test]) {
-              // executed lines isn't supported, but the testsuite coverage
-              // parser requires some lines executed to be accounted for.
-              output[path][test] = [1];
-            }
+            output[path][test] = true;
           }
         }
 
