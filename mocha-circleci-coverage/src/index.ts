@@ -10,7 +10,7 @@ interface TestCoverage {
 
 interface CircleCICoverageOutput {
   [sourceFile: string]: {
-    [testKey: string]: number[];
+    [testKey: string]: true;
   };
 }
 
@@ -62,9 +62,7 @@ export const mochaHooks = async (): Promise<Mocha.RootHookObject> => {
             coverageMap[file] = {};
           }
 
-          if (!coverageMap[file][test]) {
-            coverageMap[file][test] = [1];
-          }
+          coverageMap[file][test] = true;
         }
       }
 
