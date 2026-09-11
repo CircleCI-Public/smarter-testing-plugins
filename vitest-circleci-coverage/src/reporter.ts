@@ -25,12 +25,11 @@ interface CircleTaskMeta extends TaskMeta {
 /**
  * The coverage output format mapping files to their test coverage data.
  *
- * Keys are file paths, and values are objects mapping test keys to
- * arrays of executed line numbers.
+ * Keys are file paths, and values are objects mapping test keys to `true`.
  */
 export interface VitestCircleCICoverageOutput {
   [sourceFile: string]: {
-    [testKey: string]: number[];
+    [testKey: string]: true;
   };
 }
 
@@ -71,11 +70,7 @@ export default class VitestCircleCICoverageReporter implements Reporter {
         this.output[path] = {};
       }
 
-      if (!this.output[path][meta.testKey]) {
-        // executed lines isn't supported, but the testsuite coverage
-        // parser requires some lines executed to be accounted for.
-        this.output[path][meta.testKey] = [1];
-      }
+      this.output[path][meta.testKey] = true;
     }
   }
 
