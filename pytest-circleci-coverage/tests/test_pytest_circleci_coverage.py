@@ -169,72 +169,68 @@ def test_pytest_sessionfinish_success(test_files, testdir, pytester):
     assert result.stderr.str() == ""
 
     expected = {
-        "src_file.py": {"test_file.py!!test_file.py::test_print_hello_world|run": [2]},
+        "src_file.py": {"test_file.py!!test_file.py::test_print_hello_world|run": True},
         "test_file.py": {
-            "test_file.py!!test_file.py::test_print_hello_world|run": [6, 7, 8, 9]
+            "test_file.py!!test_file.py::test_print_hello_world|run": True
         },
         "src_a.py": {
-            "test_one.py!!test_one.py::test_a1|run": [2],
-            "test_one.py!!test_one.py::test_a2|run": [2],
-            "test_one.py!!test_one.py::TestClass!!test_one.py::TestClass::test_fn|run": [2],
-            "test_two.py!!test_two.py::test_b1|run": [2],
+            "test_one.py!!test_one.py::test_a1|run": True,
+            "test_one.py!!test_one.py::test_a2|run": True,
+            "test_one.py!!test_one.py::TestClass!!test_one.py::TestClass::test_fn|run": True,
+            "test_two.py!!test_two.py::test_b1|run": True,
         },
         "src_b.py": {
-            "test_one.py!!test_one.py::test_a1|run": [2],
-            "test_two.py!!test_two.py::test_b1|run": [2],
+            "test_one.py!!test_one.py::test_a1|run": True,
+            "test_two.py!!test_two.py::test_b1|run": True,
             # Neither calls src_b, but a sibling test in test_one.py references
             # it, and the dependency is tracked per test file.
-            "test_one.py!!test_one.py::test_a2|run": [1],
-            "test_one.py!!test_one.py::TestClass!!test_one.py::TestClass::test_fn|run": [1],
+            "test_one.py!!test_one.py::test_a2|run": True,
+            "test_one.py!!test_one.py::TestClass!!test_one.py::TestClass::test_fn|run": True,
         },
         "test_one.py": {
-            "test_one.py!!test_one.py::test_a1|run": [6, 7, 8],
-            "test_one.py!!test_one.py::test_a2|run": [11],
-            "test_one.py!!test_one.py::TestClass!!test_one.py::TestClass::test_fn|run": [15],
+            "test_one.py!!test_one.py::test_a1|run": True,
+            "test_one.py!!test_one.py::test_a2|run": True,
+            "test_one.py!!test_one.py::TestClass!!test_one.py::TestClass::test_fn|run": True,
         },
         "test_two.py": {
-            "test_two.py!!test_two.py::test_b1|run": [7, 8, 9, 10],
+            "test_two.py!!test_two.py::test_b1|run": True,
         },
         # Referenced only by a fixture body, whose lines run during setup rather
         # than during the test, so only the test using that fixture is credited.
-        "fixture_only.py": {"test_two.py!!test_two.py::test_b1|run": [1]},
+        "fixture_only.py": {"test_two.py!!test_two.py::test_b1|run": True},
         # Nothing imports a conftest.py, so it is credited to every test it
         # applies to -- here, all of them.
         "conftest.py": {
-            "test_file.py!!test_file.py::test_print_hello_world|run": [1],
-            "test_one.py!!test_one.py::test_a1|run": [1],
-            "test_one.py!!test_one.py::test_a2|run": [1],
-            "test_one.py!!test_one.py::TestClass!!test_one.py::TestClass::test_fn|run": [1],
-            "test_two.py!!test_two.py::test_b1|run": [1],
+            "test_file.py!!test_file.py::test_print_hello_world|run": True,
+            "test_one.py!!test_one.py::test_a1|run": True,
+            "test_one.py!!test_one.py::test_a2|run": True,
+            "test_one.py!!test_one.py::TestClass!!test_one.py::TestClass::test_fn|run": True,
+            "test_two.py!!test_two.py::test_b1|run": True,
         },
         # Declarations only, so no test runs a line of it. Credited to the tests
         # in the one file that references it, and to no other -- test_file.py and
         # test_two.py never name it.
         "declarations.py": {
-            "test_one.py!!test_one.py::test_a1|run": [1],
-            "test_one.py!!test_one.py::test_a2|run": [1],
-            "test_one.py!!test_one.py::TestClass!!test_one.py::TestClass::test_fn|run": [1],
+            "test_one.py!!test_one.py::test_a1|run": True,
+            "test_one.py!!test_one.py::test_a2|run": True,
+            "test_one.py!!test_one.py::TestClass!!test_one.py::TestClass::test_fn|run": True,
         },
         # Only ever named as an ancestor of the modules pkg.sub.deep imports,
         # never imported itself.
-        "pkg/__init__.py": {"test_two.py!!test_two.py::test_b1|run": [1]},
+        "pkg/__init__.py": {"test_two.py!!test_two.py::test_b1|run": True},
         # Reached by a "from .." import a package up from pkg/sub/deep.py.
-        "pkg/base.py": {"test_two.py!!test_two.py::test_b1|run": [1]},
+        "pkg/base.py": {"test_two.py!!test_two.py::test_b1|run": True},
         # Reached by a relative "from . import".
-        "pkg/sub/limits.py": {"test_two.py!!test_two.py::test_b1|run": [1]},
+        "pkg/sub/limits.py": {"test_two.py!!test_two.py::test_b1|run": True},
         # Reached by absolute name from pkg/sub/deep.py, despite that file
         # living in a package.
-        "leaf.py": {"test_two.py!!test_two.py::test_b1|run": [1]},
+        "leaf.py": {"test_two.py!!test_two.py::test_b1|run": True},
         # Names all three only inside go(), so each depends on test_b1 having
-        # called it. Executed itself, so the line it ran is reported.
-        "pkg/sub/deep.py": {"test_two.py!!test_two.py::test_b1|run": [6]},
+        # called it.
+        "pkg/sub/deep.py": {"test_two.py!!test_two.py::test_b1|run": True},
     }
 
     coverage = json.loads(coverage_file.read_text(encoding="utf-8"))
-    for file_data in coverage.values():
-        for context, lines in file_data.items():
-            file_data[context] = sorted(lines)
-
     assert coverage == expected
 
 
