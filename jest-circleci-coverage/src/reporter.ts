@@ -63,14 +63,7 @@ export default class JestCircleCICoverageReporter implements Reporter {
       );
 
       for (const [sourceFile, tests] of Object.entries(coverage)) {
-        if (!merged[sourceFile]) {
-          merged[sourceFile] = {};
-        }
-        for (const [testKey, lines] of Object.entries(tests)) {
-          if (!merged[sourceFile][testKey]) {
-            merged[sourceFile][testKey] = lines;
-          }
-        }
+        merged[sourceFile] = { ...merged[sourceFile], ...tests };
       }
     }
 
