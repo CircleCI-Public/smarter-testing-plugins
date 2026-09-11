@@ -1,118 +1,23 @@
 {
   "src/pytest_circleci_coverage/__init__.py": {
-    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_all_tests_skipped|run": [
-      52
-    ],
-    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_context|run": [
-      52
-    ],
-    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_coverage|run": [
-      52
-    ],
-    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_flag|run": [
-      52
-    ],
-    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_success|run": [
-      52
-    ]
+    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_all_tests_skipped|run": true,
+    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_context|run": true,
+    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_coverage|run": true,
+    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_flag|run": true,
+    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_success|run": true
   },
   "tests/conftest.py": {
-    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_all_tests_skipped|run": [
-      1
-    ],
-    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_context|run": [
-      1
-    ],
-    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_coverage|run": [
-      1
-    ],
-    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_flag|run": [
-      1
-    ],
-    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_success|run": [
-      1
-    ]
+    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_all_tests_skipped|run": true,
+    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_context|run": true,
+    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_coverage|run": true,
+    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_flag|run": true,
+    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_success|run": true
   },
   "tests/test_pytest_circleci_coverage.py": {
-    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_all_tests_skipped|run": [
-      242,
-      244,
-      245,
-      246,
-      248,
-      249,
-      251,
-      253
-    ],
-    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_context|run": [
-      274,
-      276,
-      277,
-      278,
-      281,
-      282
-    ],
-    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_coverage|run": [
-      265,
-      267,
-      268,
-      269,
-      270
-    ],
-    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_flag|run": [
-      257,
-      259,
-      260,
-      261
-    ],
-    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_success|run": [
-      162,
-      164,
-      165,
-      166,
-      168,
-      169,
-      171,
-      172,
-      173,
-      174,
-      176,
-      177,
-      178,
-      179,
-      180,
-      182,
-      183,
-      184,
-      187,
-      188,
-      190,
-      191,
-      192,
-      193,
-      195,
-      196,
-      200,
-      203,
-      204,
-      205,
-      206,
-      207,
-      208,
-      213,
-      214,
-      215,
-      216,
-      220,
-      222,
-      224,
-      227,
-      230,
-      233,
-      234,
-      235,
-      236,
-      238
-    ]
+    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_all_tests_skipped|run": true,
+    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_context|run": true,
+    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_coverage|run": true,
+    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_no_flag|run": true,
+    "tests/test_pytest_circleci_coverage.py!!tests/test_pytest_circleci_coverage.py::test_pytest_sessionfinish_success|run": true
   }
 }
