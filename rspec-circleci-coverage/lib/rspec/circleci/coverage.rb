@@ -78,25 +78,16 @@ module RSpec
 
           before_lines = extract_lines(@before_coverage[file])
 
-          # Find lines that were executed during this test
-          executed_lines = []
-          lines.each_with_index do |count, index|
-            next if count.nil?
+          # Any line whose count increased means this test executed the file.
+          executed = lines.each_with_index.any? do |count, index|
+            next false if count.nil?
             # Treat a missing before-count as 0 so the first render of an
             # eval'd file (e.g. a compiled template) is attributed to this test.
             before_count = before_lines ? (before_lines[index] || 0) : 0
-
-            # Line was executed if count increased
-            if count > before_count
-              executed_lines << (index + 1) # Line numbers are 1-indexed
-            end
+            count > before_count
           end
 
-          # Only add if lines were executed
-          if executed_lines.any?
-            relative_file = relative_path(file)
-            @coverage_data[relative_file][test_key] = executed_lines
-          end
+          @coverage_data[relative_path(file)][test_key] = true if executed
         end
       end
 
