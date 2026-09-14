@@ -32,7 +32,7 @@ jobs:
       - run:
           name: integrate with testsuite
           command: |
-            circleci testsuite "integration test" --analyze-tests="all"
+            circleci testsuite run "integration test" --analyze-tests="all"
             cat coverage.json | jq --sort-keys > coveragetmp.json
             mv coveragetmp.json coverage.json
 
@@ -51,7 +51,7 @@ jobs:
     executor: python
     steps:
       - setup
-      - run: circleci testsuite "test classnames" --verbose
+      - run: circleci testsuite run "test classnames" --verbose
       - store_artifacts:
           path: test-reports/
       - store_test_results:
