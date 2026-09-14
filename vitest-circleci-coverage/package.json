@@ -32,8 +32,8 @@
     "test:ci": "vitest run --reporter=default --reporter=junit --outputFile=junit.xml",
     "lint": "oxlint --quiet",
     "format": "prettier . --check",
-    "generate": "circleci run testsuite 'ci tests' --local --test-analysis=all && cat coverage.json | jq > coveragetmp.json && mv coveragetmp.json coverage.json",
-    "generate:ci": "circleci run testsuite 'ci tests' --test-analysis=all && cat coverage.json | jq > coveragetmp.json && mv coveragetmp.json coverage.json"
+    "generate": "circleci testsuite run 'ci tests' --local --analyze-tests=all && cat coverage.json | jq > coveragetmp.json && mv coveragetmp.json coverage.json",
+    "generate:ci": "circleci testsuite run 'ci tests' --analyze-tests=all && cat coverage.json | jq > coveragetmp.json && mv coveragetmp.json coverage.json"
   },
   "peerDependencies": {
     "@vitest/coverage-v8": ">=4.1.4",
