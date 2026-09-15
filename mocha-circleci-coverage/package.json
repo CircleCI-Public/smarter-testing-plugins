@@ -24,8 +24,8 @@
     "test:ci": "mocha --reporter=default --reporter=junit --outputFile=junit.xml",
     "lint": "oxlint --quiet",
     "format": "prettier . --check",
-    "generate": "circleci run testsuite 'integration test' --local --test-analysis=all && cat coverage.json | jq > coveragetmp.json && mv coveragetmp.json coverage.json",
-    "generate:ci": "circleci run testsuite 'integration test' --test-analysis=all && cat coverage.json | jq > coveragetmp.json && mv coveragetmp.json coverage.json"
+    "generate": "circleci testsuite run 'integration test' --local --analyze-tests=all && cat coverage.json | jq > coveragetmp.json && mv coveragetmp.json coverage.json",
+    "generate:ci": "circleci testsuite run 'integration test' --analyze-tests=all && cat coverage.json | jq > coveragetmp.json && mv coveragetmp.json coverage.json"
   },
   "devDependencies": {
     "@prettier/plugin-oxc": "^0.2.0",
