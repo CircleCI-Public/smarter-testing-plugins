@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@circleci/v8-coverage-collector':
-        specifier: 0.2.273
-        version: 0.2.273
+        specifier: 0.2.355
+        version: 0.2.355
       '@vitest/coverage-v8':
         specifier: '>=4.1.4'
         version: 4.1.4(vitest@4.1.11)
@@ -57,8 +57,8 @@ packages:
     resolution: {integrity: sha512-6zABk/ECA/QYSCQ1NGiVwwbQerUCZ+TQbp64Q3AgmfNvurHH0j8TtXa1qbShXA6qqkpAj4V5W8pP6mLe1mcMqA==}
     engines: {node: '>=18'}
 
-  '@circleci/v8-coverage-collector@0.2.273':
-    resolution: {integrity: sha512-N660pq/DYEKIE9vq0UrpVJ5F6Wn2oYnP4eJUtHya5y8EkTcehj0RoEW4RTUbxY6ryrSA0LPe1OV/6gkMIbkCEg==}
+  '@circleci/v8-coverage-collector@0.2.355':
+    resolution: {integrity: sha512-YbVCas9nX+bloUMXzgn1cp0P8IZAiqF+DTik/+xwrJLsJXIIMQuw7UMxD04ErSrzz9Z11YUIqpeS78y2H0ss4g==}
     engines: {node: '>=20.0.0'}
 
   '@emnapi/core@1.11.1':
@@ -1105,7 +1105,7 @@ snapshots:
   '@bcoe/v8-coverage@1.0.2':
     optional: true
 
-  '@circleci/v8-coverage-collector@0.2.273': {}
+  '@circleci/v8-coverage-collector@0.2.355': {}
 
   '@emnapi/core@1.11.1':
     dependencies:
