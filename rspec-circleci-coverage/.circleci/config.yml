@@ -37,7 +37,7 @@ jobs:
       - run:
           name: integrate with testsuite
           command: |
-            circleci run testsuite 'integration test' --test-analysis=all
+            circleci testsuite run 'integration test' --analyze-tests=all
             cat coverage.json | jq --sort-keys > coveragetmp.json
             mv coveragetmp.json coverage.json
 
