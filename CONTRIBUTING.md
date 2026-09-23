@@ -57,6 +57,9 @@ collector changes land and publish first, then a follow-up pull request bumps th
 
 #### Before submitting
 
+- If you are adding a plugin, or changing how one collects or formats coverage, read
+  [COVERAGE-SPEC.md](COVERAGE-SPEC.md) — it specifies the coverage format, the attribution rules, and the tests a
+  conforming plugin is expected to have.
 - Test your change thoroughly. See the plugin's own `README.md` for how to install dependencies and run its tests.
 - If you changed how coverage is collected or formatted, the `coverage.json`
   checked in at the plugin root will be out of date. CI regenerates it and fails if the result differs from what's
