@@ -3,7 +3,7 @@ version: 2.1
 executors:
   ruby:
     docker:
-      - image: cimg/ruby:4.0.6
+      - image: cimg/ruby:4.0.7
     working_directory: ~/project/rspec-circleci-coverage
 
 commands:
