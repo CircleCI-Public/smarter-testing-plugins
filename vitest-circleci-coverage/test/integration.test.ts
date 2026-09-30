@@ -17,11 +17,25 @@ const fixturesDir = resolve(__dirname, 'fixtures');
 const outputDir = resolve(__dirname, 'output');
 const runnerPath = resolve(__dirname, '../src/runner.ts');
 const reporterPath = resolve(__dirname, '../src/reporter.ts');
+const browserSetupPath = resolve(__dirname, '../src/browser.ts');
 
-function runVitest(env: Record<string, string | undefined> = {}): void {
+function runVitest(
+  env: Record<string, string | undefined> = {},
+  browser = false,
+): void {
   const configFile = resolve(outputDir, 'vitest.config.ts');
+  const modeConfig = browser
+    ? `setupFiles: ['${browserSetupPath}'],
+    browser: {
+      enabled: true,
+      headless: true,
+      provider: playwright(),
+      instances: [{ browser: 'chromium' }],
+    },`
+    : `runner: '${runnerPath}',`;
   const configContent = `
 import { defineConfig } from 'vitest/config'
+import { playwright } from '@vitest/browser-playwright'
 
 export default defineConfig({
   test: {
@@ -30,8 +44,8 @@ export default defineConfig({
     fileParallelism: false,
     isolate: false,
     disableConsoleIntercept: true,
-    runner: '${runnerPath}',
     reporters: ['${reporterPath}'],
+    ${modeConfig}
   },
 })
 `;
@@ -76,6 +90,45 @@ describe('circleci-coverage integration', () => {
       // This doesn't happen with the installed plugin because files
       // in `node_modules` are omitted from results.
       '../../src/runner.ts': {
+        'math.test.ts!!should add two numbers|run': true,
+        'math.test.ts!!should divide two numbers|run': true,
+        'math.test.ts!!should multiply two numbers|run': true,
+        'math.test.ts!!should subtract two numbers|run': true,
+        'math.test.ts!!should throw on division by zero|run': true,
+        'math2.test.ts!!should add and multiply two numbers|run': true,
+      },
+      'math.ts': {
+        'math.test.ts!!should add two numbers|run': true,
+        'math.test.ts!!should subtract two numbers|run': true,
+        'math.test.ts!!should multiply two numbers|run': true,
+        'math.test.ts!!should divide two numbers|run': true,
+        'math.test.ts!!should throw on division by zero|run': true,
+        'math2.test.ts!!should add and multiply two numbers|run': true,
+      },
+      'math.test.ts': {
+        'math.test.ts!!should add two numbers|run': true,
+        'math.test.ts!!should subtract two numbers|run': true,
+        'math.test.ts!!should multiply two numbers|run': true,
+        'math.test.ts!!should divide two numbers|run': true,
+        'math.test.ts!!should throw on division by zero|run': true,
+      },
+      'math2.test.ts': {
+        'math2.test.ts!!should add and multiply two numbers|run': true,
+      },
+    });
+  });
+
+  it('should produce the expected coverage map in browser mode', () => {
+    const outputFile = resolve(outputDir, 'coverage.json');
+    runVitest({ CIRCLECI_COVERAGE: outputFile }, true);
+
+    const output: VitestCircleCICoverageOutput = JSON.parse(
+      readFileSync(outputFile, 'utf-8'),
+    );
+
+    expect(output).toEqual({
+      // The setup file's hooks run around every test, as with the runner above.
+      '../../src/browser.ts': {
         'math.test.ts!!should add two numbers|run': true,
         'math.test.ts!!should divide two numbers|run': true,
         'math.test.ts!!should multiply two numbers|run': true,

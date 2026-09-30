@@ -40,6 +40,9 @@ jobs:
     executor: node
     steps:
       - setup
+      - run:
+          name: Install Chromium
+          command: pnpm exec playwright install --with-deps chromium
       - run: pnpm build
       - run: pnpm test
       - run:

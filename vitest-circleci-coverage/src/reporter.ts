@@ -5,17 +5,18 @@
  * @module
  */
 
-import { mkdirSync, writeFileSync } from 'node:fs';
-import { dirname } from 'node:path';
+import { mkdirSync, statSync, writeFileSync } from 'node:fs';
+import { dirname, join, relative } from 'node:path';
 import type {
   TestCase,
   TestModule,
   TestRunEndReason,
   TestSpecification,
   Reporter,
+  Vitest,
 } from 'vitest/node';
 import type { SerializedError, TaskMeta } from 'vitest';
-import { ENV_VAR } from './constants.ts';
+import { ENV_VAR, COVERAGE_ENABLED_KEY } from './constants.ts';
 
 interface CircleTaskMeta extends TaskMeta {
   coveredFiles?: string[];
@@ -44,6 +45,8 @@ export interface VitestCircleCICoverageOutput {
 export default class VitestCircleCICoverageReporter implements Reporter {
   private output: VitestCircleCICoverageOutput = {};
   private readonly outputFile: string | undefined;
+  private readonly cwd = process.cwd();
+  private readonly resolvedUrls = new Map<string, string | undefined>();
 
   constructor() {
     this.outputFile = process.env[ENV_VAR];
@@ -51,6 +54,17 @@ export default class VitestCircleCICoverageReporter implements Reporter {
 
   private get enabled(): boolean {
     return this.outputFile !== undefined;
+  }
+
+  /**
+   * Called when Vitest is initialised to check if coverage is enabled.
+   *
+   * @param vitest
+   */
+  onInit(vitest: Vitest): void {
+    for (const project of vitest.projects) {
+      project.provide(COVERAGE_ENABLED_KEY, this.enabled);
+    }
   }
 
   /**
@@ -63,6 +77,13 @@ export default class VitestCircleCICoverageReporter implements Reporter {
     if (!this.enabled) return;
 
     const meta: CircleTaskMeta = testCase.meta();
+    if (meta.coveredUrls) {
+      meta.testKey = `${relative(this.cwd, testCase.module.moduleId)}!!${testCase.name}|run`;
+      meta.coveredFiles = this.resolveBrowserUrls(
+        testCase.project.config.root,
+        meta.coveredUrls,
+      );
+    }
     if (!meta.coveredFiles || !meta.testKey) return;
 
     for (const path of meta.coveredFiles) {
@@ -72,6 +93,40 @@ export default class VitestCircleCICoverageReporter implements Reporter {
 
       this.output[path][meta.testKey] = true;
     }
+  }
+
+  /**
+   * Transforms script URLs in browser mode to source files relative
+   * to the cwd.
+   *
+   * @param root
+   * @param urls
+   */
+  private resolveBrowserUrls(root: string, urls: string[]): string[] {
+    const files = new Set<string>();
+    for (const url of urls) {
+      if (!this.resolvedUrls.has(url)) {
+        this.resolvedUrls.set(url, this.resolveBrowserUrl(root, url));
+      }
+      const file = this.resolvedUrls.get(url);
+      if (file) files.add(file);
+    }
+    return [...files];
+  }
+
+  private resolveBrowserUrl(root: string, url: string): string | undefined {
+    if (!URL.canParse(url)) return undefined;
+
+    const path = decodeURIComponent(new URL(url).pathname).replace(
+      /^\/@fs\//,
+      '/',
+    );
+    if (path.includes('node_modules')) return undefined;
+
+    const file = [path, join(root, path)].find((p) =>
+      statSync(p, { throwIfNoEntry: false })?.isFile(),
+    );
+    return file && relative(this.cwd, file);
   }
 
   /**
