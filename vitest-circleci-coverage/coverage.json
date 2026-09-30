@@ -1,10 +1,12 @@
 {
   "src/runner.ts": {
     "test/integration.test.ts!!should produce the expected coverage map when enabled|run": true,
+    "test/integration.test.ts!!should produce the expected coverage map in browser mode|run": true,
     "test/integration.test.ts!!should not produce output or capture coverage when disabled|run": true
   },
   "test/integration.test.ts": {
     "test/integration.test.ts!!should produce the expected coverage map when enabled|run": true,
+    "test/integration.test.ts!!should produce the expected coverage map in browser mode|run": true,
     "test/integration.test.ts!!should not produce output or capture coverage when disabled|run": true
   }
 }

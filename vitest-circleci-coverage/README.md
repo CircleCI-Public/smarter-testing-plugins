@@ -31,6 +31,28 @@ Set the `CIRCLECI_COVERAGE` environment variable when running tests to enable te
 CIRCLECI_COVERAGE=coverage.json vitest run
 ```
 
+### Browser mode
+
+[Browser mode](https://vitest.dev/guide/browser/) collects coverage over the Chrome
+DevTools Protocol. A Chromium browser is required.
+
+```ts
+import { defineConfig } from 'vitest/config';
+import { playwright } from '@vitest/browser-playwright';
+
+export default defineConfig({
+  test: {
+    setupFiles: ['@circleci/vitest-circleci-coverage/browser'],
+    reporters: ['@circleci/vitest-circleci-coverage/reporter'],
+    browser: {
+      enabled: true,
+      provider: playwright(),
+      instances: [{ browser: 'chromium' }],
+    },
+  },
+});
+```
+
 ## Development
 
 Install and use current node version.
