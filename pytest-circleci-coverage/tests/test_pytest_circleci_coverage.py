@@ -234,6 +234,119 @@ def test_pytest_sessionfinish_success(test_files, testdir, pytester):
     assert coverage == expected
 
 
+def test_pytest_sessionfinish_import_root_has_init(testdir, pytester):
+    """A pythonpath entry that is itself a package (has its own __init__.py,
+    as a Django-style project root typically does) makes import_deps's
+    ancestor-__init__.py walk run one directory too far and prepend that
+    package's own name, so an absolute import of a sibling module never
+    resolves by name.
+    """
+    pytester.plugins.append("pytest_circleci_coverage")
+
+    testdir.makeini(
+        """
+        [pytest]
+        pythonpath = root
+        """
+    )
+    testdir.makepyfile(
+        **{
+            "root/__init__": "",
+            "root/apps/__init__": "",
+            "root/apps/declarations": """
+                from enum import Enum
+
+
+                class Color(Enum):
+                    RED = "red"
+            """,
+            "root/test_uses_apps": """
+                from apps.declarations import Color
+
+
+                def test_color():
+                    assert Color.RED.value == "red"
+            """,
+        }
+    )
+
+    coverage_file = testdir.tmpdir / "coverage.json"
+    result = testdir.runpytest_subprocess(
+        "--cov=.", "--cov-context=test", f"--circleci-coverage={coverage_file}"
+    )
+    result.assert_outcomes(passed=1)
+    assert result.stderr.str() == ""
+
+    expected = {
+        "root/test_uses_apps.py": {
+            "root/test_uses_apps.py!!root/test_uses_apps.py::test_color|run": True
+        },
+        "root/apps/declarations.py": {
+            "root/test_uses_apps.py!!root/test_uses_apps.py::test_color|run": True
+        },
+    }
+
+    coverage = json.loads(coverage_file.read_text(encoding="utf-8"))
+    assert coverage == expected
+
+
+def test_pytest_sessionfinish_relative_import_under_pythonpath_root(testdir, pytester):
+    """A module living directly in a pythonpath root still resolves a
+    relative import against its own package, even though that same root is
+    also aliased so sibling modules can resolve it by an absolute name.
+    """
+    pytester.plugins.append("pytest_circleci_coverage")
+
+    testdir.makeini(
+        """
+        [pytest]
+        pythonpath = root
+        """
+    )
+    testdir.makepyfile(
+        **{
+            "root/__init__": "",
+            "root/helpers": "VALUE = 1",
+            "root/test_rel": """
+                from . import helpers
+
+
+                def test_it():
+                    assert helpers.VALUE == 1
+            """,
+            "root/test_abs": """
+                from root import helpers
+
+                def test_it():
+                    assert helpers.VALUE == 1
+            """
+        }
+    )
+
+    coverage_file = testdir.tmpdir / "coverage.json"
+    result = testdir.runpytest_subprocess(
+        "--cov=.", "--cov-context=test", f"--circleci-coverage={coverage_file}"
+    )
+    result.assert_outcomes(passed=2)
+    assert result.stderr.str() == ""
+
+    expected = {
+        "root/test_rel.py": {
+            "root/test_rel.py!!root/test_rel.py::test_it|run": True
+        },
+        "root/test_abs.py": {
+            "root/test_abs.py!!root/test_abs.py::test_it|run": True
+        },
+        "root/helpers.py": {
+            "root/test_rel.py!!root/test_rel.py::test_it|run": True,
+            "root/test_abs.py!!root/test_abs.py::test_it|run": True
+        },
+    }
+
+    coverage = json.loads(coverage_file.read_text(encoding="utf-8"))
+    assert coverage == expected
+
+
 def test_pytest_sessionfinish_all_tests_skipped(test_skipped, testdir, pytester):
     pytester.plugins.append("pytest_circleci_coverage")
 
