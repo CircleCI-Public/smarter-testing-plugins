@@ -6,7 +6,7 @@ orbs:
 executors:
   python:
     docker:
-      - image: python:3.14
+      - image: python:3.11
     resource_class: medium.gen2
     working_directory: ~/project/pytest-circleci-coverage
 
