@@ -118,7 +118,7 @@ def _sys_path_fqns(path):
         try:
             root = Path(entry or os.getcwd()).resolve()
             rel = resolved.relative_to(root).with_suffix("")
-        except OSError, ValueError:
+        except (OSError, ValueError):
             continue
         if not rel.parts:
             continue
