@@ -12,8 +12,7 @@ import type {
   RunnerTestFile,
   TaskMeta,
 } from 'vitest';
-import type { VitestRunner } from 'vitest/suite';
-import { VitestTestRunner } from 'vitest/runners';
+import { TestRunner } from 'vitest';
 import { ENV_VAR } from './constants.ts';
 import { V8CoverageCollector } from '@circleci/v8-coverage-collector';
 
@@ -35,10 +34,7 @@ interface CircleRunnerTestCase extends RunnerTestCase {
  * coverage after each test, attaching the covered file paths to the test's
  * metadata for the {@linkcode VitestCircleCICoverageReporter} to consume.
  */
-export default class VitestCircleCICoverageRunner
-  extends VitestTestRunner
-  implements VitestRunner
-{
+export default class VitestCircleCICoverageRunner extends TestRunner {
   public config: SerializedConfig;
   private inspector: V8CoverageCollector;
   private initialized = false;
