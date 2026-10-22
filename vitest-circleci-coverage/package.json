@@ -57,6 +57,6 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
-    "@circleci/v8-coverage-collector": "0.2.355"
+    "@circleci/v8-coverage-collector": "0.2.619"
   }
 }
