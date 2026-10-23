@@ -8,3 +8,5 @@ We are very grateful to the following people who have helped us to build the Sma
 
   - [Your Name](https://github.com/your-username)
 -->
+
+- [John Huynh](https://github.com/huynhj93)

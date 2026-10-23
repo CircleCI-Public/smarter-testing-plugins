@@ -89,6 +89,36 @@ RSpec.describe 'RSpec CircleCI Coverage Integration' do
       end
     RUBY
 
+    # Create a shared example group, defined outside the spec that uses it
+    File.write(File.join(@temp_dir, 'lib', 'doubler.rb'), <<~RUBY)
+      module CircleCI
+        class Doubler
+          def double(n)
+            n * 2
+          end
+        end
+      end
+    RUBY
+
+    FileUtils.mkdir_p(File.join(@temp_dir, 'spec', 'support'))
+    File.write(File.join(@temp_dir, 'spec', 'support', 'shared_doubler.rb'), <<~RUBY)
+      require_relative '../../lib/doubler'
+
+      RSpec.shared_examples 'a doubler' do
+        it 'doubles a number' do
+          expect(CircleCI::Doubler.new.double(2)).to eq(4)
+        end
+      end
+    RUBY
+
+    File.write(File.join(@temp_dir, 'spec', 'doubler_user_spec.rb'), <<~RUBY)
+      require_relative 'support/shared_doubler'
+
+      RSpec.describe 'DoublerUser' do
+        it_behaves_like 'a doubler'
+      end
+    RUBY
+
     # Create spec_helper that requires our plugin
     File.write(File.join(@temp_dir, 'spec', 'spec_helper.rb'), <<~RUBY)
       require_relative '../../../../lib/rspec-circleci-coverage'
@@ -155,6 +185,7 @@ RSpec.describe 'RSpec CircleCI Coverage Integration' do
         'spec/math2_spec.rb',
         'spec/compiled_template_spec.rb',
         'spec/compiled_template_two_spec.rb',
+        'spec/doubler_user_spec.rb',
       )
 
       # Verify RSpec ran successfully
@@ -181,6 +212,14 @@ RSpec.describe 'RSpec CircleCI Coverage Integration' do
           "spec/compiled_template_spec.rb!!CompiledTemplate renders a compiled template|run" => true,
           "spec/compiled_template_spec.rb!!CompiledTemplate renders a compiled template again|run" => true,
           "spec/compiled_template_two_spec.rb!!CompiledTemplateTwo renders a compiled template two|run" => true
+        },
+        # Credited to the spec that includes the shared group, not the file
+        # that defines it, so a change to either file selects that spec
+        "lib/doubler.rb" => {
+          "spec/doubler_user_spec.rb!!DoublerUser behaves like a doubler doubles a number|run" => true
+        },
+        "spec/support/shared_doubler.rb" => {
+          "spec/doubler_user_spec.rb!!DoublerUser behaves like a doubler doubles a number|run" => true
         }
       }
 
