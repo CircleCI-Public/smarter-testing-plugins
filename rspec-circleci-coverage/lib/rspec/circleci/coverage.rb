@@ -105,7 +105,9 @@ module RSpec
       end
 
       def format_test_key(example)
-        file_path = example.metadata[:file_path]
+        # Examples from a shared group report the file defining the group as
+        # file_path; rerun_file_path is the spec file that includes it.
+        file_path = example.metadata[:rerun_file_path] || example.metadata[:file_path]
         # Clean path to remove ./ and other redundant components
         file_path = Pathname.new(file_path).cleanpath.to_s if file_path
         description = example.full_description
