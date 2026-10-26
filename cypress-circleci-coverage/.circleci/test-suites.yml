@@ -2,7 +2,8 @@ name: integration test
 discover: find cypress/e2e -name "*.cy.ts" -type f
 run: |
   SPECS="$(echo << test.atoms >> | tr ' ' ',')"
-  cypress run --config-file cypress.integration.config.ts --spec "$SPECS"
+  cypress run --config-file cypress.integration.config.ts --spec "$SPECS" \
+    --reporter junit --reporter-options "mochaFile=<< outputs.junit-directory >>/[hash].xml"
 analysis: |
   SPECS="$(echo << test.atoms >> | tr ' ' ',')"
   CIRCLECI_COVERAGE=<<outputs.circleci-coverage>> cypress run  --config-file cypress.integration.config.ts --spec "$SPECS"
@@ -17,3 +18,4 @@ outputs:
   circleci-coverage: coverage.json
 options:
   test-impact-analysis: true
+  store-test-results: true
