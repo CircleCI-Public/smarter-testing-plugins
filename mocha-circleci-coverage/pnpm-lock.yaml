@@ -12,8 +12,8 @@ importers:
   .:
     dependencies:
       '@circleci/v8-coverage-collector':
-        specifier: 0.2.619
-        version: 0.2.619
+        specifier: 0.2.844
+        version: 0.2.844
     devDependencies:
       '@prettier/plugin-oxc':
         specifier: ^0.2.0
@@ -42,8 +42,8 @@ importers:
 
 packages:
 
-  '@circleci/v8-coverage-collector@0.2.619':
-    resolution: {integrity: sha512-j733e5BhcQuCJtiN9AedCcEufgku85Ql/ZAdRGnm7qZWfi3vdfM4pqWgguKOBd8CABTqpXfGzUq6Q9AZ+BP1Zw==}
+  '@circleci/v8-coverage-collector@0.2.844':
+    resolution: {integrity: sha512-1JfhRED5kDexrK8o3FF6oc2FU4DslfaLVEQ0H8wu9HueuTyDIED0Dac6hDRypOk1/xaNa1+/aX00dqeAvyviZQ==}
     engines: {node: '>=20.0.0'}
 
   '@emnapi/core@1.11.1':
@@ -952,7 +952,7 @@ packages:
 
 snapshots:
 
-  '@circleci/v8-coverage-collector@0.2.619': {}
+  '@circleci/v8-coverage-collector@0.2.844': {}
 
   '@emnapi/core@1.11.1':
     dependencies:
