@@ -12,8 +12,8 @@ importers:
   .:
     dependencies:
       '@circleci/v8-coverage-collector':
-        specifier: 0.2.619
-        version: 0.2.619
+        specifier: 0.2.844
+        version: 0.2.844
       jest:
         specifier: '>=28.0.0 <31.0.0'
         version: 30.2.0(@types/node@25.9.9)(supports-color@8.1.1)(ts-node@10.9.2(@types/node@25.9.9)(typescript@6.0.3))
@@ -286,8 +286,8 @@ packages:
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
 
-  '@circleci/v8-coverage-collector@0.2.619':
-    resolution: {integrity: sha512-j733e5BhcQuCJtiN9AedCcEufgku85Ql/ZAdRGnm7qZWfi3vdfM4pqWgguKOBd8CABTqpXfGzUq6Q9AZ+BP1Zw==}
+  '@circleci/v8-coverage-collector@0.2.844':
+    resolution: {integrity: sha512-1JfhRED5kDexrK8o3FF6oc2FU4DslfaLVEQ0H8wu9HueuTyDIED0Dac6hDRypOk1/xaNa1+/aX00dqeAvyviZQ==}
     engines: {node: '>=20.0.0'}
 
   '@cspotcode/source-map-support@0.8.1':
@@ -3189,7 +3189,7 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@circleci/v8-coverage-collector@0.2.619': {}
+  '@circleci/v8-coverage-collector@0.2.844': {}
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
