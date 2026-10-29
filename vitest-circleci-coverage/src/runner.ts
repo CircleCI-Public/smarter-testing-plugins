@@ -11,6 +11,7 @@ import type {
   SerializedConfig,
   RunnerTestFile,
   TaskMeta,
+  TestTryOptions,
 } from 'vitest';
 import { TestRunner } from 'vitest';
 import { ENV_VAR } from './constants.ts';
@@ -65,9 +66,13 @@ export default class VitestCircleCICoverageRunner extends TestRunner {
    * Resets V8 coverage counters before each test so coverage is isolated per test.
    *
    * @param test
+   * @param options
    */
-  async onBeforeTryTask(test: RunnerTask): Promise<void> {
-    super.onBeforeTryTask(test);
+  async onBeforeTryTask(
+    test: RunnerTask,
+    options: TestTryOptions,
+  ): Promise<void> {
+    super.onBeforeTryTask(test, options);
     if (!this.enabled) return;
 
     await this.inspector.resetCoverage();
@@ -93,9 +98,11 @@ export default class VitestCircleCICoverageRunner extends TestRunner {
 
   /**
    * Disconnects from the V8 inspector after all test files have been run.
+   *
+   * @param files
    */
-  async onAfterRunFiles(): Promise<void> {
-    super.onAfterRunFiles();
+  async onAfterRunFiles(files: RunnerTestFile[]): Promise<void> {
+    super.onAfterRunFiles(files);
     if (!this.initialized) return;
 
     await this.inspector.disconnect().then(() => {
