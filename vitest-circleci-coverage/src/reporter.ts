@@ -86,7 +86,10 @@ export default class VitestCircleCICoverageReporter implements Reporter {
     }
     if (!meta.coveredFiles || !meta.testKey) return;
 
-    for (const path of meta.coveredFiles) {
+    for (const file of meta.coveredFiles) {
+      // Vite imports such as `form.pdf?url` are reported by V8 with the query
+      // percent-encoded into the file name, so strip it to get the real file.
+      const path = file.replace(/\?.*$/, '');
       if (!this.output[path]) {
         this.output[path] = {};
       }
