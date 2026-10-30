@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@circleci/v8-coverage-collector':
-        specifier: 0.2.844
-        version: 0.2.844
+        specifier: 0.2.943
+        version: 0.2.943
       '@vitest/coverage-v8':
         specifier: '>=4.1.4'
         version: 4.1.4(vitest@5.0.5)
@@ -66,8 +66,8 @@ packages:
   '@blazediff/core@1.10.0':
     resolution: {integrity: sha512-AOQff0zgR7cGsZL+4E7hVkmujoPUpm0J9xzWGWZj5wCjd3gmxESXAPfKyuzs93VdpQNFhHlBhfOjrcZ+XTERtQ==}
 
-  '@circleci/v8-coverage-collector@0.2.844':
-    resolution: {integrity: sha512-1JfhRED5kDexrK8o3FF6oc2FU4DslfaLVEQ0H8wu9HueuTyDIED0Dac6hDRypOk1/xaNa1+/aX00dqeAvyviZQ==}
+  '@circleci/v8-coverage-collector@0.2.943':
+    resolution: {integrity: sha512-GDQsAC6oB5I3txLJHi7ATnhh0J0QD25VMgilmRawl3I2YXOeedWZaoKdZu0t91D5TePFFGjG21cZC5Vq0zm3hw==}
     engines: {node: '>=20.0.0'}
 
   '@emnapi/core@1.11.1':
@@ -957,10 +957,6 @@ packages:
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
-  picomatch@4.0.5:
-    resolution: {integrity: sha512-RvwwcruNjI1ncT5xRakeyS9Lf8lcItv34KD+aif+VH9kduAyfYBipGh12274xtenIPZ119/R9BdTBa8gAwSh0A==}
-    engines: {node: '>=12'}
-
   picomatch@4.0.7:
     resolution: {integrity: sha512-qcJu88Q2IWqJsDD529JKMdwGm/dvInW4HvQnRwiH9JtihJvzGOscDtHE3x1pBKeUOTysQ8kVmLnJ2kJu7yhcGA==}
     engines: {node: '>=12'}
@@ -1168,7 +1164,7 @@ snapshots:
 
   '@blazediff/core@1.10.0': {}
 
-  '@circleci/v8-coverage-collector@0.2.844': {}
+  '@circleci/v8-coverage-collector@0.2.943': {}
 
   '@emnapi/core@1.11.1':
     dependencies:
@@ -1699,10 +1695,6 @@ snapshots:
 
   expect-type@1.4.0: {}
 
-  fdir@6.5.0(picomatch@4.0.5):
-    optionalDependencies:
-      picomatch: 4.0.5
-
   fdir@6.5.0(picomatch@4.0.7):
     optionalDependencies:
       picomatch: 4.0.7
@@ -1805,8 +1797,6 @@ snapshots:
   pathe@2.0.3: {}
 
   picocolors@1.1.1: {}
-
-  picomatch@4.0.5: {}
 
   picomatch@4.0.7: {}
 
@@ -1921,8 +1911,8 @@ snapshots:
   vite@7.3.2(@types/node@24.13.3):
     dependencies:
       esbuild: 0.27.7
-      fdir: 6.5.0(picomatch@4.0.5)
-      picomatch: 4.0.5
+      fdir: 6.5.0(picomatch@4.0.7)
+      picomatch: 4.0.7
       postcss: 8.5.15
       rollup: 4.62.2
       tinyglobby: 0.2.17
