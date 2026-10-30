@@ -119,6 +119,51 @@ RSpec.describe 'RSpec CircleCI Coverage Integration' do
       end
     RUBY
 
+    # Create classes that are only used in group-level setup
+    File.write(File.join(@temp_dir, 'lib', 'widget.rb'), <<~RUBY)
+      module CircleCI
+        class Widget
+          def initialize
+            @name = 'widget'
+          end
+        end
+      end
+    RUBY
+
+    File.write(File.join(@temp_dir, 'lib', 'gadget.rb'), <<~RUBY)
+      module CircleCI
+        class Gadget
+          def initialize
+            @name = 'gadget'
+          end
+        end
+      end
+    RUBY
+
+    # Create a spec whose nested groups set up objects in before(:context)
+    File.write(File.join(@temp_dir, 'spec', 'group_setup_spec.rb'), <<~RUBY)
+      require_relative '../lib/widget'
+      require_relative '../lib/gadget'
+
+      RSpec.describe 'GroupSetup' do
+        before(:context) { @widget = CircleCI::Widget.new }
+
+        context 'with a gadget' do
+          before(:context) { @gadget = CircleCI::Gadget.new }
+
+          it 'uses its own and the outer group setup' do
+            expect([@widget, @gadget]).to all(be_truthy)
+          end
+        end
+
+        context 'without a gadget' do
+          it 'uses the outer group setup' do
+            expect(@widget).to be_truthy
+          end
+        end
+      end
+    RUBY
+
     # Create spec_helper that requires our plugin
     File.write(File.join(@temp_dir, 'spec', 'spec_helper.rb'), <<~RUBY)
       require_relative '../../../../lib/rspec-circleci-coverage'
@@ -186,6 +231,7 @@ RSpec.describe 'RSpec CircleCI Coverage Integration' do
         'spec/compiled_template_spec.rb',
         'spec/compiled_template_two_spec.rb',
         'spec/doubler_user_spec.rb',
+        'spec/group_setup_spec.rb',
       )
 
       # Verify RSpec ran successfully
@@ -220,6 +266,15 @@ RSpec.describe 'RSpec CircleCI Coverage Integration' do
         },
         "spec/support/shared_doubler.rb" => {
           "spec/doubler_user_spec.rb!!DoublerUser behaves like a doubler doubles a number|run" => true
+        },
+        # Group-level setup is credited to every example in the group,
+        # including nested groups, but not to sibling groups
+        "lib/widget.rb" => {
+          "spec/group_setup_spec.rb!!GroupSetup with a gadget uses its own and the outer group setup|run" => true,
+          "spec/group_setup_spec.rb!!GroupSetup without a gadget uses the outer group setup|run" => true
+        },
+        "lib/gadget.rb" => {
+          "spec/group_setup_spec.rb!!GroupSetup with a gadget uses its own and the outer group setup|run" => true
         }
       }
 
