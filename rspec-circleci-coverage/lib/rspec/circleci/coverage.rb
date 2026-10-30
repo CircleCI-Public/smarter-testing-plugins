@@ -67,16 +67,20 @@ module RSpec
 
         # Calculate which lines were executed during this test
         test_key = format_test_key(example)
+        # Read Dir.pwd (a system call) once per diff, not once per file
+        project_root = Dir.pwd
 
         after_coverage.each do |file, coverage|
           # Skip files outside project scope, spec files, and rspec gem internals
-          next unless in_project_scope?(file)
+          next unless in_project_scope?(file, project_root)
           next if file.end_with?('_spec.rb')
 
           lines = extract_lines(coverage)
           next if lines.nil?
 
           before_lines = extract_lines(@before_coverage[file])
+          # Skip unchanged files; Array#== runs in C, much faster than the loop below
+          next if lines == before_lines
 
           # Any line whose count increased means this test executed the file.
           executed = lines.each_with_index.any? do |count, index|
@@ -120,10 +124,10 @@ module RSpec
         pathname.absolute? ? pathname.relative_path_from(Dir.pwd).to_s : file
       end
 
-      def in_project_scope?(file)
+      def in_project_scope?(file, project_root = Dir.pwd)
         # Check if file is within the project directory
         # Files outside the project (system files, gems, etc.) should be filtered out
-        return false unless file.start_with?(Dir.pwd)
+        return false unless file.start_with?(project_root)
 
         # Exclude gem files (even if they're in .bundle or vendor directories)
         return false if file.include?('/gems/')
