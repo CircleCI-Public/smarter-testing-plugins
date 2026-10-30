@@ -90,6 +90,7 @@ describe('circleci-coverage integration', () => {
       // This doesn't happen with the installed plugin because files
       // in `node_modules` are omitted from results.
       '../../src/runner.ts': {
+        'asset.test.ts!!should import assets with query suffixes|run': true,
         'math.test.ts!!should add two numbers|run': true,
         'math.test.ts!!should divide two numbers|run': true,
         'math.test.ts!!should multiply two numbers|run': true,
@@ -111,6 +112,12 @@ describe('circleci-coverage integration', () => {
         'math.test.ts!!should multiply two numbers|run': true,
         'math.test.ts!!should divide two numbers|run': true,
         'math.test.ts!!should throw on division by zero|run': true,
+      },
+      'asset.test.ts': {
+        'asset.test.ts!!should import assets with query suffixes|run': true,
+      },
+      'asset.txt': {
+        'asset.test.ts!!should import assets with query suffixes|run': true,
       },
       'math2.test.ts': {
         'math2.test.ts!!should add and multiply two numbers|run': true,
@@ -129,6 +136,7 @@ describe('circleci-coverage integration', () => {
     expect(output).toEqual({
       // The setup file's hooks run around every test, as with the runner above.
       '../../src/browser.ts': {
+        'asset.test.ts!!should import assets with query suffixes|run': true,
         'math.test.ts!!should add two numbers|run': true,
         'math.test.ts!!should divide two numbers|run': true,
         'math.test.ts!!should multiply two numbers|run': true,
@@ -150,6 +158,9 @@ describe('circleci-coverage integration', () => {
         'math.test.ts!!should multiply two numbers|run': true,
         'math.test.ts!!should divide two numbers|run': true,
         'math.test.ts!!should throw on division by zero|run': true,
+      },
+      'asset.test.ts': {
+        'asset.test.ts!!should import assets with query suffixes|run': true,
       },
       'math2.test.ts': {
         'math2.test.ts!!should add and multiply two numbers|run': true,
