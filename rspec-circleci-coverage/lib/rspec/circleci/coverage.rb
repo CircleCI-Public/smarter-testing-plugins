@@ -20,6 +20,10 @@ module RSpec
       def initialize
         @coverage_data = Hash.new { |h, k| h[k] = {} }
         @before_coverage = {}
+        # Files each example group's before(:context) setup executed
+        @group_setup_files = {}
+        @setup_group = nil
+        @setup_start_coverage = nil
         @installed = false
       end
 
@@ -38,6 +42,9 @@ module RSpec
         RSpec.configure do |config|
           config.before(:suite) do
             $stdout.write("rspec-circleci-coverage: generating CircleCI coverage JSON...\n")
+            # Notify us as each group starts, nested groups included. Registered here
+            # rather than at install so the reporter is built after the formatters
+            config.reporter.register_listener(coverage_instance, :example_group_started)
           end
 
           config.before(:each) do |_|
@@ -57,8 +64,18 @@ module RSpec
         end
       end
 
+      # Group setup (before(:context), let_it_be) runs outside example snapshots.
+      # It lasts from the group's start until its first example or nested group.
+      def example_group_started(notification)
+        snapshot = ::Coverage.peek_result
+        finish_group_setup(snapshot)
+        @setup_group = notification.group
+        @setup_start_coverage = snapshot
+      end
+
       def capture_coverage
         @before_coverage = ::Coverage.peek_result.dup
+        finish_group_setup(@before_coverage)
       end
 
       def record_test_coverage(example)
@@ -67,10 +84,30 @@ module RSpec
 
         # Calculate which lines were executed during this test
         test_key = format_test_key(example)
+        files = executed_files(@before_coverage, after_coverage)
+
+        # Include the setup of the example's group and every group around it
+        example.example_group.ancestors.each do |group|
+          files.concat(@group_setup_files.fetch(group, []))
+        end
+
+        files.uniq.each { |file| @coverage_data[file][test_key] = true }
+      end
+
+      def finish_group_setup(coverage)
+        return unless @setup_group
+
+        files = executed_files(@setup_start_coverage, coverage)
+        @group_setup_files[@setup_group] = files unless files.empty?
+        @setup_group = nil
+        @setup_start_coverage = nil
+      end
+
+      def executed_files(before_coverage, after_coverage)
         # Read Dir.pwd (a system call) once per diff, not once per file
         project_root = Dir.pwd
 
-        after_coverage.each do |file, coverage|
+        after_coverage.filter_map do |file, coverage|
           # Skip files outside project scope, spec files, and rspec gem internals
           next unless in_project_scope?(file, project_root)
           next if file.end_with?('_spec.rb')
@@ -78,7 +115,7 @@ module RSpec
           lines = extract_lines(coverage)
           next if lines.nil?
 
-          before_lines = extract_lines(@before_coverage[file])
+          before_lines = extract_lines(before_coverage[file])
           # Skip unchanged files; Array#== runs in C, much faster than the loop below
           next if lines == before_lines
 
@@ -91,7 +128,7 @@ module RSpec
             count > before_count
           end
 
-          @coverage_data[relative_path(file)][test_key] = true if executed
+          relative_path(file) if executed
         end
       end
 
