@@ -37,7 +37,7 @@
     "@babel/preset-typescript": "^8.0.0",
     "@cypress/webpack-preprocessor": "^8.0.0",
     "@prettier/plugin-oxc": "^0.2.0",
-    "@types/node": "^25.5.0",
+    "@types/node": "^26.0.0",
     "babel-loader": "^10.1.1",
     "babel-plugin-istanbul": "^8.0.0",
     "cypress": "^16.0.0",
