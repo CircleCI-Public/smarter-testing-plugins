@@ -25,3 +25,8 @@ A monorepo for Smarter Testing plugins.
 Bug reports and pull requests are welcome. Please read
 [CONTRIBUTING.md](CONTRIBUTING.md) first — note that a pull request may only change one plugin. All community members
 are expected to adhere to our [code of conduct](CODE_OF_CONDUCT.md).
+
+### Writing a plugin
+
+[WRITING-A-PLUGIN.md](WRITING-A-PLUGIN.md) covers the coverage format, the rules for attributing coverage to tests,
+and the tests a plugin needs — start there for a runner that isn't covered above.

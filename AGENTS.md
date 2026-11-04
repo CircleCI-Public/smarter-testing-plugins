@@ -86,24 +86,22 @@ All plugins implement the same contract, differing only in how they hook their t
 from.
 
 **Activation**: setting the `CIRCLECI_COVERAGE` environment variable to an output path both enables collection and names
-the destination. When unset, every plugin is a complete no-op — preserve that, since users install these into normal
-test runs.
+the destination (`pytest-circleci-coverage` takes `--circleci-coverage=<path>` instead). When unset, every plugin is a
+complete no-op — preserve that, since users install these into normal test runs.
 
-**Output format** — file-major map of source path (relative to cwd) → test key → executed lines:
+**Output format** — file-major map of source path (relative to cwd) → test key → `true`:
 
 ```json
 {
   "src/foo.ts": {
-    "test/foo.test.ts!!test name|run": [
-      1
-    ]
+    "test/foo.test.ts!!test name|run": true
   }
 }
 ```
 
 The test key is `!!`-joined scope segments (test file, then class/describe/test name, each progressively qualified)
-suffixed with `|run` for the phase. Executed line numbers are *not* tracked by the V8-based collectors; they emit the
-literal `[1]` because the testsuite coverage parser requires at least one line per entry. Don't mistake this for a bug.
+suffixed with `|run` for the phase. The value is a boolean. See [WRITING-A-PLUGIN.md](WRITING-A-PLUGIN.md) for
+the full contract — format, attribution rules, and the tests a plugin needs.
 
 **Collection mechanisms**:
 
