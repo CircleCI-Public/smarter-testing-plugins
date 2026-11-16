@@ -112,37 +112,40 @@ describe.each(jestMatrix)(
         // This doesn't happen with the installed plugin because files
         // in `node_modules` are omitted from results.
         'dist/coverage-environment.js': {
-          'test/fixtures/math.test.ts!!should add two numbers|run': true,
-          'test/fixtures/math.test.ts!!should divide two numbers|run': true,
-          'test/fixtures/math.test.ts!!should multiply two numbers|run': true,
-          'test/fixtures/math.test.ts!!should subtract two numbers|run': true,
-          'test/fixtures/math.test.ts!!should throw on division by zero|run': true,
-          'test/fixtures/math2.test.ts!!should add and multiply two numbers|run': true,
-          'test/fixtures/nested/math.test.ts!!should compute the rectangle area|run': true,
+          'test/fixtures/math.test.ts!!math should add two numbers|run': true,
+          'test/fixtures/math.test.ts!!math with negatives should add two numbers|run': true,
+          'test/fixtures/math.test.ts!!math should divide two numbers|run': true,
+          'test/fixtures/math.test.ts!!math should multiply two numbers|run': true,
+          'test/fixtures/math.test.ts!!math should subtract two numbers|run': true,
+          'test/fixtures/math.test.ts!!math should throw on division by zero|run': true,
+          'test/fixtures/math2.test.ts!!math2 should add and multiply two numbers|run': true,
+          'test/fixtures/nested/math.test.ts!!nested math should compute the rectangle area|run': true,
         },
         'test/fixtures/math.ts': {
-          'test/fixtures/math.test.ts!!should add two numbers|run': true,
-          'test/fixtures/math.test.ts!!should subtract two numbers|run': true,
-          'test/fixtures/math.test.ts!!should multiply two numbers|run': true,
-          'test/fixtures/math.test.ts!!should divide two numbers|run': true,
-          'test/fixtures/math.test.ts!!should throw on division by zero|run': true,
-          'test/fixtures/math2.test.ts!!should add and multiply two numbers|run': true,
+          'test/fixtures/math.test.ts!!math should add two numbers|run': true,
+          'test/fixtures/math.test.ts!!math with negatives should add two numbers|run': true,
+          'test/fixtures/math.test.ts!!math should subtract two numbers|run': true,
+          'test/fixtures/math.test.ts!!math should multiply two numbers|run': true,
+          'test/fixtures/math.test.ts!!math should divide two numbers|run': true,
+          'test/fixtures/math.test.ts!!math should throw on division by zero|run': true,
+          'test/fixtures/math2.test.ts!!math2 should add and multiply two numbers|run': true,
         },
         'test/fixtures/math.test.ts': {
-          'test/fixtures/math.test.ts!!should add two numbers|run': true,
-          'test/fixtures/math.test.ts!!should subtract two numbers|run': true,
-          'test/fixtures/math.test.ts!!should multiply two numbers|run': true,
-          'test/fixtures/math.test.ts!!should divide two numbers|run': true,
-          'test/fixtures/math.test.ts!!should throw on division by zero|run': true,
+          'test/fixtures/math.test.ts!!math should add two numbers|run': true,
+          'test/fixtures/math.test.ts!!math with negatives should add two numbers|run': true,
+          'test/fixtures/math.test.ts!!math should subtract two numbers|run': true,
+          'test/fixtures/math.test.ts!!math should multiply two numbers|run': true,
+          'test/fixtures/math.test.ts!!math should divide two numbers|run': true,
+          'test/fixtures/math.test.ts!!math should throw on division by zero|run': true,
         },
         'test/fixtures/math2.test.ts': {
-          'test/fixtures/math2.test.ts!!should add and multiply two numbers|run': true,
+          'test/fixtures/math2.test.ts!!math2 should add and multiply two numbers|run': true,
         },
         'test/fixtures/nested/geometry.ts': {
-          'test/fixtures/nested/math.test.ts!!should compute the rectangle area|run': true,
+          'test/fixtures/nested/math.test.ts!!nested math should compute the rectangle area|run': true,
         },
         'test/fixtures/nested/math.test.ts': {
-          'test/fixtures/nested/math.test.ts!!should compute the rectangle area|run': true,
+          'test/fixtures/nested/math.test.ts!!nested math should compute the rectangle area|run': true,
         },
       });
     });
@@ -235,18 +238,18 @@ describe.each(jestMatrix)(
 
       expect(output).toEqual({
         'dist/coverage-environment.js': {
-          'test/fixtures-browser/counter.test.ts!!increments when clicked|run': true,
-          'test/fixtures-browser/counter2.test.ts!!increments twice when clicked twice|run': true,
+          'test/fixtures-browser/counter.test.ts!!Counter increments when clicked|run': true,
+          'test/fixtures-browser/counter2.test.ts!!Counter (second suite) increments twice when clicked twice|run': true,
         },
         'test/fixtures-browser/counter.test.ts': {
-          'test/fixtures-browser/counter.test.ts!!increments when clicked|run': true,
+          'test/fixtures-browser/counter.test.ts!!Counter increments when clicked|run': true,
         },
         'test/fixtures-browser/counter2.test.ts': {
-          'test/fixtures-browser/counter2.test.ts!!increments twice when clicked twice|run': true,
+          'test/fixtures-browser/counter2.test.ts!!Counter (second suite) increments twice when clicked twice|run': true,
         },
         'test/fixtures-browser/counter.ts': {
-          'test/fixtures-browser/counter.test.ts!!increments when clicked|run': true,
-          'test/fixtures-browser/counter2.test.ts!!increments twice when clicked twice|run': true,
+          'test/fixtures-browser/counter.test.ts!!Counter increments when clicked|run': true,
+          'test/fixtures-browser/counter2.test.ts!!Counter (second suite) increments twice when clicked twice|run': true,
         },
       });
     });

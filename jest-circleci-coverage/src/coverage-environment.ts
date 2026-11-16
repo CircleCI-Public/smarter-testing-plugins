@@ -15,6 +15,21 @@ interface TestCoverage {
   [testKey: string]: string[];
 }
 
+/**
+ * Returns the test's name qualified by its enclosing `describe` blocks, joined
+ * with spaces (e.g. `math should add two numbers`), as Jest itself reports it
+ * through `expect.getState().currentTestName`. Tests with the same name in
+ * different `describe` blocks would otherwise share a single key.
+ */
+function fullTestName(context: Context | null, test: Circus.TestEntry): string {
+  const expectApi = (
+    context as {
+      expect?: { getState?: () => { currentTestName?: string } };
+    } | null
+  )?.expect;
+  return expectApi?.getState?.().currentTestName ?? test.name;
+}
+
 type JestTestEnvironmentConstructor = new (
   config: JestEnvironmentConfig,
   context: EnvironmentContext,
@@ -106,7 +121,11 @@ export function createJestCircleCICoverageEnvironment(
         event.name === 'test_fn_failure'
       ) {
         await this.collector
-          .collectCoverage(this.cwd, this.testPath, event.test.name)
+          .collectCoverage(
+            this.cwd,
+            this.testPath,
+            fullTestName(this.getVmContext(), event.test),
+          )
           .then((result) => {
             this.coverage[result.testKey] = result.coveredFiles;
           });
