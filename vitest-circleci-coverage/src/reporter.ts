@@ -78,7 +78,7 @@ export default class VitestCircleCICoverageReporter implements Reporter {
 
     const meta: CircleTaskMeta = testCase.meta();
     if (meta.coveredUrls) {
-      meta.testKey = `${relative(this.cwd, testCase.module.moduleId)}!!${testCase.name}|run`;
+      meta.testKey = `${relative(this.cwd, testCase.module.moduleId)}!!${testCase.fullName}|run`;
       meta.coveredFiles = this.resolveBrowserUrls(
         testCase.project.config.root,
         meta.coveredUrls,
