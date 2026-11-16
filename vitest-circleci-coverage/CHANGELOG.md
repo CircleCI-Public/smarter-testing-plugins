@@ -5,6 +5,12 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2026-11-16
+
+### Changed
+
+- Test keys now include the enclosing `describe` names, joined with ` > ` (e.g. `math.test.ts!!math > should add two numbers|run` instead of `math.test.ts!!should add two numbers|run`). Tests with the same name under different `describe` blocks in one file are no longer merged into a single entry. Existing keys change, so previously recorded test impact data for this plugin will not match.
+
 ## [0.3.1] - 2026-10-29
 
 ### Fixed

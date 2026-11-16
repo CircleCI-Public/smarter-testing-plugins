@@ -89,7 +89,11 @@ export default class VitestCircleCICoverageRunner extends TestRunner {
     if (!this.enabled) return;
 
     await this.inspector
-      .collectCoverage(this.cwd, test.file.filepath, test.name)
+      .collectCoverage(
+        this.cwd,
+        test.file.filepath,
+        test.fullTestName ?? test.name,
+      )
       .then((result) => {
         test.meta.testKey = result.testKey;
         test.meta.coveredFiles = result.coveredFiles;
