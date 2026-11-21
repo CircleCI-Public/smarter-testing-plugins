@@ -21,3 +21,10 @@ describe('math', () => {
     expect(() => divide(1, 0)).toThrow('Division by zero');
   });
 });
+
+// Same test name as above, in a different describe: keys must stay distinct.
+describe('math with negatives', () => {
+  it('should add two numbers', () => {
+    expect(add(-1, -2)).toBe(-3);
+  });
+});
